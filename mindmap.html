@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Listening Season · Ideas Map</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;1,300;1,400&family=Noto+Serif+SC:wght@300&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#E0C0B4;min-height:100vh;font-family:'Cormorant Garamond',Georgia,serif;font-weight:300;-webkit-font-smoothing:antialiased;padding:2.5rem}
+.box{max-width:980px;margin:0 auto;background:#fff;border-radius:3px;box-shadow:0 2px 40px rgba(0,0,0,0.07);padding:3.5rem 4rem 4rem}
+.nav{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:#b0aaa3;margin-bottom:2.5rem}
+.nav a{color:#b0aaa3;text-decoration:none}.nav a:hover{color:#2a2520}
+.header{margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid #e4dfd6}
+.header-zh{font-family:'Noto Serif SC',serif;font-size:.65rem;letter-spacing:.35em;color:#b0aaa3;margin-bottom:.5rem}
+.header-title{font-size:2rem;color:#2a2520;font-weight:300}
+.header-sub{font-size:.8rem;font-style:italic;color:#b0aaa3;margin-top:.3rem}
+
+.stream{margin-bottom:2.8rem}
+.stream-header{display:flex;align-items:baseline;gap:1rem;margin-bottom:1rem;padding-bottom:.6rem;border-bottom:1px solid #f0ece4}
+.stream-num{font-size:.55rem;letter-spacing:.2em;color:#b0aaa3}
+.stream-title{font-size:1.1rem;color:#2a2520}
+.stream-tag{font-size:.55rem;letter-spacing:.18em;text-transform:uppercase;padding:.2rem .6rem;border-radius:20px;margin-left:auto;white-space:nowrap}
+.tag-now{background:#f0ece4;color:#8b8580}
+.tag-soon{background:#e8f0e4;color:#5a7a50}
+.tag-later{background:#e8eaf0;color:#5a6a8a}
+.tag-vision{background:#f0e8f0;color:#7a5a8a}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.8rem}
+.card{padding:1rem 1.2rem;border:1px solid #f0ece4;border-radius:2px;transition:border-color .2s}
+.card:hover{border-color:#d4cfc8}
+.card-title{font-size:.88rem;color:#2a2520;margin-bottom:.3rem}
+.card-note{font-size:.72rem;line-height:1.6;color:#8b8580;font-style:italic}
+.card-flag{font-size:.5rem;letter-spacing:.15em;text-transform:uppercase;color:#b0aaa3;margin-bottom:.4rem}
+.card.accent{border-color:#d4cfc8;background:#faf8f5}
+
+hr{border:none;border-top:1px solid #e4dfd6;margin:2.5rem 0}
+
+.thesis{background:#f7f3ee;padding:1.5rem 2rem;border-radius:2px;margin-bottom:2.8rem}
+.thesis-label{font-size:.52rem;letter-spacing:.22em;text-transform:uppercase;color:#b0aaa3;margin-bottom:.6rem}
+.thesis-text{font-size:1rem;font-style:italic;color:#2a2520;line-height:1.75}
+
+.timeline{display:flex;gap:0;margin-top:3rem;padding-top:2rem;border-top:1px solid #e4dfd6;overflow-x:auto}
+.tl-phase{flex:1;min-width:150px;padding:1rem 1.2rem;border-right:1px solid #f0ece4}
+.tl-phase:last-child{border-right:none}
+.tl-date{font-size:.55rem;letter-spacing:.18em;text-transform:uppercase;color:#b0aaa3;margin-bottom:.4rem}
+.tl-label{font-size:.88rem;color:#2a2520;margin-bottom:.6rem}
+.tl-items{list-style:none}
+.tl-items li{font-size:.72rem;color:#8b8580;font-style:italic;line-height:1.7;padding-left:.8rem;position:relative}
+.tl-items li::before{content:'–';position:absolute;left:0;color:#d4cfc8}
+
+footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid #f0ece4;display:flex;justify-content:space-between;align-items:center}
+.f-note{font-size:.62rem;font-style:italic;color:#b0aaa3}
+.f-zh{font-family:'Noto Serif SC',serif;font-size:.58rem;color:#d4cfc8;letter-spacing:.1em}
+
+@media(max-width:640px){
+  body{padding:1rem}
+  .box{padding:2.5rem 1.8rem 3rem}
+  .timeline{flex-direction:column}
+  .tl-phase{border-right:none;border-bottom:1px solid #f0ece4}
+}
+</style>
+</head>
+<body>
+<div class="box">
+
+  <div class="nav"><a href="index.html">← Dashboard</a></div>
+
+  <div class="header">
+    <div class="header-zh">聆聽季節 · Ideas in Progress</div>
+    <div class="header-title">The Product, Content & Practice Map</div>
+    <div class="header-sub">Captured March 2026 · a living document</div>
+  </div>
+
+  <!-- THESIS -->
+  <div class="thesis">
+    <div class="thesis-label">The Whole Idea</div>
+    <div class="thesis-text">The mother who just gave birth has a newborn with colic and a partner running on empty and her own nervous system that never got a break. Treat all three. Listening Season is how people find you before they need you. The clinic is where it all lands.</div>
+  </div>
+
+  <!-- STREAM 1 -->
+  <div class="stream">
+    <div class="stream-header">
+      <span class="stream-num">01</span>
+      <span class="stream-title">Free — Build the List</span>
+      <span class="stream-tag tag-now">Now</span>
+    </div>
+    <div class="cards">
+      <div class="card accent">
+        <div class="card-flag">Lead Magnet · Start Here</div>
+        <div class="card-title">Observation Log Printable</div>
+        <div class="card-note">A5 spread per solar term. Body literacy tracker — sleep, energy, mood, cravings, body sensations. 4 check-ins across 15 days. Also prep for TCM appointments.</div>
+      </div>
+      <div class="card">
+        <div class="card-flag">Format</div>
+        <div class="card-title">Print-as-you-go</div>
+        <div class="card-note">Fresh sheet each term. Download via email list. Eventually all 24 = the planner.</div>
+      </div>
+      <div class="card">
+        <div class="card-flag">Content · Instagram</div>
+        <div class="card-title">15-day Pulse</div>
+        <div class="card-note">Threshold → Immersion (6 streams: Nature, Body, Mind, Food, Care, Story) → Foreshadowing. Already started with Jīngzhé.</div>
+      </div>
+      <div class="card">
+        <div class="card-flag">Content · Substack</div>
+        <div class="card-title">Just Noodling + LS Newsletter</div>
+        <div class="card-note">Both always free. Just Noodling = personal interior arc. LS newsletter = seasonal depth for Fellow Travellers. No paywall. Ever.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STREAM 2 -->
+  <div class="stream">
+    <div class="stream-header">
+      <span class="stream-num">02</span>
+      <span class="stream-title">Paid Digital</span>
+      <span class="stream-tag tag-soon">Jan 2027</span>
+    </div>
+    <div class="cards">
+      <div class="card accent">
+        <div class="card-flag">First Paid Product</div>
+        <div class="card-title">Solar Terms Planner</div>
+        <div class="card-note">All 24 Observation Logs bound together. The free printables become this. Annual digital download. Could become print-on-demand.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STREAM 3 -->
+  <div class="stream">
+    <div class="stream-header">
+      <span class="stream-num">03</span>
+      <span class="stream-title">Physical Objects</span>
+      <span class="stream-tag tag-soon">Spring 2027</span>
+    </div>
+    <div class="cards">
+      <div class="card accent">
+        <div class="card-flag">Zine Series</div>
+        <div class="card-title">TCM Made Friendly</div>
+        <div class="card-note">Seasonal zines that make TCM legible — not a textbook, not wellness content. Here's what your body is doing, here's what TCM says, here's what to notice. 4 per year.</div>
+      </div>
+      <div class="card">
+        <div class="card-flag">Format</div>
+        <div class="card-title">Snail Mail Subscription</div>
+        <div class="card-note">Physical zine mailed each season. Small run, higher price. The most intimate tier. The kind of thing people keep.</div>
+      </div>
+      <div class="card">
+        <div class="card-flag">The Thread</div>
+        <div class="card-title">One Content, Three Forms</div>
+        <div class="card-note">Observation Log → Planner → Zine. Same core content shaped three ways. Make it once, distribute widely.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STREAM 4 -->
+  <div class="stream">
+    <div class="stream-header">
+      <span class="stream-num">04</span>
+      <span class="stream-title">Workshops</span>
+      <span class="stream-tag tag-later">2028 onwards</span>
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-flag">Seasonal</div>
+        <div class="card-title">4 Seasonal Workshops / Year</div>
+        <div class="card-note">One per season, not per solar term. Enough depth to go deep. Spring workshop feels different from Autumn. People return each year and feel the shift in their own bodies.</div>
+      </div>
+      <div class="card accent">
+        <div class="card-flag">Specialty</div>
+        <div class="card-title">Prenatal & Postpartum</div>
+        <div class="card-note">TCM care for the fourth trimester and beyond. You lived this. The home birth, the bodywork, the first year of motherhood. Personal conviction + clinical training.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STREAM 5: CLINIC -->
+  <div class="stream">
+    <div class="stream-header">
+      <span class="stream-num">05</span>
+      <span class="stream-title">UX TCM · The Clinic</span>
+      <span class="stream-tag tag-vision">2030</span>
+    </div>
+    <div class="cards">
+      <div class="card accent">
+        <div class="card-flag">Practice Philosophy</div>
+        <div class="card-title">The Family as a Unit</div>
+        <div class="card-note">Treat the mother, the child, the partner. The family system, not the isolated individual. Like your chiropractor — everyone is cared for. TCM has always thought in systems.</div>
+      </div>
+      <div class="card accent">
+        <div class="card-flag">Specialty 1</div>
+        <div class="card-title">Birth Work</div>
+        <div class="card-note">Prenatal, postpartum, fourth trimester. Your personal story is your clinical conviction. Almost nobody doing this in a way that feels human rather than clinical or woo.</div>
+      </div>
+      <div class="card accent">
+        <div class="card-flag">Specialty 2</div>
+        <div class="card-title">ADHD & TCM</div>
+        <div class="card-note">The nervous system, inattention, chronic holding, the jaw. You're not theorising — you're researching your own body. Almost no one doing this seriously yet.</div>
+      </div>
+      <div class="card">
+        <div class="card-flag">The Loop</div>
+        <div class="card-title">Observation Log → Intake</div>
+        <div class="card-note">The free printable from 2026 becomes the body literacy training your patients already have when they walk in. They know how to answer "how are you feeling."</div>
+      </div>
+      <div class="card accent">
+        <div class="card-flag">Future Build</div>
+        <div class="card-title">Observation Log App</div>
+        <div class="card-note">The printable becomes a proper body tracking app built around the 24 solar terms and TCM organ systems. Seasonal check-ins, energy and mood tracking, pattern recognition over time. Doesn't exist yet. You have the clinical depth, the design brain, and the tech fluency to build it.</div>
+      </div>
+      <div class="card">
+        <div class="card-flag">The Loop</div>
+        <div class="card-title">LS Audience → Warm Referrals</div>
+        <div class="card-note">People who found you in 2026 become your first patients in 2030. The brand and the practice are the same thing.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIMELINE -->
+  <div class="timeline">
+    <div class="tl-phase">
+      <div class="tl-date">Now · 2026</div>
+      <div class="tl-label">Plant</div>
+      <ul class="tl-items">
+        <li>Observation Log live</li>
+        <li>Instagram 15-day pulse</li>
+        <li>Email list growing</li>
+        <li>School starts Sep 8</li>
+      </ul>
+    </div>
+    <div class="tl-phase">
+      <div class="tl-date">Jan 2027</div>
+      <div class="tl-label">First Harvest</div>
+      <ul class="tl-items">
+        <li>Solar Terms Planner</li>
+        <li>Zine 1 · Spring</li>
+        <li>Snail mail pilot</li>
+      </ul>
+    </div>
+    <div class="tl-phase">
+      <div class="tl-date">Oct 2028</div>
+      <div class="tl-label">R.Ac ✓ · age 41</div>
+      <ul class="tl-items">
+        <li>Acupuncture practice opens</li>
+        <li>Seasonal workshops begin</li>
+        <li>Prenatal/postpartum focus</li>
+        <li>2 years of content depth</li>
+      </ul>
+    </div>
+    <div class="tl-phase">
+      <div class="tl-date">2029</div>
+      <div class="tl-label">Deepen</div>
+      <ul class="tl-items">
+        <li>Herbology adds layer</li>
+        <li>ADHD & TCM work</li>
+        <li>Community established</li>
+        <li>Snail mail subscription</li>
+      </ul>
+    </div>
+    <div class="tl-phase">
+      <div class="tl-date">2030</div>
+      <div class="tl-label">Dr. TCM ✓</div>
+      <ul class="tl-items">
+        <li>Full clinic opens</li>
+        <li>Family as a unit model</li>
+        <li>Birth work + ADHD specialty</li>
+        <li>4 years of living notebook</li>
+      </ul>
+    </div>
+  </div>
+
+  <footer>
+    <div class="f-note">ideas captured March 2026 · add to this as things evolve</div>
+    <div class="f-zh">聆聽季節</div>
+  </footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UX TCM · Patient Journey Map</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Noto+Serif+SC:wght@300&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#C4D8B8;min-height:100vh;font-family:'Cormorant Garamond',Georgia,serif;font-weight:300;-webkit-font-smoothing:antialiased;padding:2.5rem}
+.box{max-width:860px;margin:0 auto;background:#fff;border-radius:3px;box-shadow:0 2px 40px rgba(0,0,0,0.06);padding:4rem 4.5rem 5rem}
+.nav{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:#b0aaa3;margin-bottom:3rem}
+.nav a{color:#b0aaa3;text-decoration:none}.nav a:hover{color:#2a2520}
+.cover{margin-bottom:3.5rem;padding-bottom:2.5rem;border-bottom:1px solid #e4dfd6}
+.cover-label{font-size:.6rem;letter-spacing:.28em;text-transform:uppercase;color:#b0aaa3;margin-bottom:.6rem}
+.cover-title{font-size:2.4rem;line-height:1.1;color:#2a2520;margin-bottom:.6rem}
+.cover-sub{font-size:1rem;font-style:italic;color:#8b6560;margin-bottom:.5rem}
+.cover-note{font-size:.72rem;font-style:italic;color:#b0aaa3;letter-spacing:.04em}
+.thesis{background:#f2f4ec;padding:1.5rem 2rem;border-radius:2px;margin-bottom:3rem}
+.thesis-label{font-size:.52rem;letter-spacing:.22em;text-transform:uppercase;color:#b0aaa3;margin-bottom:.6rem}
+.thesis-text{font-size:1rem;font-style:italic;color:#2a2520;line-height:1.75}
+
+/* JOURNEY STAGE */
+.stage{margin-bottom:3rem;padding-bottom:3rem;border-bottom:1px solid #f0ece4}
+.stage:last-of-type{border-bottom:none}
+.stage-header{display:flex;align-items:baseline;gap:1.2rem;margin-bottom:1.4rem}
+.stage-num{font-size:.55rem;letter-spacing:.22em;text-transform:uppercase;color:#b0aaa3;flex-shrink:0}
+.stage-title{font-size:1.3rem;color:#2a2520}
+.stage-moment{font-size:.72rem;font-style:italic;color:#8b8580;margin-left:auto;white-space:nowrap}
+
+.stage-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem}
+@media(max-width:680px){.stage-grid{grid-template-columns:1fr}}
+
+.stage-col-label{font-size:.5rem;letter-spacing:.22em;text-transform:uppercase;margin-bottom:.6rem}
+.col-feels .stage-col-label{color:#8b9880}
+.col-pain .stage-col-label{color:#c09080}
+.col-vision .stage-col-label{color:#8080a0}
+
+.stage-col-body{font-size:.8rem;line-height:1.8;color:#5a5550}
+.stage-col-body li{padding-left:.8rem;position:relative;margin-bottom:.3rem;list-style:none}
+.stage-col-body li::before{position:absolute;left:0}
+.col-feels .stage-col-body li::before{content:'·';color:#A8B8A0}
+.col-pain .stage-col-body li::before{content:'·';color:#c09080}
+.col-vision .stage-col-body li::before{content:'·';color:#8080a0}
+
+.stage-note{margin-top:1rem;padding:.8rem 1rem;background:#faf8f5;border-radius:2px;font-size:.78rem;font-style:italic;color:#6b6560;line-height:1.7}
+.stage-note strong{font-weight:400;color:#2a2520;font-style:normal}
+
+/* TOOLS LAYER */
+.tools-section{margin-top:3rem;padding-top:2.5rem;border-top:1px solid #e4dfd6}
+.tools-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:.8rem;margin-top:1rem}
+.tool-card{padding:1rem 1.2rem;border:1px solid #f0ece4;border-radius:2px}
+.tool-card-stage{font-size:.48rem;letter-spacing:.18em;text-transform:uppercase;color:#b0aaa3;margin-bottom:.3rem}
+.tool-card-name{font-size:.85rem;color:#2a2520;margin-bottom:.3rem}
+.tool-card-note{font-size:.7rem;line-height:1.6;color:#8b8580;font-style:italic}
+.tool-card.built{border-color:#d4e4cc}
+.tool-card.built .tool-card-name::after{content:' ✓';font-size:.65rem;color:#A8B8A0}
+
+h1{font-size:1.5rem;font-weight:300;color:#2a2520;margin-bottom:.3rem}
+p{font-size:.92rem;line-height:1.85;color:#5a5550;margin-bottom:.9rem}
+hr{border:none;border-top:1px solid #e4dfd6;margin:2.5rem 0}
+.doc-footer{margin-top:3.5rem;padding-top:1.8rem;border-top:1px solid #e4dfd6;text-align:center}
+.doc-footer p{font-size:.65rem;font-style:italic;color:#b0aaa3;letter-spacing:.06em;line-height:2}
+</style>
+</head>
+<body>
+<div class="box">
+
+  <div class="nav"><a href="index.html">← Dashboard</a></div>
+
+  <div class="cover">
+    <div class="cover-label">UX TCM · Working Document</div>
+    <div class="cover-title">The Patient Journey</div>
+    <div class="cover-sub">From first finding you online to the long-term relationship</div>
+    <div class="cover-note">First draft March 2026. To be deepened as clinical training begins.</div>
+  </div>
+
+  <div class="thesis">
+    <div class="thesis-label">The Design Problem</div>
+    <div class="thesis-text">Most TCM clinics were not designed. They accumulated. A paper intake form from 2003, a phone call to confirm, a waiting room with nowhere comfortable to sit. The patient arrives having never been asked what they notice about their own body. They leave having been treated but not taught. The relationship stays transactional when it could be transformational.</div>
+  </div>
+
+  <!-- STAGE 1 -->
+  <div class="stage">
+    <div class="stage-header">
+      <span class="stage-num">Stage 01</span>
+      <span class="stage-title">Discovery</span>
+      <span class="stage-moment">They find you</span>
+    </div>
+    <div class="stage-grid">
+      <div class="col-feels">
+        <div class="stage-col-label">What they're feeling</div>
+        <ul class="stage-col-body">
+          <li>Something is off but they can't name it</li>
+          <li>Tired of being told everything is fine</li>
+          <li>Curious about TCM but intimidated</li>
+          <li>Not sure if it's "for them"</li>
+          <li>Possibly postpartum, exhausted, unheard</li>
+        </ul>
+      </div>
+      <div class="col-pain">
+        <div class="stage-col-label">Current pain points</div>
+        <ul class="stage-col-body">
+          <li>TCM looks esoteric or inaccessible online</li>
+          <li>Can't tell if practitioner is trustworthy</li>
+          <li>Pricing is unclear</li>
+          <li>Don't know what a session even involves</li>
+          <li>Website looks like it was built in 2008</li>
+        </ul>
+      </div>
+      <div class="col-vision">
+        <div class="stage-col-label">The LS vision</div>
+        <ul class="stage-col-body">
+          <li>Instagram feels warm, specific, honest</li>
+          <li>She sounds like someone who gets it</li>
+          <li>Content teaches before asking anything</li>
+          <li>Solar terms make TCM feel liveable</li>
+          <li>She's clearly still learning — that's safe</li>
+        </ul>
+      </div>
+    </div>
+    <div class="stage-note"><strong>The LS advantage:</strong> By the time someone books, they've been reading your content for months. They already trust you. The discovery phase is doing the relationship-building work that most clinics have to do in the first appointment.</div>
+  </div>
+
+  <!-- STAGE 2 -->
+  <div class="stage">
+    <div class="stage-header">
+      <span class="stage-num">Stage 02</span>
+      <span class="stage-title">Trust Building</span>
+      <span class="stage-moment">They follow, read, use the Observation Log</span>
+    </div>
+    <div class="stage-grid">
+      <div class="col-feels">
+        <div class="stage-col-label">What they're feeling</div>
+        <ul class="stage-col-body">
+          <li>Starting to recognise themselves in the content</li>
+          <li>Learning to notice their body for the first time</li>
+          <li>The Observation Log makes them feel capable</li>
+          <li>Something is shifting even before booking</li>
+        </ul>
+      </div>
+      <div class="col-pain">
+        <div class="stage-col-label">Current pain points</div>
+        <ul class="stage-col-body">
+          <li>Most practitioners have no content presence</li>
+          <li>No way to "try before you book"</li>
+          <li>No body literacy preparation for patients</li>
+          <li>Trust has to be built entirely in the room</li>
+        </ul>
+      </div>
+      <div class="col-vision">
+        <div class="stage-col-label">The LS vision</div>
+        <ul class="stage-col-body">
+          <li>Observation Log = free, useful, no pressure</li>
+          <li>Newsletter deepens the relationship over time</li>
+          <li>Zines make TCM tangible and beautiful</li>
+          <li>Seasonal workshops let them meet you first</li>
+        </ul>
+      </div>
+    </div>
+    <div class="stage-note"><strong>Key insight:</strong> The Observation Log is pre-clinical training. A patient who has been using it for 6 months walks into their first appointment already knowing what their Liver does in spring, already tracking their energy and sleep patterns. That changes the entire session.</div>
+  </div>
+
+  <!-- STAGE 3 -->
+  <div class="stage">
+    <div class="stage-header">
+      <span class="stage-num">Stage 03</span>
+      <span class="stage-title">First Contact</span>
+      <span class="stage-moment">They decide to book</span>
+    </div>
+    <div class="stage-grid">
+      <div class="col-feels">
+        <div class="stage-col-label">What they're feeling</div>
+        <ul class="stage-col-body">
+          <li>Nervous — is this the right decision?</li>
+          <li>Uncertain about what to expect</li>
+          <li>Hoping it won't feel clinical or cold</li>
+          <li>Wondering if they'll be taken seriously</li>
+        </ul>
+      </div>
+      <div class="col-pain">
+        <div class="stage-col-label">Current pain points</div>
+        <ul class="stage-col-body">
+          <li>Booking systems are clunky or phone-only</li>
+          <li>No indication of what to prepare</li>
+          <li>Confirmation email is generic and cold</li>
+          <li>Long gap between booking and appointment</li>
+          <li>Nothing to do in the waiting period</li>
+        </ul>
+      </div>
+      <div class="col-vision">
+        <div class="stage-col-label">The LS vision</div>
+        <ul class="stage-col-body">
+          <li>Simple online booking, immediate confirmation</li>
+          <li>Warm welcome email — here's what to expect</li>
+          <li>Pre-intake sent with the Observation Log</li>
+          <li>Invitation to notice their body before arrival</li>
+          <li>No paper forms on the day</li>
+        </ul>
+      </div>
+    </div>
+    <div class="stage-note"><strong>The pre-intake:</strong> Instead of a form they fill in on a clipboard in the waiting room, they receive a digital intake 3–5 days before their appointment. Calm, unhurried, in their own space. Includes the Observation Log as the body awareness warm-up.</div>
+  </div>
+
+  <!-- STAGE 4 -->
+  <div class="stage">
+    <div class="stage-header">
+      <span class="stage-num">Stage 04</span>
+      <span class="stage-title">The Intake</span>
+      <span class="stage-moment">Before they walk in</span>
+    </div>
+    <div class="stage-grid">
+      <div class="col-feels">
+        <div class="stage-col-label">What they're feeling</div>
+        <ul class="stage-col-body">
+          <li>Hopeful but unsure what will be asked</li>
+          <li>Possibly embarrassed they don't know their body well</li>
+          <li>Wanting to be helpful, not knowing how</li>
+        </ul>
+      </div>
+      <div class="col-pain">
+        <div class="stage-col-label">Current pain points</div>
+        <ul class="stage-col-body">
+          <li>"How are you feeling?" → "Fine, I guess"</li>
+          <li>Patient has never been taught to observe</li>
+          <li>Intake form asks yes/no, not open observation</li>
+          <li>Practitioner has to spend half the session on history</li>
+          <li>Patient forgets what they wanted to say</li>
+        </ul>
+      </div>
+      <div class="col-vision">
+        <div class="stage-col-label">The LS vision</div>
+        <ul class="stage-col-body">
+          <li>Pre-intake trains observation, not just history</li>
+          <li>Questions shaped around TCM patterns</li>
+          <li>Sleep, digestion, energy, mood, cravings, temperature</li>
+          <li>Seasonally framed — what has this term been like?</li>
+          <li>Practitioner arrives already knowing the landscape</li>
+        </ul>
+      </div>
+    </div>
+    <div class="stage-note"><strong>The body literacy loop closes here:</strong> The Observation Log they've been using becomes their intake tool. They already have the language. "My energy has been a 2 in the mornings and a 4 by afternoon." "Strong cravings for sour things. Jaw tension. Vivid dreams." That's a TCM intake. You built the tool in 2026. They arrive in 2030 already fluent.</div>
+  </div>
+
+  <!-- STAGE 5 -->
+  <div class="stage">
+    <div class="stage-header">
+      <span class="stage-num">Stage 05</span>
+      <span class="stage-title">Appointment Day</span>
+      <span class="stage-moment">They walk in</span>
+    </div>
+    <div class="stage-grid">
+      <div class="col-feels">
+        <div class="stage-col-label">What they're feeling</div>
+        <ul class="stage-col-body">
+          <li>Vulnerable — letting someone work on their body</li>
+          <li>Hoping to feel heard, not processed</li>
+          <li>Possibly bringing a child, exhausted, rushed</li>
+          <li>Aware that their time is limited and precious</li>
+        </ul>
+      </div>
+      <div class="col-pain">
+        <div class="stage-col-label">Current pain points</div>
+        <ul class="stage-col-body">
+          <li>Waiting room is clinical, not welcoming</li>
+          <li>Running late with no communication</li>
+          <li>Practitioner reads notes while patient sits there</li>
+          <li>Session feels rushed — too much to cover</li>
+          <li>Family not considered — nowhere for a child to be</li>
+          <li>Left without understanding what just happened</li>
+        </ul>
+      </div>
+      <div class="col-vision">
+        <div class="stage-col-label">The LS vision</div>
+        <ul class="stage-col-body">
+          <li>Space feels like a considered home, not a clinic</li>
+          <li>Practitioner has read intake before they arrive</li>
+          <li>Family-friendly — the chiropractor model</li>
+          <li>Session starts with "what did you notice?" not "what's wrong?"</li>
+          <li>Patient leaves understanding the pattern, not just the treatment</li>
+          <li>Seasonal framing throughout — this is what Wood does in spring</li>
+        </ul>
+      </div>
+    </div>
+    <div class="stage-note"><strong>The language shift:</strong> "What's wrong?" positions the patient as broken. "What did you notice?" positions them as the expert on their own body. That single question change is the whole UX TCM philosophy in practice.</div>
+  </div>
+
+  <!-- STAGE 6 -->
+  <div class="stage">
+    <div class="stage-header">
+      <span class="stage-num">Stage 06</span>
+      <span class="stage-title">Post-Appointment</span>
+      <span class="stage-moment">They leave</span>
+    </div>
+    <div class="stage-grid">
+      <div class="col-feels">
+        <div class="stage-col-label">What they're feeling</div>
+        <ul class="stage-col-body">
+          <li>Relieved, possibly emotional</li>
+          <li>Trying to remember what was said</li>
+          <li>Unsure what to do next</li>
+          <li>Uncertain when to rebook</li>
+        </ul>
+      </div>
+      <div class="col-pain">
+        <div class="stage-col-label">Current pain points</div>
+        <ul class="stage-col-body">
+          <li>No written summary of what was treated</li>
+          <li>Home care advice given verbally — forgotten by dinner</li>
+          <li>No check-in between appointments</li>
+          <li>Rebooking is the patient's responsibility to remember</li>
+          <li>Relationship resets to zero at next visit</li>
+        </ul>
+      </div>
+      <div class="col-vision">
+        <div class="stage-col-label">The LS vision</div>
+        <ul class="stage-col-body">
+          <li>Post-appointment note sent same day — what we worked on, what to notice</li>
+          <li>Home care in writing — food, movement, rest, what to watch for</li>
+          <li>3-day check-in: "how are you feeling since Tuesday?"</li>
+          <li>Observation Log for the current solar term attached</li>
+          <li>Rebooking suggested with seasonal framing — spring liver work continues</li>
+        </ul>
+      </div>
+    </div>
+    <div class="stage-note"><strong>The 3-day check-in:</strong> A single message, 3 days after the appointment. Not a form. Not a survey. Just: "How has your body been since Tuesday? Anything you've noticed?" That message is the difference between a transaction and a relationship. Almost no one does it.</div>
+  </div>
+
+  <!-- STAGE 7 -->
+  <div class="stage">
+    <div class="stage-header">
+      <span class="stage-num">Stage 07</span>
+      <span class="stage-title">The Ongoing Relationship</span>
+      <span class="stage-moment">The long arc</span>
+    </div>
+    <div class="stage-grid">
+      <div class="col-feels">
+        <div class="stage-col-label">What they're feeling</div>
+        <ul class="stage-col-body">
+          <li>Starting to trust their own body more</li>
+          <li>Coming back because it works, not just when crisis hits</li>
+          <li>Part of a community of people paying attention</li>
+          <li>Referring people they love</li>
+        </ul>
+      </div>
+      <div class="col-pain">
+        <div class="stage-col-label">Current pain points</div>
+        <ul class="stage-col-body">
+          <li>Most patients only come when something hurts</li>
+          <li>No seasonal rhythm to care</li>
+          <li>Practitioner relationship stays clinical, not relational</li>
+          <li>No reason to stay connected between appointments</li>
+        </ul>
+      </div>
+      <div class="col-vision">
+        <div class="stage-col-label">The LS vision</div>
+        <ul class="stage-col-body">
+          <li>Seasonal check-in at each solar term transition</li>
+          <li>Newsletter keeps the relationship warm between visits</li>
+          <li>Zines arrive in the mail — the practice comes to their home</li>
+          <li>Family treated as a unit — everyone has a relationship with the clinic</li>
+          <li>Body literacy grows year over year</li>
+          <li>They become the person who refers everyone they love</li>
+        </ul>
+      </div>
+    </div>
+    <div class="stage-note"><strong>The flywheel:</strong> Listening Season builds the audience → the audience becomes patients → patients become the community → the community refers new patients → new patients find Listening Season. The brand and the clinic feed each other indefinitely.</div>
+  </div>
+
+  <!-- TOOLS LAYER -->
+  <div class="tools-section">
+    <h1>Tools this system needs</h1>
+    <p style="font-size:.85rem;color:#8b8580;font-style:italic;margin-bottom:1.2rem">Marked ✓ if already built. Everything else is future work — some near, some far.</p>
+    <div class="tools-grid">
+      <div class="tool-card built">
+        <div class="tool-card-stage">Trust Building</div>
+        <div class="tool-card-name">Observation Log</div>
+        <div class="tool-card-note">Free printable per solar term. Body literacy training before they ever book.</div>
+      </div>
+      <div class="tool-card built">
+        <div class="tool-card-stage">Discovery + Trust</div>
+        <div class="tool-card-name">Listening Season content</div>
+        <div class="tool-card-note">Instagram, newsletter, zines. The long relationship-building before booking.</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-card-stage">First Contact</div>
+        <div class="tool-card-name">Online booking system</div>
+        <div class="tool-card-note">Simple, warm, immediate confirmation. No phone calls required.</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-card-stage">First Contact</div>
+        <div class="tool-card-name">Welcome email sequence</div>
+        <div class="tool-card-note">Warm, specific, sets expectations. Includes what to notice before arriving.</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-card-stage">Intake</div>
+        <div class="tool-card-name">Digital pre-intake form</div>
+        <div class="tool-card-note">Sent 3–5 days before appointment. Seasonally framed. Observation-based, not yes/no.</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-card-stage">Post-Appointment</div>
+        <div class="tool-card-name">Post-appointment note template</div>
+        <div class="tool-card-note">What was treated, what to notice, home care in writing. Sent same day.</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-card-stage">Post-Appointment</div>
+        <div class="tool-card-name">3-day check-in</div>
+        <div class="tool-card-note">One message, 3 days later. "How has your body been since Tuesday?" Almost nobody does this.</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-card-stage">Ongoing</div>
+        <div class="tool-card-name">Seasonal check-in system</div>
+        <div class="tool-card-note">At each solar term transition — a note to active patients. What this season means for their pattern.</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-card-stage">Future · App</div>
+        <div class="tool-card-name">Observation Log app</div>
+        <div class="tool-card-note">The printable becomes a body tracking app. 24 solar terms, TCM organ systems, pattern recognition over time. Feeds directly into intake.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="doc-footer">
+    <p>ux tcm · patient journey map · first draft march 2026</p>
+    <p>deepen this as clinical training begins · update with real patient insights from 2028</p>
+  </div>
+
+</div>
+</body>
+</html>
