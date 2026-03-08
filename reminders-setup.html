@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apple Reminders Setup · Tricia Ling</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Noto Serif+SC:wght@300&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#E0C0B4;min-height:100vh;font-family:'Cormorant Garamond',Georgia,serif;font-weight:300;-webkit-font-smoothing:antialiased;padding:2.5rem}
+.box{max-width:780px;margin:0 auto;background:#fff;border-radius:3px;box-shadow:0 2px 40px rgba(0,0,0,0.06);padding:4rem 4.5rem 5rem}
+.nav{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:#b0aaa3;margin-bottom:3rem}
+.nav a{color:#b0aaa3;text-decoration:none}.nav a:hover{color:#2a2520}
+.cover{margin-bottom:3.5rem;padding-bottom:2.5rem;border-bottom:1px solid #e4dfd6}
+.cover-title{font-size:2.4rem;line-height:1.1;color:#2a2520;margin-bottom:.6rem}
+.cover-sub{font-size:1rem;font-style:italic;color:#8b6560;margin-bottom:.5rem}
+.cover-note{font-size:.72rem;font-style:italic;color:#b0aaa3;letter-spacing:.04em}
+h1{font-size:1.6rem;font-weight:300;color:#2a2520;padding-bottom:.8rem;border-bottom:1px solid #e4dfd6;margin-bottom:1.8rem}
+h2{font-size:1.2rem;font-weight:300;font-style:italic;color:#2a2520;margin:2.2rem 0 .9rem}
+p{font-size:.92rem;line-height:1.85;color:#5a5550;margin-bottom:.9rem}
+p:last-child{margin-bottom:0}
+.step-block{margin-bottom:2rem}
+.step-num{font-size:.52rem;letter-spacing:.25em;text-transform:uppercase;color:#b0aaa3;margin-bottom:.4rem}
+.step-title{font-size:1rem;color:#2a2520;margin-bottom:.6rem}
+.step-body{font-size:.88rem;line-height:1.8;color:#5a5550}
+.list-item{
+  display:flex;gap:1rem;padding:.55rem 0;
+  border-bottom:1px solid #f5f2ee;align-items:baseline;
+}
+.list-item:first-child{border-top:1px solid #f5f2ee}
+.list-emoji{font-size:1rem;flex-shrink:0;width:24px}
+.list-name{font-size:.9rem;color:#2a2520;flex:1}
+.list-note{font-size:.72rem;color:#8b8580;font-style:italic}
+.shaded{background:#faf8f5;padding:1.4rem 1.6rem;border-radius:2px;margin:1.2rem 0}
+.shaded p{font-size:.85rem;line-height:1.8;color:#5a5550;margin-bottom:.4rem}
+.shaded p:last-child{margin-bottom:0}
+.rule-num{color:#8b6560;font-size:.7rem;margin-right:.3rem}
+.pull{margin:1.8rem 0;padding:1.2rem 1.6rem;border-left:2px solid #e4dfd6;background:#faf8f5}
+.pull p{font-size:.95rem;font-style:italic;color:#2a2520;line-height:1.75;margin:0}
+.two-col{display:grid;grid-template-columns:140px 1fr;gap:.4rem 1.2rem;padding:.55rem 0;border-bottom:1px solid #f5f2ee}
+.two-col:first-of-type{border-top:1px solid #f5f2ee}
+.two-col-label{font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:#b0aaa3;padding-top:.15rem}
+.two-col-body{font-size:.85rem;line-height:1.7;color:#5a5550}
+.siri-block{background:#f2f4f8;padding:1rem 1.4rem;border-radius:2px;margin:.8rem 0}
+.siri-label{font-size:.5rem;letter-spacing:.2em;text-transform:uppercase;color:#8b8580;margin-bottom:.5rem}
+.siri-item{font-size:.85rem;font-style:italic;color:#2a2520;line-height:1.9;padding-left:.6rem}
+hr{border:none;border-top:1px solid #e4dfd6;margin:2.5rem 0}
+.doc-footer{margin-top:3.5rem;padding-top:1.8rem;border-top:1px solid #e4dfd6;text-align:center}
+.doc-footer p{font-size:.65rem;font-style:italic;color:#b0aaa3;letter-spacing:.06em;line-height:2}
+@media(max-width:640px){
+  body{padding:1rem}
+  .box{padding:2.5rem 1.8rem 3rem}
+  .two-col{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="box">
+
+  <div class="nav"><a href="index.html">← Dashboard</a></div>
+
+  <div class="cover">
+    <div class="cover-title">Apple Reminders Setup</div>
+    <div class="cover-sub">Task tracking for an ADHD brain that already uses Apple</div>
+    <div class="cover-note">10 minutes to set up. Then just use it.</div>
+  </div>
+
+  <!-- WHY -->
+  <h1>Why this works for you</h1>
+  <p>Already on your phone, your Mac, your iPad. Syncs automatically via iCloud. Works with Siri — hands full with June, voice command. No new app to learn, no subscription, no setup rabbit hole.</p>
+  <p>The ADHD brain needs the external list because working memory is unreliable — not because you're disorganised, but because your brain processes everything at once and things leak. Reminders is the container that catches what leaks.</p>
+
+  <div class="pull">
+    <p>The rule: if it needs to happen, it goes in Reminders. If it needs to happen at a specific time, it also goes in Google Cal. Those are the only two places.</p>
+  </div>
+
+  <hr>
+
+  <!-- STEP 1: LISTS -->
+  <h1>Step 1 — Create your four lists</h1>
+  <p>Open Reminders → tap <strong style="font-weight:400">Add List</strong> in the bottom left. Create these four, in this order:</p>
+
+  <div style="margin:1.2rem 0">
+    <div class="list-item">
+      <div class="list-emoji">📚</div>
+      <div class="list-name">School</div>
+      <div class="list-note">Assignments, readings, exam prep, clinical hours</div>
+    </div>
+    <div class="list-item">
+      <div class="list-emoji">🌱</div>
+      <div class="list-name">Listening Season</div>
+      <div class="list-note">Content, products, doc updates, brand tasks</div>
+    </div>
+    <div class="list-item">
+      <div class="list-emoji">🏠</div>
+      <div class="list-name">Family</div>
+      <div class="list-note">June, T, household, appointments</div>
+    </div>
+    <div class="list-item">
+      <div class="list-emoji">⚙️</div>
+      <div class="list-name">Admin</div>
+      <div class="list-note">Condo, finances, life logistics</div>
+    </div>
+  </div>
+
+  <p>Leave the default <strong style="font-weight:400">Reminders</strong> list as your <strong style="font-weight:400">Inbox</strong>. Everything lands here first. You sort it later — never in the moment of capture.</p>
+
+  <hr>
+
+  <!-- STEP 2: RECURRING -->
+  <h1>Step 2 — Set up your recurring tasks</h1>
+  <p>These go in now so they're already there when you need them. In each list, create these:</p>
+
+  <h2>In Listening Season</h2>
+  <div class="shaded">
+    <p>📋 <strong style="font-weight:400;color:#2a2520">Review living docs</strong> — every 15 days (align with solar term start)<br><span style="color:#8b8580;font-size:.82rem">philosophy.html, brand-voice.html, mindmap.html — does anything need updating?</span></p>
+    <p>📸 <strong style="font-weight:400;color:#2a2520">Threshold post</strong> — every 15 days (same day as doc review)<br><span style="color:#8b8580;font-size:.82rem">New solar term begins. Instagram post + start new Observation Log.</span></p>
+    <p>📬 <strong style="font-weight:400;color:#2a2520">LS newsletter</strong> — once per solar term, day 7 or 8<br><span style="color:#8b8580;font-size:.82rem">Mid-term reflection. No pressure on length.</span></p>
+  </div>
+
+  <h2>In Admin</h2>
+  <div class="shaded">
+    <p>🗂 <strong style="font-weight:400;color:#2a2520">Inbox sort</strong> — every Tuesday and Friday, 15 mins<br><span style="color:#8b8580;font-size:.82rem">Move items from Reminders inbox into the right list. Nothing else.</span></p>
+    <p>📅 <strong style="font-weight:400;color:#2a2520">Weekly preview</strong> — every Sunday evening<br><span style="color:#8b8580;font-size:.82rem">Open Reminders + Google Cal together. What's coming this week? Any prep needed?</span></p>
+  </div>
+
+  <hr>
+
+  <!-- STEP 3: DISCIPLINE -->
+  <h1>Step 3 — The one discipline</h1>
+
+  <div class="pull">
+    <p>Capture everything. Sort twice a week. Never try to do both at the same time.</p>
+  </div>
+
+  <p>When something crosses your mind — a task, a thing to follow up, something you don't want to forget — it goes into the Reminders inbox immediately. One tap, one line, no filing. The sorting happens Tuesday and Friday in 15 minutes.</p>
+
+  <p>This works with ADHD because it separates two different brain states: the capture state (fast, low friction, any time) and the sort state (slow, deliberate, scheduled). Trying to file perfectly in the moment is where systems collapse.</p>
+
+  <hr>
+
+  <!-- STEP 4: SIRI -->
+  <h1>Step 4 — Use Siri for capture</h1>
+  <p>The fastest capture is voice, especially when you're with June. Siri adds directly to Reminders inbox.</p>
+
+  <div class="siri-block">
+    <div class="siri-label">Say to Siri</div>
+    <div class="siri-item">"Hey Siri, remind me to update the brand voice doc"</div>
+    <div class="siri-item">"Hey Siri, add email chiropractor to my reminders"</div>
+    <div class="siri-item">"Hey Siri, remind me tomorrow at 9am to check the strata notice"</div>
+    <div class="siri-item">"Hey Siri, add buy sourdough starter to reminders"</div>
+  </div>
+
+  <p>It all lands in the inbox. You sort it Tuesday and Friday. Nothing falls through.</p>
+
+  <hr>
+
+  <!-- SCHOOL SPECIFICS -->
+  <h1>When school starts — September 8</h1>
+  <p>The School list becomes your most active list. For each semester, the pattern is:</p>
+
+  <div class="two-col"><div class="two-col-label">Week 1</div><div class="two-col-body">Add all assignment due dates and exam dates to both Reminders (School list) and Google Cal immediately. Set a reminder 3 days before each one.</div></div>
+  <div class="two-col"><div class="two-col-label">Readings</div><div class="two-col-body">One task per reading. "Read Chapter 4 — Liver & Gallbladder." When done, check it off. Small completions matter for the ADHD brain.</div></div>
+  <div class="two-col"><div class="two-col-label">Exams</div><div class="two-col-body">Break exam prep into subtasks in Reminders. Not "study for exam" — "review Lecture 3 notes", "make flashcards for meridian points", "practice case study questions."</div></div>
+  <div class="two-col"><div class="two-col-label">Clinical hours</div><div class="two-col-body">Log in Google Cal as you complete them. Keep a running total in Capacities. You will need this record.</div></div>
+
+  <hr>
+
+  <!-- YOUR FULL STACK -->
+  <h1>Your full stack — one more time</h1>
+
+  <div class="two-col"><div class="two-col-label">Google Cal</div><div class="two-col-body">Time. Appointments, deadlines, reminders with alerts. If it has a date and time, it lives here.</div></div>
+  <div class="two-col"><div class="two-col-label">Apple Reminders</div><div class="two-col-body">Tasks. Everything that needs to happen but isn't time-specific. Inbox → sort twice a week.</div></div>
+  <div class="two-col"><div class="two-col-label">Capacities</div><div class="two-col-body">Notes and memory. Study, daily record, observations, TLDR at the end of the day.</div></div>
+  <div class="two-col"><div class="two-col-label">WhatsApp pipe</div><div class="two-col-body">Capture in the moment → Capacities. One sentence, right now, no formatting.</div></div>
+  <div class="two-col"><div class="two-col-label">Pen & paper</div><div class="two-col-body">Morning 3 things. The daily grounding. Don't digitise this.</div></div>
+  <div class="two-col"><div class="two-col-label">Dashboard</div><div class="two-col-body">Orientation. The big picture. Where you are, what season it is, what matters.</div></div>
+
+  <p style="margin-top:1.5rem;font-style:italic;color:#8b8580">Five tools. Each with one job. Nothing overlaps. When something feels lost, ask: which of these five should it live in?</p>
+
+  <hr>
+
+  <!-- UPGRADE PATH -->
+  <h1>When to graduate to Things 3</h1>
+  <p>Apple Reminders will carry you through to at least semester 3 or 4. The moment to reconsider is when you have:</p>
+  <div class="shaded">
+    <p>– Multiple concurrent projects with subtasks that depend on each other</p>
+    <p>– Clinical hours tracking that needs more structure</p>
+    <p>– Brand projects with deadlines, deliverables, and collaborators</p>
+    <p>– The feeling that Reminders is too flat and you keep losing threads</p>
+  </div>
+  <p>That moment is probably 2028. Until then — don't fix what isn't broken.</p>
+
+  <div class="doc-footer">
+    <p>apple reminders setup · tricia ling · march 2026</p>
+    <p>revisit when school starts · upgrade to Things 3 around semester 3–4 if needed</p>
+  </div>
+
+</div>
+</body>
+</html>
