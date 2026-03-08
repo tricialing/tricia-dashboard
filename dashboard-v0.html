@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tricia Ling · 聆聽季節</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Noto+Serif+SC:wght@300&display=swap" rel="stylesheet">
+<style>
+/* ── RESET ── */
+* { margin:0; padding:0; box-sizing:border-box; }
+
+/* ── CONFIG-DRIVEN THEME ── */
+:root {
+  --bg: #F2E8E0;
+  --ink: #2a2520;
+  --mid: #6b6560;
+  --faint: #b0aaa3;
+  --rule: #e4dfd6;
+  --cream: #f4f1ec;
+  --accent: #A8B8A0;
+  --warm: #CCB08A;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 300;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  transition: background 1.2s ease;
+}
+
+/* ── LAYOUT ── */
+.page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem 2.5rem 4rem;
+}
+
+/* ── HEADER ── */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.header-left .name {
+  font-size: 1.1rem;
+  letter-spacing: 0.08em;
+  color: var(--ink);
+}
+
+.header-left .zh {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.35em;
+  color: var(--faint);
+  margin-top: 0.2rem;
+}
+
+.header-right {
+  text-align: right;
+}
+
+.word-of-year {
+  font-size: 0.6rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+.today-date {
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  color: var(--mid);
+  font-style: italic;
+  margin-top: 0.2rem;
+}
+
+/* ── SECTION LABEL ── */
+.section-label {
+  font-size: 0.52rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--faint);
+  margin-bottom: 0.8rem;
+}
+
+/* ── MAIN GRID ── */
+.main-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 680px) {
+  .main-grid { grid-template-columns: 1fr; }
+}
+
+/* ── SOLAR TERM CARD ── */
+.term-card {
+  padding: 1.4rem;
+  background: rgba(255,255,255,0.35);
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+}
+
+.term-zh {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 2.2rem;
+  color: var(--ink);
+  line-height: 1;
+  margin-bottom: 0.2rem;
+}
+
+.term-en {
+  font-size: 1rem;
+  letter-spacing: 0.06em;
+  color: var(--mid);
+  margin-bottom: 0.8rem;
+}
+
+.term-dates {
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  color: var(--faint);
+  font-style: italic;
+  margin-bottom: 0.8rem;
+}
+
+.term-desc {
+  font-size: 0.85rem;
+  line-height: 1.7;
+  color: var(--mid);
+  font-style: italic;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.term-notice-label {
+  font-size: 0.52rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--faint);
+  margin-bottom: 0.4rem;
+}
+
+.term-notice {
+  font-size: 0.82rem;
+  line-height: 1.65;
+  color: var(--mid);
+}
+
+/* ── NEXT TERM + COUNTDOWNS ── */
+.right-col { display: flex; flex-direction: column; gap: 1.5rem; }
+
+.next-term-card {
+  padding: 1.2rem 1.4rem;
+  background: rgba(255,255,255,0.2);
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+}
+
+.next-term-in {
+  font-size: 0.52rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--faint);
+  margin-bottom: 0.6rem;
+}
+
+.next-term-name {
+  font-size: 1rem;
+  color: var(--ink);
+  margin-bottom: 0.2rem;
+}
+
+.next-term-days {
+  font-size: 2rem;
+  color: var(--ink);
+  line-height: 1;
+  margin-bottom: 0.2rem;
+}
+
+.next-term-days span {
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  color: var(--faint);
+  margin-left: 0.3rem;
+}
+
+.next-term-date {
+  font-size: 0.65rem;
+  color: var(--faint);
+  font-style: italic;
+}
+
+/* Countdowns */
+.countdown-card {
+  padding: 1.2rem 1.4rem;
+  background: rgba(255,255,255,0.2);
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+}
+
+.countdown-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 0.55rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.countdown-item:last-child { border-bottom: none; }
+
+.countdown-label {
+  font-size: 0.78rem;
+  color: var(--mid);
+}
+
+.countdown-label .sub {
+  display: block;
+  font-size: 0.58rem;
+  letter-spacing: 0.08em;
+  color: var(--faint);
+  font-style: italic;
+  margin-top: 0.1rem;
+}
+
+.countdown-num {
+  font-size: 1.2rem;
+  color: var(--ink);
+  text-align: right;
+}
+
+.countdown-num span {
+  font-size: 0.58rem;
+  color: var(--faint);
+  margin-left: 0.2rem;
+}
+
+/* ── THE ARC ── */
+.arc-section {
+  margin-bottom: 2rem;
+  padding: 1.4rem;
+  background: rgba(255,255,255,0.2);
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+}
+
+.arc-track {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.2rem;
+  gap: 0.8rem;
+}
+
+.arc-track:last-child { margin-bottom: 0; }
+
+.arc-track-label {
+  font-size: 0.55rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--faint);
+  width: 52px;
+  flex-shrink: 0;
+  text-align: right;
+}
+
+.arc-line {
+  flex: 1;
+  position: relative;
+  height: 28px;
+  display: flex;
+  align-items: center;
+}
+
+.arc-bar {
+  position: absolute;
+  left: 0; right: 0;
+  height: 1px;
+  background: var(--rule);
+}
+
+.arc-milestone {
+  position: absolute;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: default;
+}
+
+.arc-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--faint);
+  border: 1.5px solid var(--bg);
+  margin-bottom: 3px;
+  flex-shrink: 0;
+}
+
+.arc-dot.current {
+  background: var(--ink);
+  width: 10px;
+  height: 10px;
+}
+
+.arc-dot.major {
+  background: var(--accent);
+}
+
+.arc-dot.family {
+  background: var(--warm);
+}
+
+.arc-milestone-label {
+  font-size: 0.46rem;
+  letter-spacing: 0.04em;
+  color: var(--faint);
+  white-space: nowrap;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.arc-milestone-label.above {
+  position: absolute;
+  bottom: 18px;
+  color: var(--mid);
+}
+
+.arc-milestone-label.below {
+  position: absolute;
+  top: 18px;
+}
+
+/* ── TODAY + CAPTURE ── */
+.today-section {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  align-items: start;
+}
+
+@media (max-width: 680px) {
+  .today-section { grid-template-columns: 1fr; }
+}
+
+.focus-card {
+  padding: 1.4rem;
+  background: rgba(255,255,255,0.2);
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+}
+
+.focus-prompt {
+  font-size: 0.85rem;
+  font-style: italic;
+  color: var(--mid);
+  margin-bottom: 0.8rem;
+  line-height: 1.6;
+}
+
+.focus-input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--rule);
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1rem;
+  font-weight: 300;
+  color: var(--ink);
+  padding: 0.4rem 0;
+  outline: none;
+  letter-spacing: 0.02em;
+}
+
+.focus-input::placeholder {
+  color: var(--faint);
+  font-style: italic;
+}
+
+.focus-hint {
+  font-size: 0.58rem;
+  letter-spacing: 0.08em;
+  color: var(--faint);
+  font-style: italic;
+  margin-top: 0.5rem;
+}
+
+.capture-card {
+  padding: 1.4rem;
+  background: var(--ink);
+  border-radius: 2px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  min-width: 160px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  text-decoration: none;
+}
+
+.capture-card:hover { opacity: 0.85; }
+
+.capture-symbol {
+  font-size: 1.4rem;
+  color: var(--accent);
+  line-height: 1;
+}
+
+.capture-label {
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #f4f1ec;
+  text-align: center;
+  line-height: 1.5;
+}
+
+.capture-sub {
+  font-size: 0.55rem;
+  letter-spacing: 0.1em;
+  color: rgba(244,241,236,0.45);
+  font-style: italic;
+}
+
+/* ── LINKS GRID ── */
+.links-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0.6rem;
+  margin-bottom: 2rem;
+}
+
+.link-tile {
+  display: flex;
+  flex-direction: column;
+  padding: 0.9rem 1rem;
+  background: rgba(255,255,255,0.25);
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+  text-decoration: none;
+  transition: background 0.15s, transform 0.15s;
+  cursor: pointer;
+}
+
+.link-tile:hover {
+  background: rgba(255,255,255,0.5);
+  transform: translateY(-1px);
+}
+
+.link-tile-label {
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+  margin-bottom: 0.2rem;
+}
+
+.link-tile-sub {
+  font-size: 0.56rem;
+  letter-spacing: 0.06em;
+  color: var(--faint);
+  font-style: italic;
+}
+
+/* ── TOOLS ── */
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.6rem;
+  margin-bottom: 2.5rem;
+}
+
+.tool-tile {
+  padding: 0.9rem 1rem;
+  background: rgba(255,255,255,0.15);
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+  text-decoration: none;
+  transition: background 0.15s;
+  cursor: pointer;
+}
+
+.tool-tile:hover { background: rgba(255,255,255,0.35); }
+
+.tool-tile-label {
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+  margin-bottom: 0.15rem;
+}
+
+.tool-tile-sub {
+  font-size: 0.55rem;
+  letter-spacing: 0.06em;
+  color: var(--faint);
+  font-style: italic;
+}
+
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid var(--rule);
+  padding-top: 1.2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.footer-mantra {
+  font-size: 0.68rem;
+  font-style: italic;
+  color: var(--faint);
+  letter-spacing: 0.06em;
+}
+
+.footer-zh {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 0.6rem;
+  color: var(--faint);
+  letter-spacing: 0.15em;
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-left">
+      <div class="name">Tricia Ling</div>
+      <div class="zh">聆聽季節</div>
+    </div>
+    <div class="header-right">
+      <div class="word-of-year">2026 · integration</div>
+      <div class="today-date" id="today-date"></div>
+    </div>
+  </header>
+
+  <!-- MAIN GRID: current term + right col -->
+  <div class="main-grid">
+
+    <!-- Current solar term -->
+    <div class="term-card">
+      <div class="section-label">Current Solar Term</div>
+      <div class="term-zh" id="term-zh"></div>
+      <div class="term-en" id="term-en"></div>
+      <div class="term-dates" id="term-dates"></div>
+      <div class="term-desc" id="term-desc"></div>
+      <div class="term-notice-label">What to notice now</div>
+      <div class="term-notice" id="term-notice"></div>
+    </div>
+
+    <!-- Right col -->
+    <div class="right-col">
+
+      <!-- Next term countdown -->
+      <div class="next-term-card">
+        <div class="next-term-in">Next Solar Term</div>
+        <div class="next-term-name" id="next-term-name"></div>
+        <div class="next-term-days"><span id="next-days">—</span><span>days away</span></div>
+        <div class="next-term-date" id="next-term-date"></div>
+      </div>
+
+      <!-- Countdowns -->
+      <div class="countdown-card">
+        <div class="section-label">Countdowns</div>
+        <div class="countdown-item">
+          <div class="countdown-label">
+            First day of school
+            <span class="sub">Sep 8, 2026</span>
+          </div>
+          <div class="countdown-num"><span id="cd-school">—</span><span>days</span></div>
+        </div>
+        <div class="countdown-item">
+          <div class="countdown-label">
+            R.Ac board exam
+            <span class="sub">Oct 2028</span>
+          </div>
+          <div class="countdown-num"><span id="cd-rac">—</span><span>days</span></div>
+        </div>
+        <div class="countdown-item">
+          <div class="countdown-label">
+            Dr. TCM
+            <span class="sub">Early 2030</span>
+          </div>
+          <div class="countdown-num"><span id="cd-tcm">—</span><span>days</span></div>
+        </div>
+        <div class="countdown-item">
+          <div class="countdown-label">
+            Daughter turns 3 🎂
+            <span class="sub">Jul 2026</span>
+          </div>
+          <div class="countdown-num"><span id="cd-daughter">—</span><span>days</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- THE ARC -->
+  <div class="arc-section">
+    <div class="section-label">The Arc</div>
+    <div id="arc-container"></div>
+  </div>
+
+  <!-- TODAY'S FOCUS + CAPTURE -->
+  <div class="today-section">
+    <div class="focus-card">
+      <div class="section-label">Today's Focus</div>
+      <div class="focus-prompt" id="term-prompt"></div>
+      <input
+        class="focus-input"
+        id="focus-input"
+        type="text"
+        placeholder="one thing that matters today…"
+        maxlength="120"
+      />
+      <div class="focus-hint">stays until you change it</div>
+    </div>
+    <a class="capture-card" href="https://wa.me/" target="_blank" id="capture-btn">
+      <div class="capture-symbol">✦</div>
+      <div class="capture-label">Capture<br>a thought</div>
+      <div class="capture-sub">→ WhatsApp</div>
+    </a>
+  </div>
+
+  <!-- MY WORLD -->
+  <div class="section-label">My World</div>
+  <div class="links-grid" style="margin-bottom:2rem">
+    <a class="link-tile" href="https://app.capacities.io" target="_blank">
+      <div class="link-tile-label">Capacities</div>
+      <div class="link-tile-sub">second brain</div>
+    </a>
+    <a class="link-tile" href="https://justnoodling.substack.com" target="_blank">
+      <div class="link-tile-label">Just Noodling</div>
+      <div class="link-tile-sub">personal essays</div>
+    </a>
+    <a class="link-tile" href="https://substack.com" target="_blank">
+      <div class="link-tile-label">Listening Season</div>
+      <div class="link-tile-sub">newsletter</div>
+    </a>
+    <a class="link-tile" href="https://instagram.com/listening.season" target="_blank">
+      <div class="link-tile-label">Instagram</div>
+      <div class="link-tile-sub">@listening.season</div>
+    </a>
+    <a class="link-tile" href="https://canva.com" target="_blank">
+      <div class="link-tile-label">Canva</div>
+      <div class="link-tile-sub">visual content</div>
+    </a>
+    <a class="link-tile" href="https://dropbox.com" target="_blank">
+      <div class="link-tile-label">Dropbox</div>
+      <div class="link-tile-sub">files & backup</div>
+    </a>
+  </div>
+
+  <!-- TOOLS -->
+  <div class="section-label">Tools</div>
+  <div class="tools-grid">
+    <div class="tool-tile" onclick="alert('Link your solar terms artifact here')">
+      <div class="tool-tile-label">Solar Terms</div>
+      <div class="tool-tile-sub">interactive · 24 terms</div>
+    </div>
+    <div class="tool-tile" onclick="alert('Link your timeline here')">
+      <div class="tool-tile-label">Brand Timeline</div>
+      <div class="tool-tile-sub">mar 2026 → 2030</div>
+    </div>
+    <div class="tool-tile" onclick="alert('Link your capture card here')">
+      <div class="tool-tile-label">Capture System</div>
+      <div class="tool-tile-sub">the one rule</div>
+    </div>
+    <div class="tool-tile" onclick="alert('Link your philosophy doc here')">
+      <div class="tool-tile-label">Life Philosophy</div>
+      <div class="tool-tile-sub">brand blueprint · v1</div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-mantra">progress over perfection · integration</div>
+    <div class="footer-zh">聆聽季節 · tricialing.com</div>
+  </footer>
+
+</div>
+
+<script>
+// ══════════════════════════════════════════
+// CONFIG — edit these, not the code below
+// ══════════════════════════════════════════
+const CONFIG = {
+  whatsappNumber: '',  // e.g. '16041234567' — your Capacities WhatsApp number
+  schoolStart:    new Date('2026-09-08'),
+  racExam:        new Date('2028-10-01'),
+  drTCM:          new Date('2030-02-01'),
+  daughterBday:   new Date('2026-07-01'), // update with exact date
+};
+
+// ══════════════════════════════════════════
+// SOLAR TERMS DATA
+// Dates are approximate — adjust if needed
+// ══════════════════════════════════════════
+const TERMS = [
+  { zh:'小寒', en:'Minor Cold',         start:[1,5],  end:[1,19],  color:'#8C96A0', desc:'The coldest weeks settle in. The body conserves, the world quiets. Rest is not laziness — it is wisdom.', notice:'Stillness in the air. Craving warmth and depth. Let yourself be slow.' },
+  { zh:'大寒', en:'Major Cold',         start:[1,20], end:[2,3],   color:'#7B848E', desc:'The peak of winter. Darkness before the return of light. This is the last exhale before spring.', notice:'The cold is at its fullest. Notice what you are holding onto. What is ready to release?' },
+  { zh:'立春', en:'Start of Spring',    start:[2,4],  end:[2,18],  color:'#F2E3E3', desc:'The first breath of spring arrives, even if winter still lingers outside. Something begins to stir — in the body, in the earth.', notice:'Lighter mornings. The faintest green at the tips of things. A restlessness that wants to move.' },
+  { zh:'雨水', en:'Rain Water',         start:[2,19], end:[3,4],   color:'#E8D5D0', desc:'Rain softens the frozen ground. The world begins to receive again. What has been hard starts to yield.', notice:'Softer air. Mud underfoot. The body wanting more water, more movement.' },
+  { zh:'驚蟄', en:'Awakening of Insects',start:[3,5], end:[3,19],  color:'#DFC5B8', desc:'Thunder wakes the sleeping insects. Things that have been dormant begin to move. There is electricity in the air and in the body.', notice:'Birdsong earlier. Soil softening. Body restless, energy rising. The urge to begin things.' },
+  { zh:'春分', en:'Spring Equinox',     start:[3,20], end:[4,3],   color:'#D4B5A8', desc:'Day and night in perfect balance. A moment of equilibrium before the light takes over. Notice what is in balance in your own life.', notice:'Equal light and dark. The world paused in balance. What needs to be in equal measure in you?' },
+  { zh:'清明', en:'Clear and Bright',   start:[4,4],  end:[4,19],  color:'#C8A898', desc:'The air clears. Visibility returns. A time for honouring what has passed and tending what remains.', notice:'Clearer skies. The impulse to clean, clear, and tend. What needs your attention and care?' },
+  { zh:'穀雨', en:'Grain Rain',         start:[4,20], end:[5,4],   color:'#BCA090', desc:'Rain nourishes the seeds. Growth requires both patience and the right conditions. What are you tending that needs this kind of care?', notice:'Lush and damp. Everything growing visibly. Notice what you have planted that is now taking root.' },
+  { zh:'立夏', en:'Start of Summer',    start:[5,5],  end:[5,20],  color:'#E8C8A0', desc:'Summer declares itself. Energy rises, the heart opens, the world turns outward. Time to expand.', notice:'Warmth arriving fully. Longer evenings. The body wanting to be outside, to move, to connect.' },
+  { zh:'小滿', en:'Grain Buds',         start:[5,21], end:[6,5],   color:'#E0B888', desc:'Things are filling but not yet full. The satisfaction of almost. Notice what is ripening in your own life.', notice:'Everything lush and abundant. A sense of fullness that is not yet complete. What is almost ready?' },
+  { zh:'芒種', en:'Grain in Ear',       start:[6,6],  end:[6,20],  color:'#D8A870', desc:'Seeds with awns — the most productive time. Busy and full. The peak of summer growth requires real effort now.', notice:'Peak activity. Longer days that want to be used. Where is your energy most needed right now?' },
+  { zh:'夏至', en:'Summer Solstice',    start:[6,21], end:[7,6],   color:'#D09858', desc:'The longest day. Maximum light. After this the darkness begins to return, slowly, quietly. Be fully here.', notice:'The fullest light of the year. Notice where you feel most alive. What does this much light show you?' },
+  { zh:'小暑', en:'Minor Heat',         start:[7,7],  end:[7,22],  color:'#C88848', desc:'Heat builds. The body slows to protect itself. This is not laziness — it is intelligent adaptation.', notice:'Real heat now. The body wanting rest in the hottest hours. Cool food, cool spaces, cool thoughts.' },
+  { zh:'大暑', en:'Major Heat',         start:[7,23], end:[8,6],   color:'#C07838', desc:'The peak of summer heat. Everything at its most intense. What is at its most intense in your life right now?', notice:'The deepest heat. Notice what thrives and what wilts. What in you needs cooling?' },
+  { zh:'立秋', en:'Start of Autumn',    start:[8,7],  end:[8,22],  color:'#B8C8A0', desc:'Autumn announces itself quietly, even while summer heat remains. The turning has begun. Begin to turn inward.', notice:'A coolness in the morning air. The light changing quality. The body sensing the shift before the mind does.' },
+  { zh:'處暑', en:'End of Heat',        start:[8,23], end:[9,7],   color:'#A8B890', desc:'The heat withdraws. Relief and a kind of tenderness. What has been stretched and strained can now begin to recover.', notice:'Cooler nights. The relief of lessening. Notice what in you is ready to slow down and recover.' },
+  { zh:'白露', en:'White Dew',          start:[9,8],  end:[9,22],  color:'#98A880', desc:'Dew forms in the cool mornings. The air is clear and clean. Something crystallises that was previously diffuse.', notice:'Dew on surfaces in the morning. Crisp air. What is becoming clear to you that was previously foggy?' },
+  { zh:'秋分', en:'Autumn Equinox',     start:[9,23], end:[10,7],  color:'#889870', desc:'Balance again, but this time tipping toward darkness. The harvest time. What are you gathering from this year?', notice:'Equal light and dark again. The quality of harvest. What have you grown this year that is worth keeping?' },
+  { zh:'寒露', en:'Cold Dew',           start:[10,8], end:[10,22], color:'#788860', desc:'The dew turns cold. The body begins to contract and gather inward. Time to consolidate, to protect, to prepare.', notice:'Cold in the mornings now. The impulse to layer, to gather, to bring things inside.' },
+  { zh:'霜降', en:'Frost\'s Descent',   start:[10,23],end:[11,6],  color:'#687860', desc:'Frost touches the world. What is tender needs protection now. What is strong enough to survive will remain.', notice:'First frosts possible. The world becoming spare. What in you is essential, and what can be released?' },
+  { zh:'立冬', en:'Start of Winter',    start:[11,7], end:[11,21], color:'#8C9088', desc:'Winter arrives. Energy turns inward. The world prepares to rest. This is not absence — it is deep preparation.', notice:'Darkness earlier. The instinct to be home, to be warm, to be still. What are you preparing for?' },
+  { zh:'小雪', en:'Minor Snow',         start:[11,22],end:[12,6],  color:'#9C9CA0', desc:'Snow may begin to fall. The world quiets under white. There is a kind of relief in the covering, the hush.', notice:'Cold deepening. The world turning monochrome. Notice what stillness feels like in your body.' },
+  { zh:'大雪', en:'Major Snow',         start:[12,7], end:[12,21], color:'#8C90A0', desc:'Snow covers the world fully. Beneath the surface, roots are deepening. Invisible growth in apparent stillness.', notice:'The deepest quiet. Notice what is happening below the surface — in the earth, in yourself.' },
+  { zh:'冬至', en:'Winter Solstice',    start:[12,22],end:[1,4],   color:'#7B848E', desc:'The shortest day. The longest night. From here, the light returns — one minute at a time. Celebrate the turning.', notice:'The darkest point. And then: the slow return of light. What are you turning toward in the new cycle?' },
+];
+
+// Prompts for each term (matched by index)
+const PROMPTS = [
+  'What are you conserving right now?',
+  'What is ready to be released before spring?',
+  'What is beginning to stir in you?',
+  'What has been hard that is starting to soften?',
+  'What did you notice today?',
+  'What is in balance — and what is not?',
+  'What needs your care and attention right now?',
+  'What have you planted that is taking root?',
+  'What wants to expand in your life right now?',
+  'What is almost ready — but not quite yet?',
+  'Where is your energy most needed?',
+  'What does this much light show you?',
+  'What in you needs cooling or slowing?',
+  'What is at its most intense in your life?',
+  'What is the first thing your body notices this morning?',
+  'What in you is ready to recover?',
+  'What is becoming clear that was previously foggy?',
+  'What have you grown this year worth keeping?',
+  'What are you gathering and consolidating?',
+  'What is essential, and what can be released?',
+  'What are you preparing for in this stillness?',
+  'What does quiet feel like in your body today?',
+  'What is growing beneath the surface?',
+  'What are you turning toward in the next cycle?',
+];
+
+// ══════════════════════════════════════════
+// HELPERS
+// ══════════════════════════════════════════
+function today() { return new Date(); }
+
+function daysBetween(a, b) {
+  return Math.ceil((b - a) / (1000 * 60 * 60 * 24));
+}
+
+function formatDate(d) {
+  return d.toLocaleDateString('en-CA', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+}
+
+function termStartDate(term, year) {
+  const [m, d] = term.start;
+  // Handle Dec terms that bleed into Jan
+  if (m === 1 && term.start[0] === 1) return new Date(year, 0, d);
+  return new Date(year, m - 1, d);
+}
+
+function termEndDate(term, year) {
+  const [m, d] = term.end;
+  return new Date(year, m - 1, d);
+}
+
+function getCurrentTerm() {
+  const now = today();
+  const y = now.getFullYear();
+
+  for (let i = 0; i < TERMS.length; i++) {
+    const t = TERMS[i];
+    let s = termStartDate(t, y);
+    let e = termEndDate(t, y);
+
+    // Handle winter solstice spanning year boundary
+    if (t.start[0] === 12 && t.end[0] === 1) {
+      e = new Date(y + 1, 0, t.end[1]);
+    }
+    if (t.start[0] === 1 && i === 0) {
+      // Minor cold — also check prev year's dec 22 – jan 4
+      const prevStart = new Date(y - 1, 11, 22);
+      const prevEnd   = new Date(y, 0, 4);
+      if (now >= prevStart && now <= prevEnd) return { term: TERMS[23], index: 23 };
+    }
+
+    if (now >= s && now <= e) return { term: t, index: i };
+  }
+
+  // Fallback
+  return { term: TERMS[4], index: 4 };
+}
+
+function getNextTerm(currentIndex) {
+  const nextIndex = (currentIndex + 1) % TERMS.length;
+  return { term: TERMS[nextIndex], index: nextIndex };
+}
+
+function getNextTermDate(nextTerm) {
+  const now = today();
+  const y = now.getFullYear();
+  const [m] = nextTerm.start;
+  const nextYear = m < now.getMonth() + 1 ? y + 1 : y;
+  return termStartDate(nextTerm, nextYear);
+}
+
+// ══════════════════════════════════════════
+// RENDER
+// ══════════════════════════════════════════
+function render() {
+  const now = today();
+  const { term, index } = getCurrentTerm();
+  const { term: nextTerm } = getNextTerm(index);
+  const nextDate = getNextTermDate(nextTerm);
+
+  // Theme colour
+  document.documentElement.style.setProperty('--bg', term.color + '55');
+  document.body.style.background = term.color + '40';
+
+  // Header date
+  document.getElementById('today-date').textContent = formatDate(now);
+
+  // Current term
+  document.getElementById('term-zh').textContent    = term.zh;
+  document.getElementById('term-en').textContent    = term.en;
+  document.getElementById('term-dates').textContent =
+    `${term.start[1]} ${new Date(2026, term.start[0]-1).toLocaleString('default',{month:'long'})} – ${term.end[1]} ${new Date(2026, term.end[0]-1).toLocaleString('default',{month:'long'})}`;
+  document.getElementById('term-desc').textContent   = term.desc;
+  document.getElementById('term-notice').textContent = term.notice;
+
+  // Next term
+  document.getElementById('next-term-name').textContent =
+    `${nextTerm.zh} · ${nextTerm.en}`;
+  document.getElementById('next-days').textContent = daysBetween(now, nextDate);
+  document.getElementById('next-term-date').textContent =
+    nextDate.toLocaleDateString('en-CA', { month:'long', day:'numeric', year:'numeric' });
+
+  // Prompt
+  document.getElementById('term-prompt').textContent = PROMPTS[index];
+
+  // Countdowns
+  document.getElementById('cd-school').textContent    = Math.max(0, daysBetween(now, CONFIG.schoolStart));
+  document.getElementById('cd-rac').textContent       = Math.max(0, daysBetween(now, CONFIG.racExam));
+  document.getElementById('cd-tcm').textContent       = Math.max(0, daysBetween(now, CONFIG.drTCM));
+  document.getElementById('cd-daughter').textContent  = Math.max(0, daysBetween(now, CONFIG.daughterBday));
+
+  // Capture button
+  const wa = CONFIG.whatsappNumber
+    ? `https://wa.me/${CONFIG.whatsappNumber}`
+    : 'https://wa.me/';
+  document.getElementById('capture-btn').href = wa;
+
+  // Arc
+  buildArc();
+}
+
+// ══════════════════════════════════════════
+// ARC
+// ══════════════════════════════════════════
+function buildArc() {
+  const now = today();
+  const container = document.getElementById('arc-container');
+  container.innerHTML = '';
+
+  // Timeline: Mar 2026 → Mar 2030 = 48 months
+  const arcStart = new Date('2026-03-01');
+  const arcEnd   = new Date('2030-03-01');
+  const totalMs  = arcEnd - arcStart;
+
+  function pct(date) {
+    return Math.min(100, Math.max(0, ((date - arcStart) / totalMs) * 100));
+  }
+
+  const tracks = [
+    {
+      label: 'School',
+      color: '#8C96A0',
+      milestones: [
+        { label: 'Now', date: now, major: true, current: true },
+        { label: 'S1', date: new Date('2026-09-08') },
+        { label: 'S2', date: new Date('2027-01-10') },
+        { label: 'S3', date: new Date('2027-05-01') },
+        { label: 'S4', date: new Date('2027-09-08') },
+        { label: 'S5', date: new Date('2028-01-10') },
+        { label: 'S6', date: new Date('2028-05-01') },
+        { label: 'R.Ac ✓', date: new Date('2028-10-01'), major: true },
+        { label: 'S7', date: new Date('2028-09-08') },
+        { label: 'S8', date: new Date('2029-01-10') },
+        { label: 'S9', date: new Date('2029-05-01') },
+        { label: 'S10', date: new Date('2029-09-08') },
+        { label: 'Dr.TCM ✓', date: new Date('2030-02-01'), major: true },
+      ]
+    },
+    {
+      label: 'Brand',
+      color: '#A8B8A0',
+      milestones: [
+        { label: 'LS launch', date: new Date('2026-03-07'), current: true },
+        { label: 'Email list', date: new Date('2026-07-01') },
+        { label: '1st planner', date: new Date('2027-01-01'), major: true },
+        { label: 'Zine 1', date: new Date('2027-04-01') },
+        { label: 'Paid tier', date: new Date('2027-06-01'), major: true },
+        { label: 'Workshop', date: new Date('2029-03-01'), major: true },
+        { label: 'Clinic', date: new Date('2030-03-01'), major: true },
+      ]
+    },
+    {
+      label: 'Family',
+      color: '#CCB08A',
+      milestones: [
+        { label: 'D turns 3 🎂', date: new Date('2026-07-01'), family: true },
+        { label: '♡ Sep', date: new Date('2026-09-15'), family: true },
+        { label: '★ Nov', date: new Date('2026-11-15'), family: true },
+        { label: 'D turns 4 🎂', date: new Date('2027-07-01'), family: true },
+        { label: '♡ Sep', date: new Date('2027-09-15'), family: true },
+        { label: '★ Nov', date: new Date('2027-11-15'), family: true },
+        { label: 'D starts school', date: new Date('2028-09-01'), major: true, family: true },
+        { label: 'D turns 5 🎂', date: new Date('2028-07-01'), family: true },
+        { label: 'D turns 6 🎂', date: new Date('2029-07-01'), family: true },
+        { label: '★ Nov', date: new Date('2029-11-15'), family: true },
+      ]
+    }
+  ];
+
+  tracks.forEach((track, ti) => {
+    const row = document.createElement('div');
+    row.className = 'arc-track';
+
+    const lbl = document.createElement('div');
+    lbl.className = 'arc-track-label';
+    lbl.textContent = track.label;
+
+    const line = document.createElement('div');
+    line.className = 'arc-line';
+
+    const bar = document.createElement('div');
+    bar.className = 'arc-bar';
+    line.appendChild(bar);
+
+    // Progress fill
+    const fill = document.createElement('div');
+    fill.style.cssText = `position:absolute;left:0;height:1px;background:${track.color};width:${pct(now)}%`;
+    line.appendChild(fill);
+
+    track.milestones.forEach((m, mi) => {
+      const p = pct(m.date);
+      const el = document.createElement('div');
+      el.className = 'arc-milestone';
+      el.style.left = p + '%';
+
+      const dot = document.createElement('div');
+      dot.className = 'arc-dot' + (m.current ? ' current' : '') + (m.major ? ' major' : '') + (m.family ? ' family' : '');
+      dot.style.background = m.current ? '#2a2520' : m.major ? track.color : track.color + '99';
+
+      const lbl2 = document.createElement('div');
+      lbl2.className = 'arc-milestone-label ' + (ti % 2 === 0 ? 'above' : 'below');
+      lbl2.textContent = m.label;
+
+      el.appendChild(dot);
+      el.appendChild(lbl2);
+      line.appendChild(el);
+    });
+
+    row.appendChild(lbl);
+    row.appendChild(line);
+    container.appendChild(row);
+  });
+}
+
+// ══════════════════════════════════════════
+// TODAY'S FOCUS — persisted in localStorage
+// ══════════════════════════════════════════
+const focusInput = document.getElementById('focus-input');
+const FOCUS_KEY = 'tricia_focus';
+
+focusInput.value = localStorage.getItem(FOCUS_KEY) || '';
+focusInput.addEventListener('input', () => {
+  localStorage.setItem(FOCUS_KEY, focusInput.value);
+});
+
+// ══════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════
+render();
+</script>
+</body>
+</html>

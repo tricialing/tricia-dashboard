@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Listening Season — Capture System</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Noto+Serif+SC:wght@300&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  background: #f4f1ec;
+  color: #2a2520;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 300;
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 3rem 1.5rem;
+  -webkit-font-smoothing: antialiased;
+}
+
+.card {
+  width: 100%;
+  max-width: 560px;
+  background: #f4f1ec;
+}
+
+/* Header */
+.card-header {
+  margin-bottom: 2.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #e4dfd6;
+}
+
+.zh {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.4em;
+  color: #b0aaa3;
+  margin-bottom: 0.4rem;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 300;
+  letter-spacing: 0.05em;
+  line-height: 1;
+  color: #2a2520;
+}
+
+.subtitle {
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  color: #b0aaa3;
+  font-style: italic;
+  margin-top: 0.3rem;
+}
+
+/* The one rule */
+.rule-box {
+  background: #2a2520;
+  color: #f4f1ec;
+  padding: 1.4rem 1.6rem;
+  margin-bottom: 2rem;
+}
+
+.rule-label {
+  font-size: 0.55rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #b0aaa3;
+  margin-bottom: 0.5rem;
+}
+
+.rule-text {
+  font-size: 1.1rem;
+  line-height: 1.65;
+  font-weight: 300;
+  color: #f4f1ec;
+}
+
+.rule-text em {
+  font-style: italic;
+  color: #CCB08A;
+}
+
+/* Three layers */
+.layers { margin-bottom: 2rem; }
+
+.layer {
+  display: flex;
+  gap: 1.2rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid #ede9e2;
+  align-items: flex-start;
+}
+
+.layer:first-child { border-top: 1px solid #ede9e2; }
+
+.layer-num {
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  color: #b0aaa3;
+  padding-top: 0.2rem;
+  flex-shrink: 0;
+  width: 1.2rem;
+  text-align: right;
+}
+
+.layer-content { flex: 1; }
+
+.layer-name {
+  font-size: 0.9rem;
+  letter-spacing: 0.04em;
+  color: #2a2520;
+  margin-bottom: 0.2rem;
+}
+
+.layer-name span {
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  color: #b0aaa3;
+  font-style: italic;
+  margin-left: 0.5rem;
+}
+
+.layer-desc {
+  font-size: 0.8rem;
+  line-height: 1.65;
+  color: #6b6560;
+  font-style: italic;
+}
+
+.layer-action {
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  color: #2a2520;
+  margin-top: 0.4rem;
+  padding: 0.35rem 0.7rem;
+  background: #ede9e2;
+  display: inline-block;
+  border-radius: 1px;
+}
+
+/* Format guide */
+.format-section {
+  margin-bottom: 2rem;
+}
+
+.section-label {
+  font-size: 0.55rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #b0aaa3;
+  margin-bottom: 0.8rem;
+}
+
+.format-rule {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 0.6rem;
+  align-items: baseline;
+}
+
+.format-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #b0aaa3;
+  flex-shrink: 0;
+  margin-top: 0.45rem;
+}
+
+.format-text {
+  font-size: 0.82rem;
+  line-height: 1.6;
+  color: #6b6560;
+}
+
+.format-text strong {
+  font-weight: 400;
+  color: #2a2520;
+}
+
+.example {
+  background: #ede9e2;
+  padding: 0.9rem 1.1rem;
+  margin-top: 0.8rem;
+  border-left: 2px solid #A8B8A0;
+}
+
+.example-label {
+  font-size: 0.55rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #b0aaa3;
+  margin-bottom: 0.4rem;
+}
+
+.example-text {
+  font-size: 0.82rem;
+  font-style: italic;
+  color: #2a2520;
+  line-height: 1.65;
+}
+
+/* Sort session */
+.sort-section { margin-bottom: 2rem; }
+
+.sort-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: #e4dfd6;
+  margin-top: 0.8rem;
+}
+
+.sort-cell {
+  background: #f4f1ec;
+  padding: 0.9rem 1rem;
+}
+
+.sort-cell-label {
+  font-size: 0.55rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #b0aaa3;
+  margin-bottom: 0.3rem;
+}
+
+.sort-cell-q {
+  font-size: 0.82rem;
+  font-style: italic;
+  color: #2a2520;
+  line-height: 1.5;
+}
+
+/* Footer */
+.card-footer {
+  padding-top: 1.5rem;
+  border-top: 1px solid #e4dfd6;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.footer-mantra {
+  font-size: 0.78rem;
+  font-style: italic;
+  color: #b0aaa3;
+}
+
+.footer-zh {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 0.65rem;
+  color: #ccc8c0;
+  letter-spacing: 0.1em;
+}
+
+/* Status pills */
+.pills {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  margin-top: 0.6rem;
+}
+
+.pill {
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  padding: 0.2rem 0.55rem;
+  border: 1px solid #e4dfd6;
+  color: #8b8580;
+  border-radius: 1px;
+}
+
+.pill.active { background: #2a2520; color: #f4f1ec; border-color: #2a2520; }
+</style>
+</head>
+<body>
+<div class="card">
+
+  <div class="card-header">
+    <div class="zh">聆聽季節</div>
+    <div class="title">capture system</div>
+    <div class="subtitle">the one rule · three layers · sort questions</div>
+  </div>
+
+  <!-- THE ONE RULE -->
+  <div class="rule-box">
+    <div class="rule-label">The One Rule</div>
+    <div class="rule-text">
+      If it crossed your mind —<br>
+      send it to <em>WhatsApp → Capacities.</em><br>
+      One sentence. Right now. <em>No formatting.</em>
+    </div>
+  </div>
+
+  <!-- THREE LAYERS -->
+  <div class="layers">
+
+    <div class="layer">
+      <div class="layer-num">01</div>
+      <div class="layer-content">
+        <div class="layer-name">Capture <span>in the moment · zero friction</span></div>
+        <div class="layer-desc">While cooking, before sleep, whenever. Don't judge it. Don't format it. Don't decide where it goes. Just send it.</div>
+        <div class="layer-action">WhatsApp → Capacities Daily Note</div>
+      </div>
+    </div>
+
+    <div class="layer">
+      <div class="layer-num">02</div>
+      <div class="layer-content">
+        <div class="layer-name">Sort <span>twice a week · 15 minutes</span></div>
+        <div class="layer-desc">Open last few days of Daily Notes. For each capture: which solar term? Still alive? Move to Field Note. That's the whole job — no writing, just filing.</div>
+        <div class="layer-action">Daily Notes → Field Notes → Solar Term page</div>
+      </div>
+    </div>
+
+    <div class="layer">
+      <div class="layer-num">03</div>
+      <div class="layer-content">
+        <div class="layer-name">Make <span>when something has weight</span></div>
+        <div class="layer-desc">Open current Solar Term page. Look at Alive notes. If one keeps pulling at you — that's the signal. Ask: caption, photo, or something longer?</div>
+        <div class="layer-action">Field Note → caption / draft / newsletter</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FORMAT -->
+  <div class="format-section">
+    <div class="section-label">What a capture looks like</div>
+    <div class="format-rule">
+      <div class="format-dot"></div>
+      <div class="format-text"><strong>One sentence only.</strong> What you noticed + what it made you feel or think.</div>
+    </div>
+    <div class="format-rule">
+      <div class="format-dot"></div>
+      <div class="format-text"><strong>No tags, no hashtags, no formatting.</strong> That comes at sort time.</div>
+    </div>
+    <div class="format-rule">
+      <div class="format-dot"></div>
+      <div class="format-text"><strong>Voice note is fine.</strong> Capacities will receive it. Transcribe at sort time.</div>
+    </div>
+    <div class="example">
+      <div class="example-label">Example captures</div>
+      <div class="example-text">
+        "Rain on the window tonight, felt like the house was breathing."<br>
+        "Kids asleep and I noticed how quiet March sounds different to February."<br>
+        "Made congee and thought about how warming food IS the medicine."
+      </div>
+    </div>
+  </div>
+
+  <!-- SORT QUESTIONS -->
+  <div class="sort-section">
+    <div class="section-label">Sort session — four questions only</div>
+    <div class="sort-grid">
+      <div class="sort-cell">
+        <div class="sort-cell-label">Solar Term</div>
+        <div class="sort-cell-q">Which of the 24 does this belong to?</div>
+      </div>
+      <div class="sort-cell">
+        <div class="sort-cell-label">Still alive?</div>
+        <div class="sort-cell-q">Does it still have energy when you read it back?</div>
+      </div>
+      <div class="sort-cell">
+        <div class="sort-cell-label">Stream</div>
+        <div class="sort-cell-q">Nature / Body / Mind / Food / Care / Story / Personal</div>
+      </div>
+      <div class="sort-cell">
+        <div class="sort-cell-label">Status</div>
+        <div class="sort-cell-q">Raw → Alive → Ready → Published</div>
+      </div>
+    </div>
+    <div class="pills" style="margin-top:0.8rem">
+      <div class="pill active">Raw</div>
+      <div class="pill">Alive</div>
+      <div class="pill">Ready</div>
+      <div class="pill">Published</div>
+    </div>
+  </div>
+
+  <div class="card-footer">
+    <div class="footer-mantra">whisper recognition · process over polish</div>
+    <div class="footer-zh">聆聽季節</div>
+  </div>
+
+</div>
+</body>
+</html>
