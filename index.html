@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tricia Ling · 聆聽季節</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Noto+Serif+SC:wght@300&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  min-height:100vh;
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-weight:300;
+  -webkit-font-smoothing:antialiased;
+  transition:background 1.5s ease;
+  padding:2.5rem;
+}
+.box{
+  max-width:920px;
+  margin:0 auto;
+  background:#fff;
+  border-radius:3px;
+  box-shadow:0 2px 40px rgba(0,0,0,0.06);
+  padding:2.5rem 3rem 3rem;
+  color:#2a2520;
+}
+
+/* HEADER */
+.header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:1px solid #f0ece4;flex-wrap:wrap;gap:.5rem}
+.header-name{font-size:.95rem;letter-spacing:.1em;color:#2a2520}
+.header-zh{font-family:'Noto Serif SC',serif;font-size:.6rem;letter-spacing:.35em;color:#b0aaa3;margin-top:.2rem}
+.header-woy{font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:#b0aaa3;text-align:right}
+.header-date{font-size:.75rem;color:#8b8580;font-style:italic;margin-top:.2rem;text-align:right}
+
+/* LABELS */
+.lbl{font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:#4a4540;margin-bottom:.7rem;font-weight:400}
+
+hr{border:none;border-top:1px solid #f0ece4;margin:2rem 0}
+
+/* TOP ROW: capture + term */
+.top-row{display:grid;grid-template-columns:1fr 1fr;gap:3rem;margin-bottom:2rem}
+@media(max-width:640px){.top-row{grid-template-columns:1fr}}
+
+/* CAPTURE */
+.capture-prompt{font-size:1.1rem;font-style:italic;color:#2a2520;margin-bottom:1.2rem;line-height:1.6}
+.capture-input{
+  width:100%;background:transparent;border:none;
+  border-bottom:1px solid #e4dfd6;
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-size:1rem;font-weight:300;color:#2a2520;
+  padding:.4rem 0;outline:none;letter-spacing:.02em;margin-bottom:1.2rem
+}
+.capture-input::placeholder{color:#ccc8c0;font-style:italic}
+.capture-btn{
+  display:inline-flex;align-items:center;gap:.45rem;
+  text-decoration:none;
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;
+  color:#2a2520;
+  border:1px solid #c8c4bc;
+  padding:.55rem 1rem;border-radius:1px;
+  transition:background .15s,color .15s;
+}
+.capture-btn:hover{background:#2a2520;color:#f4f1ec}
+.capture-sym{font-size:.85rem;color:#A8B8A0}
+
+/* CURRENT TERM */
+.term-zh{font-family:'Noto Serif SC',serif;font-size:2.6rem;line-height:1;color:#2a2520;margin-bottom:.25rem}
+.term-en{font-size:1rem;letter-spacing:.04em;color:#2a2520;margin-bottom:.2rem}
+.term-dates{font-size:.78rem;letter-spacing:.06em;color:#6b6560;font-style:italic;margin-bottom:.3rem}
+.term-meta{font-size:.72rem;letter-spacing:.08em;color:#6b6560;margin-bottom:1rem}
+.term-meta span{margin-right:.8rem}
+.term-desc{font-size:.85rem;line-height:1.75;color:#5a5550;font-style:italic;margin-bottom:.9rem}
+.term-notice-lbl{font-size:.5rem;letter-spacing:.22em;text-transform:uppercase;color:#8b8580;margin-bottom:.35rem}
+.term-notice{font-size:.82rem;line-height:1.7;color:#5a5550}
+
+/* TOOLS */
+.tools-row{display:flex;flex-wrap:wrap;gap:.4rem 1.8rem;margin-bottom:.4rem}
+.tool-link{
+  font-size:.8rem;letter-spacing:.04em;color:#2a2520;
+  text-decoration:none;cursor:pointer;
+  border-bottom:1px solid #e4dfd6;padding-bottom:1px;
+  transition:color .15s,border-color .15s
+}
+.tool-link:hover{color:#6b6560;border-color:#b0aaa3}
+
+/* COUNTDOWNS */
+.cd-row{display:flex;justify-content:space-between;align-items:center;padding:.6rem 0;border-bottom:1px solid #f5f2ee}
+.cd-row:first-child{border-top:1px solid #f5f2ee}
+.cd-left{}
+.cd-event{font-size:.92rem;color:#2a2520}
+.cd-date{font-size:.72rem;color:#6b6560;font-style:italic;margin-top:.1rem}
+.cd-right{text-align:right;flex-shrink:0;margin-left:1rem}
+.cd-num{font-size:1.6rem;color:#2a2520;line-height:1}
+.cd-unit{font-size:.68rem;letter-spacing:.1em;color:#6b6560;margin-left:.15rem}
+
+/* NEXT TERM */
+.next-grid{display:grid;grid-template-columns:auto 1fr;gap:.5rem 1.5rem;align-items:baseline}
+.next-num{font-size:2.2rem;line-height:1;color:#2a2520}
+.next-unit{font-size:.72rem;letter-spacing:.1em;color:#6b6560;font-style:italic}
+.next-name{font-size:1rem;color:#2a2520;margin-bottom:.2rem}
+.next-date{font-size:.75rem;color:#6b6560;font-style:italic}
+
+/* ARC */
+.arc-track{display:flex;align-items:center;margin-bottom:2rem;gap:.9rem}
+.arc-track:last-child{margin-bottom:0}
+.arc-tlbl{font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:#4a4540;width:52px;flex-shrink:0;text-align:right}
+.arc-line{flex:1;position:relative;height:44px}
+.arc-bg{position:absolute;top:50%;left:0;right:0;height:1px;background:#d4cfc8;transform:translateY(-50%)}
+.arc-fill{position:absolute;top:50%;left:0;height:2px;transform:translateY(-50%)}
+.arc-node{position:absolute;top:50%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center}
+.arc-dot{width:7px;height:7px;border-radius:50%;background:#b0aaa3;border:1.5px solid #fff;flex-shrink:0}
+.arc-dot.now{background:#2a2520;width:10px;height:10px}
+.arc-dot.major{background:#A8B8A0;width:8px;height:8px}
+.arc-dot.warm{background:#CCB08A;width:7px;height:7px}
+.arc-nlbl{position:absolute;font-size:.54rem;letter-spacing:.04em;color:#4a4540;white-space:nowrap;text-align:center;line-height:1.2}
+.arc-nlbl.above{bottom:20px}
+.arc-nlbl.below{top:20px}
+
+/* MY WORLD */
+.world-row{display:flex;flex-wrap:wrap;gap:.3rem 1.8rem}
+.world-link{font-size:.75rem;color:#6b6560;text-decoration:none;font-style:italic;transition:color .15s}
+.world-link:hover{color:#2a2520}
+
+/* FOOTER */
+footer{margin-top:2rem;padding-top:1.2rem;border-top:1px solid #f0ece4;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem}
+.f-mantra{font-size:.63rem;font-style:italic;color:#b0aaa3;letter-spacing:.06em}
+.f-zh{font-family:'Noto Serif SC',serif;font-size:.58rem;color:#ccc8c0;letter-spacing:.12em}
+</style>
+</head>
+<body>
+<div class="box">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div>
+      <div class="header-name">Tricia Ling</div>
+      <div class="header-zh">聆聽季節</div>
+    </div>
+    <div>
+      <div class="header-woy">2026 · integration</div>
+      <div class="header-date" id="today-date"></div>
+    </div>
+  </header>
+
+  <!-- TOP ROW: capture + current term -->
+  <div class="top-row">
+
+    <div>
+      <div class="lbl">What did you notice today</div>
+      <div class="capture-prompt" id="term-prompt"></div>
+      <input class="capture-input" id="focus-input" type="text" placeholder="one sentence. what crossed your mind." maxlength="160"/>
+      <a class="capture-btn" href="https://wa.me/12086173097" target="_blank" id="capture-btn">
+        <span class="capture-sym">✦</span>Capture → WhatsApp
+      </a>
+    </div>
+
+    <div>
+      <div class="lbl">Current Solar Term</div>
+      <div class="term-zh" id="term-zh"></div>
+      <div class="term-en" id="term-en"></div>
+      <div class="term-dates" id="term-dates"></div>
+      <div class="term-meta" id="term-meta"></div>
+      <div class="term-desc" id="term-desc"></div>
+      <div class="term-notice-lbl">What to notice now</div>
+      <div class="term-notice" id="term-notice"></div>
+    </div>
+
+  </div>
+
+  <hr>
+
+  <!-- TOOLS + MY WORLD -->
+  <div class="lbl">Tools</div>
+  <div class="tools-row" style="margin-bottom:1.2rem">
+    <a class="tool-link" href="solar-terms.html">Solar Terms</a>
+    <a class="tool-link" href="timeline.html">Brand Timeline</a>
+    <a class="tool-link" href="capture.html">Capture System</a>
+    <a class="tool-link" href="philosophy.html">Life Philosophy</a>
+  </div>
+  <hr>
+
+  <!-- COUNTDOWNS + NEXT TERM -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:3rem">
+    <div>
+      <div class="lbl">Countdowns</div>
+      <div class="cd-row">
+        <div class="cd-left">
+          <div class="cd-event">First day of school</div>
+          <div class="cd-date">Sep 8, 2026</div>
+        </div>
+        <div class="cd-right">
+          <span class="cd-num" id="cd-school"></span><span class="cd-unit">days</span>
+        </div>
+      </div>
+      <div class="cd-row">
+        <div class="cd-left">
+          <div class="cd-event">R.Ac board exam</div>
+          <div class="cd-date">Oct 2028 · age 41</div>
+        </div>
+        <div class="cd-right">
+          <span class="cd-num" id="cd-rac"></span><span class="cd-unit">days</span>
+        </div>
+      </div>
+      <div class="cd-row">
+        <div class="cd-left">
+          <div class="cd-event">June turns 3 🎂</div>
+          <div class="cd-date">Jul 25, 2026</div>
+        </div>
+        <div class="cd-right">
+          <span class="cd-num" id="cd-daughter"></span><span class="cd-unit">days</span>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="lbl">Next Solar Term</div>
+      <div class="next-grid">
+        <div class="next-num" id="next-days"></div>
+        <div>
+          <div class="next-unit">days away</div>
+          <div class="next-name" id="next-name"></div>
+          <div class="next-date" id="next-date"></div>
+          <div class="term-meta" id="next-meta" style="margin-bottom:.6rem"></div>
+          <div class="term-desc" id="next-desc" style="margin-top:1rem"></div>
+          <div class="term-notice-lbl" style="margin-top:.6rem">What to notice then</div>
+          <div class="term-notice" id="next-notice"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- THE ARC — full width -->
+  <div class="lbl">The Arc</div>
+  <div id="arc-container" style="width:100%;overflow-x:auto"></div>
+
+  <hr>
+
+  <!-- MY WORLD — bottom -->
+  <div class="lbl">My World</div>
+  <div class="world-row">
+    <a class="world-link" href="https://app.capacities.io" target="_blank">Capacities</a>
+    <a class="world-link" href="https://open.substack.com/pub/justnoodling" target="_blank">Just Noodling</a>
+    <a class="world-link" href="https://substack.com/home" target="_blank">Listening Season</a>
+    <a class="world-link" href="https://www.instagram.com/listening.season" target="_blank">Instagram</a>
+    <a class="world-link" href="https://www.canva.com" target="_blank">Canva</a>
+    <a class="world-link" href="https://www.dropbox.com/home" target="_blank">Dropbox</a>
+  </div>
+
+  <footer>
+    <div class="f-mantra">progress over perfection · integration</div>
+    <div class="f-zh">聆聽季節 · tricialing.com</div>
+  </footer>
+
+</div>
+
+<script>
+// ── SOLAR TERMS ──
+const TERMS=[
+  {zh:'小寒',en:'Minor Cold',start:[1,5],end:[1,19],color:'#C8CED8',element:'Water',organ:'Kidney',desc:'The coldest weeks settle in. Rest is not laziness — it is wisdom.',notice:'Stillness in the air. Craving warmth and depth. Let yourself be slow.'},
+  {zh:'大寒',en:'Major Cold',start:[1,20],end:[2,3],color:'#BCC4D0',element:'Water',organ:'Kidney',desc:'The peak of winter. Darkness before the return of light. The last exhale before spring.',notice:'The cold at its fullest. What are you holding onto that is ready to release?'},
+  {zh:'立春',en:'Start of Spring',start:[2,4],end:[2,18],color:'#EED8D4',element:'Wood',organ:'Liver',desc:'The first breath of spring arrives. Something begins to stir — in the body, in the earth.',notice:'Lighter mornings. The faintest green at the tips of things. A restlessness that wants to move.'},
+  {zh:'雨水',en:'Rain Water',start:[2,19],end:[3,4],color:'#E8CEC8',element:'Wood',organ:'Liver',desc:'Rain softens the frozen ground. The world begins to receive again.',notice:'Softer air. Mud underfoot. The body wanting more water, more movement.'},
+  {zh:'驚蟄',en:'Awakening of Insects',start:[3,5],end:[3,19],color:'#E0C0B4',element:'Wood',organ:'Liver',desc:'Thunder wakes the sleeping insects. Things that have been dormant begin to move. There is electricity in the air.',notice:'Birdsong earlier. Soil softening. Body restless, energy rising. The urge to begin things.'},
+  {zh:'春分',en:'Spring Equinox',start:[3,20],end:[4,3],color:'#D8B8AC',element:'Wood',organ:'Liver',desc:'Day and night in perfect balance. A moment of equilibrium before the light takes over.',notice:'Equal light and dark. What needs to be in equal measure in you?'},
+  {zh:'清明',en:'Clear and Bright',start:[4,4],end:[4,19],color:'#D0B0A4',element:'Wood',organ:'Liver',desc:'The air clears. Visibility returns. A time for honouring what has passed.',notice:'Clearer skies. The impulse to clean, clear, and tend. What needs your attention?'},
+  {zh:'穀雨',en:'Grain Rain',start:[4,20],end:[5,4],color:'#C8A89C',element:'Wood',organ:'Liver',desc:'Rain nourishes the seeds. Growth requires both patience and the right conditions.',notice:'Lush and damp. Everything growing visibly. What have you planted that is taking root?'},
+  {zh:'立夏',en:'Start of Summer',start:[5,5],end:[5,20],color:'#E8D4A8',element:'Fire',organ:'Heart',desc:'Summer declares itself. Energy rises, the heart opens, the world turns outward.',notice:'Warmth arriving fully. Longer evenings. The body wanting to be outside, to move.'},
+  {zh:'小滿',en:'Grain Buds',start:[5,21],end:[6,5],color:'#E0C890',element:'Fire',organ:'Heart',desc:'Things are filling but not yet full. The satisfaction of almost.',notice:'Everything lush. A sense of fullness not yet complete. What is almost ready?'},
+  {zh:'芒種',en:'Grain in Ear',start:[6,6],end:[6,20],color:'#D8BC78',element:'Fire',organ:'Heart',desc:'The most productive time. Peak summer growth requires real effort now.',notice:'Peak activity. Longer days that want to be used. Where is your energy most needed?'},
+  {zh:'夏至',en:'Summer Solstice',start:[6,21],end:[7,6],color:'#D0B060',element:'Fire',organ:'Heart',desc:'The longest day. Maximum light. After this the darkness begins to return.',notice:'The fullest light of the year. What does this much light show you?'},
+  {zh:'小暑',en:'Minor Heat',start:[7,7],end:[7,22],color:'#C8A848',element:'Fire',organ:'Small Intestine',desc:'Heat builds. The body slows to protect itself. This is intelligent adaptation.',notice:'Real heat now. The body wanting rest. What needs cooling?'},
+  {zh:'大暑',en:'Major Heat',start:[7,23],end:[8,6],color:'#C0A040',element:'Fire',organ:'Small Intestine',desc:'The peak of summer heat. Everything at its most intense.',notice:'The deepest heat. What in you needs cooling?'},
+  {zh:'立秋',en:'Start of Autumn',start:[8,7],end:[8,22],color:'#C8D8B8',element:'Metal',organ:'Lung',desc:'Autumn announces itself quietly, even while summer heat remains.',notice:'A coolness in the morning air. The body sensing the shift before the mind does.'},
+  {zh:'處暑',en:'End of Heat',start:[8,23],end:[9,7],color:'#B8CCA8',element:'Metal',organ:'Lung',desc:'The heat withdraws. Relief and tenderness. What has been stretched can begin to recover.',notice:'Cooler nights. The relief of lessening. What in you is ready to slow down?'},
+  {zh:'白露',en:'White Dew',start:[9,8],end:[9,22],color:'#A8C098',element:'Metal',organ:'Lung',desc:'Dew forms in the cool mornings. Something crystallises that was previously diffuse.',notice:'Dew on surfaces in the morning. What is becoming clear that was previously foggy?'},
+  {zh:'秋分',en:'Autumn Equinox',start:[9,23],end:[10,7],color:'#98B488',element:'Metal',organ:'Lung',desc:'Balance again, tipping toward darkness. The harvest time.',notice:'Equal light and dark again. What have you grown this year that is worth keeping?'},
+  {zh:'寒露',en:'Cold Dew',start:[10,8],end:[10,22],color:'#88A878',element:'Metal',organ:'Large Intestine',desc:'The dew turns cold. The body begins to contract and gather inward.',notice:'Cold in the mornings. The impulse to layer, to gather, to bring things inside.'},
+  {zh:'霜降',en:"Frost's Descent",start:[10,23],end:[11,6],color:'#A8B4A0',element:'Metal',organ:'Large Intestine',desc:'Frost touches the world. What is tender needs protection.',notice:'First frosts. What in you is essential, and what can be released?'},
+  {zh:'立冬',en:'Start of Winter',start:[11,7],end:[11,21],color:'#A0ACB0',element:'Water',organ:'Kidney',desc:'Winter arrives. Energy turns inward. This is not absence — it is deep preparation.',notice:'Darkness earlier. The instinct to be home, to be warm. What are you preparing for?'},
+  {zh:'小雪',en:'Minor Snow',start:[11,22],end:[12,6],color:'#A8B4BC',element:'Water',organ:'Kidney',desc:'Snow may begin to fall. The world quiets. There is relief in the hush.',notice:'Cold deepening. What does stillness feel like in your body?'},
+  {zh:'大雪',en:'Major Snow',start:[12,7],end:[12,21],color:'#B0BCC8',element:'Water',organ:'Bladder',desc:'Snow covers the world. Beneath the surface, roots are deepening.',notice:'The deepest quiet. What is happening below the surface — in the earth, in yourself?'},
+  {zh:'冬至',en:'Winter Solstice',start:[12,22],end:[1,4],color:'#98A8B8',element:'Water',organ:'Bladder',desc:'The shortest day. The longest night. From here, the light returns.',notice:'The darkest point. And then: the slow return of light. What are you turning toward?'},
+];
+const PROMPTS=['What are you conserving right now?','What is ready to be released before spring?','What is beginning to stir in you?','What has been hard that is starting to soften?','What did you notice today?','What is in balance — and what is not?','What needs your care and attention right now?','What have you planted that is taking root?','What wants to expand in your life right now?','What is almost ready — but not yet?','Where is your energy most needed right now?','What does this much light show you?','What in you needs cooling or slowing?','What is at its most intense in your life?','What is the first thing your body notices this morning?','What in you is ready to recover?','What is becoming clear that was previously foggy?','What have you grown this year that is worth keeping?','What are you gathering and consolidating?','What is essential, and what can be released?','What are you preparing for in this stillness?','What does quiet feel like in your body today?','What is growing beneath the surface?','What are you turning toward in the new cycle?'];
+
+// ── HELPERS ──
+const now=new Date();
+function days(a,b){return Math.max(0,Math.ceil((b-a)/86400000));}
+function getCurrentIdx(){
+  const m=now.getMonth()+1,d=now.getDate();
+  for(let i=0;i<TERMS.length;i++){
+    const t=TERMS[i],[sm,sd]=t.start,[em,ed]=t.end;
+    if(sm>em){if((m===sm&&d>=sd)||(m===em&&d<=ed))return i;}
+    else{if((m===sm&&d>=sd)||(m>sm&&m<em)||(m===em&&d<=ed))return i;}
+  }
+  return 4;
+}
+function nextTermDate(ni){
+  const[m,d]=TERMS[ni].start;
+  let y=now.getFullYear();
+  if(m<now.getMonth()+1)y++;
+  return new Date(y,m-1,d);
+}
+
+// ── RENDER ──
+function render(){
+  const idx=getCurrentIdx(),term=TERMS[idx];
+  const ni=(idx+1)%TERMS.length,nt=TERMS[ni],nd=nextTermDate(ni);
+
+  // Background
+  document.body.style.background=term.color;
+
+  // Header
+  document.getElementById('today-date').textContent=
+    now.toLocaleDateString('en-CA',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+
+  // Term
+  document.getElementById('term-zh').textContent=term.zh;
+  document.getElementById('term-en').textContent=term.en;
+  document.getElementById('term-dates').textContent=
+    `${term.start[1]} ${new Date(2026,term.start[0]-1).toLocaleString('default',{month:'long'})} – ${term.end[1]} ${new Date(2026,term.end[0]-1).toLocaleString('default',{month:'long'})}`;
+  document.getElementById('term-meta').innerHTML=`<span>Element · ${term.element}</span><span>Organ · ${term.organ}</span>`;
+  document.getElementById('term-desc').textContent=term.desc;
+  document.getElementById('term-notice').textContent=term.notice;
+
+  // Prompt
+  document.getElementById('term-prompt').textContent=PROMPTS[idx];
+
+  // Next term
+  document.getElementById('next-days').textContent=days(now,nd);
+  document.getElementById('next-name').textContent=`${nt.zh} · ${nt.en}`;
+  document.getElementById('next-date').textContent=nd.toLocaleDateString('en-CA',{month:'long',day:'numeric',year:'numeric'});
+  document.getElementById('next-meta').innerHTML=`<span>Element · ${nt.element}</span><span>Organ · ${nt.organ}</span>`;
+  document.getElementById('next-desc').textContent=nt.desc;
+  document.getElementById('next-notice').textContent=nt.notice;
+
+  // Countdowns
+  document.getElementById('cd-school').textContent=days(now,new Date('2026-09-08'));
+  document.getElementById('cd-rac').textContent=days(now,new Date('2028-10-01'));
+  document.getElementById('cd-daughter').textContent=days(now,new Date('2026-07-25'));
+
+  buildArc();
+}
+
+// ── ARC ──
+function buildArc(){
+  const c=document.getElementById('arc-container');c.innerHTML='';
+  const s=new Date('2026-01-01'),e=new Date('2030-06-01'),tot=e-s;
+  function pct(d){return Math.min(99,Math.max(1,((d-s)/tot)*100));}
+
+  const tracks=[
+    {label:'School',fill:'#8C96A0',nodes:[
+      {l:'Jan 26',d:new Date('2026-01-01'),t:'faint',a:false},
+      {l:'t · now',d:now,t:'now',a:true},
+      {l:'S1',d:new Date('2026-09-08'),t:'m',a:false},
+      {l:'S2',d:new Date('2027-01-10'),t:'m',a:true},
+      {l:'S3',d:new Date('2027-05-01'),t:'m',a:false},
+      {l:'S4',d:new Date('2027-09-08'),t:'m',a:true},
+      {l:'S5',d:new Date('2028-01-10'),t:'m',a:false},
+      {l:'S6',d:new Date('2028-05-01'),t:'m',a:true},
+      {l:'R.Ac ✓',d:new Date('2028-10-01'),t:'major',a:false},
+      {l:'S7',d:new Date('2028-11-01'),t:'m',a:true},
+      {l:'S8',d:new Date('2029-01-10'),t:'m',a:false},
+      {l:'S9',d:new Date('2029-05-01'),t:'m',a:true},
+      {l:'S10',d:new Date('2029-09-08'),t:'m',a:false},
+      {l:'Dr.TCM',d:new Date('2030-02-01'),t:'major',a:true},
+    ]},
+    {label:'Brand',fill:'#A8B8A0',nodes:[
+      {l:'LS launch',d:new Date('2026-03-07'),t:'major',a:true},
+      {l:'Email list',d:new Date('2026-07-01'),t:'m',a:false},
+      {l:'Planner',d:new Date('2027-01-01'),t:'major',a:true},
+      {l:'Zine 1',d:new Date('2027-04-01'),t:'m',a:false},
+      {l:'Paid tier',d:new Date('2027-06-01'),t:'major',a:true},
+      {l:'Workshop',d:new Date('2029-03-01'),t:'major',a:false},
+      {l:'Clinic',d:new Date('2030-03-01'),t:'major',a:true},
+    ]},
+    {label:'Family',fill:'#CCB08A',nodes:[
+      {l:'J 3 🎂',d:new Date('2026-07-25'),t:'warm',a:false},
+      {l:'T bday',d:new Date('2026-09-15'),t:'warm',a:true},
+      {l:'t+T ★',d:new Date('2026-11-15'),t:'warm',a:false},
+      {l:'J 4 🎂',d:new Date('2027-07-25'),t:'warm',a:true},
+      {l:'T bday',d:new Date('2027-09-15'),t:'warm',a:false},
+      {l:'t+T ★',d:new Date('2027-11-15'),t:'warm',a:true},
+      {l:'J starts school',d:new Date('2028-09-01'),t:'major',a:false},
+      {l:'J 5 🎂',d:new Date('2028-07-25'),t:'warm',a:true},
+      {l:'J 6 🎂',d:new Date('2029-07-25'),t:'warm',a:false},
+      {l:'t+T ★',d:new Date('2029-11-15'),t:'warm',a:true},
+    ]}
+  ];
+
+  tracks.forEach(track=>{
+    const row=document.createElement('div');row.className='arc-track';
+    const lbl=document.createElement('div');lbl.className='arc-tlbl';lbl.textContent=track.label;
+    const line=document.createElement('div');line.className='arc-line';
+    const bg=document.createElement('div');bg.className='arc-bg';line.appendChild(bg);
+    const fill=document.createElement('div');fill.className='arc-fill';
+    fill.style.cssText=`width:${pct(now)}%;background:${track.fill}90`;
+    line.appendChild(fill);
+    track.nodes.forEach(n=>{
+      const node=document.createElement('div');node.className='arc-node';node.style.left=pct(n.d)+'%';
+      const dot=document.createElement('div');
+      dot.className='arc-dot'+(n.t==='now'?' now':n.t==='major'?' major':n.t==='warm'?' warm':'');
+      if(n.t==='major')dot.style.background=track.fill;
+      if(n.t==='warm')dot.style.background='#CCB08A';
+      if(n.t==='faint'){dot.style.background='#d4d0ca';dot.style.width='3px';dot.style.height='3px';dot.style.border='none';}
+      if(n.t==='m'){dot.style.background='#d8d4ce';dot.style.width='4px';dot.style.height='4px';dot.style.border='none';}
+      const lbl2=document.createElement('div');
+      lbl2.className='arc-nlbl '+(n.a?'above':'below');
+      lbl2.textContent=n.l;
+      if(n.t==='m')lbl2.style.color='#b0aaa3';
+      node.appendChild(dot);node.appendChild(lbl2);line.appendChild(node);
+    });
+    row.appendChild(lbl);row.appendChild(line);c.appendChild(row);
+  });
+}
+
+// ── FOCUS PERSIST ──
+const fi=document.getElementById('focus-input');
+fi.value=localStorage.getItem('tricia_focus')||'';
+fi.addEventListener('input',()=>localStorage.setItem('tricia_focus',fi.value));
+
+render();
+</script>
+</body>
+</html>
