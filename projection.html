@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tricia & T · Housing Projection</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#D8B8AC;min-height:100vh;font-family:Georgia,'Times New Roman',serif;-webkit-font-smoothing:antialiased;padding:1.2rem}
+.box{max-width:900px;margin:0 auto;background:#fff;border-radius:3px;padding:2rem 1.5rem 3rem}
+.nav{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:#b0aaa3;margin-bottom:1.5rem}
+.nav a{color:#b0aaa3;text-decoration:none}
+.title{font-size:1.6rem;color:#2a2520;margin-bottom:.3rem}
+.subtitle{font-size:.82rem;font-style:italic;color:#8b8580;margin-bottom:.4rem}
+.disclaimer{font-size:.62rem;color:#b0aaa3;margin-bottom:1.5rem;padding-bottom:1.2rem;border-bottom:1px solid #f0ece4;line-height:1.6}
+.lbl{font-size:.55rem;letter-spacing:.22em;text-transform:uppercase;color:#8b8580;margin-bottom:.7rem;display:block}
+hr{border:none;border-top:1px solid #f0ece4;margin:1.8rem 0}
+
+/* LISTING CARD */
+.listing{background:#f2f4ec;border-radius:2px;padding:1.4rem 1.6rem;margin-bottom:1.8rem}
+.listing-title{font-size:1.1rem;color:#2a2520;margin-bottom:.2rem}
+.listing-address{font-size:.75rem;font-style:italic;color:#8b8580;margin-bottom:1rem}
+.listing-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem 1.5rem}
+@media(max-width:480px){.listing-grid{grid-template-columns:1fr}}
+.listing-label{font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;color:#b0aaa3;margin-bottom:.15rem}
+.listing-val{font-size:.85rem;color:#2a2520}
+.listing-val.good{color:#7a9e7a}
+.listing-val.flag{color:#b87a6a}
+.listing-note{font-size:.68rem;font-style:italic;color:#8b8580;margin-top:1rem;padding-top:.8rem;border-top:1px solid #e4dfd6}
+
+/* ASSUME GRID */
+.assume-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem 1.5rem;background:#faf8f5;padding:1.2rem;border-radius:2px;margin-bottom:1.5rem}
+.assume-label{font-size:.56rem;letter-spacing:.08em;text-transform:uppercase;color:#b0aaa3;margin-bottom:.15rem}
+.assume-val{font-size:.84rem;color:#2a2520}
+
+/* DOWN PAYMENT */
+.dp-grid{display:grid;grid-template-columns:1fr 1fr;gap:.4rem 1.5rem;background:#faf8f5;padding:1.2rem;border-radius:2px;margin-bottom:.5rem}
+.dp-note{font-size:.68rem;font-style:italic;color:#8b8580;margin-bottom:1.5rem;margin-top:.4rem}
+
+/* CARRYING COST */
+.carry{background:#faf8f5;padding:1.2rem 1.5rem;border-radius:2px;margin-bottom:1.5rem}
+.carry-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+@media(max-width:480px){.carry-grid{grid-template-columns:1fr}}
+.carry-card{}
+.carry-title{font-size:.75rem;font-style:italic;color:#2a2520;margin-bottom:.7rem}
+.carry-row{display:flex;justify-content:space-between;padding:.28rem 0;border-bottom:1px solid #f0ece4;gap:.5rem}
+.carry-row:last-of-type{border-bottom:none}
+.carry-label{font-size:.72rem;color:#5a5550}
+.carry-val{font-size:.75rem;color:#2a2520;white-space:nowrap}
+.carry-total{display:flex;justify-content:space-between;padding:.5rem 0 0;margin-top:.4rem;border-top:1px solid #e4dfd6}
+.carry-total-label{font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;color:#8b8580}
+.carry-total-val{font-size:1rem}
+
+/* CASHFLOW */
+.cf-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:.5rem}
+@media(max-width:480px){.cf-grid{grid-template-columns:1fr}}
+.cf-card{border:1px solid #e4dfd6;padding:1rem 1.2rem;border-radius:2px}
+.cf-title{font-size:.78rem;color:#2a2520;margin-bottom:.7rem;font-style:italic}
+.cf-row{display:flex;justify-content:space-between;padding:.28rem 0;border-bottom:1px solid #f9f6f2;gap:.5rem}
+.cf-row:last-of-type{border-bottom:none}
+.cf-label{font-size:.72rem;color:#5a5550}
+.cf-val{font-size:.75rem;color:#2a2520;white-space:nowrap}
+.cf-total{display:flex;justify-content:space-between;padding:.5rem 0 0;margin-top:.4rem;border-top:1px solid #e4dfd6}
+.cf-total-label{font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;color:#8b8580}
+.cf-total-val{font-size:1rem;color:#7a9e7a}
+.cf-note{font-size:.68rem;font-style:italic;color:#8b8580;margin-bottom:1.5rem;margin-top:.5rem}
+
+/* SCENARIOS */
+.scenarios{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.2rem;margin-bottom:1.5rem}
+@media(max-width:700px){.scenarios{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.scenarios{grid-template-columns:1fr}}
+.scenario{border:1px solid #e4dfd6;border-radius:2px;overflow:hidden}
+.sc-header{padding:1rem 1.2rem;border-bottom:1px solid #f0ece4}
+.sc-tag{font-size:.5rem;letter-spacing:.2em;text-transform:uppercase;color:#b0aaa3;margin-bottom:.25rem}
+.sc-title{font-size:1.05rem;color:#2a2520}
+.sc-sub{font-size:.68rem;font-style:italic;color:#8b8580;margin-top:.15rem}
+.sc-body{padding:1rem 1.2rem}
+.row{display:flex;justify-content:space-between;align-items:baseline;padding:.35rem 0;border-bottom:1px solid #f9f6f2;gap:.8rem}
+.row:last-child{border-bottom:none}
+.rl{font-size:.75rem;color:#5a5550;flex:1}
+.rv{font-size:.8rem;color:#2a2520;text-align:right;white-space:nowrap}
+.rv.pos{color:#7a9e7a}
+.rv.neg{color:#b87a6a}
+.rv.neu{color:#8b8580;font-style:italic}
+.rs{font-size:.5rem;letter-spacing:.18em;text-transform:uppercase;color:#b0aaa3;padding:.6rem 0 .15rem}
+.sc-total{background:#faf8f5;padding:.7rem 1.2rem;display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid #e4dfd6;gap:.5rem}
+.st-label{font-size:.55rem;letter-spacing:.1em;text-transform:uppercase;color:#8b8580}
+.st-val{font-size:1.05rem;color:#2a2520;white-space:nowrap}
+
+/* INCENTIVES */
+.incentives{margin-bottom:1.5rem}
+.incentive-row{display:grid;grid-template-columns:1fr 2fr auto;gap:.5rem 1.2rem;padding:.7rem 0;border-bottom:1px solid #f5f2ee;align-items:start}
+.incentive-row:first-child{border-top:1px solid #f5f2ee}
+.incentive-name{font-size:.8rem;color:#2a2520}
+.incentive-desc{font-size:.72rem;color:#5a5550;line-height:1.6}
+.incentive-val{font-size:.88rem;color:#7a9e7a;text-align:right;white-space:nowrap}
+.incentive-total{display:flex;justify-content:space-between;align-items:baseline;padding:.8rem 0;background:#f2f4ec;padding:1rem 1.2rem;border-radius:2px;margin-top:.8rem}
+.incentive-total-label{font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:#8b8580}
+.incentive-total-val{font-size:1.3rem;color:#7a9e7a}
+
+/* YEAR TABLE */
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin-bottom:1.5rem}
+table{width:100%;border-collapse:collapse;font-size:.76rem;min-width:440px}
+th{font-size:.48rem;letter-spacing:.16em;text-transform:uppercase;color:#8b8580;font-weight:300;padding:.45rem .6rem;text-align:left;border-bottom:1px solid #e4dfd6;white-space:nowrap}
+td{padding:.45rem .6rem;border-bottom:1px solid #f5f2ee;color:#5a5550;vertical-align:top}
+tr:last-child td{border-bottom:none}
+td:first-child{color:#2a2520;white-space:nowrap;font-size:.72rem}
+td.num{text-align:right;color:#2a2520;white-space:nowrap}
+td.note{font-size:.65rem;font-style:italic;color:#8b8580}
+tr.hi td{background:#faf8f5}
+tr.major td{background:#f2f4ec;color:#2a2520}
+
+/* VERDICT */
+.verdict{background:#f2f4ec;padding:1.4rem 1.6rem;border-radius:2px;margin-bottom:1.5rem}
+.verdict p{font-size:.86rem;line-height:1.85;color:#5a5550;margin-bottom:.9rem}
+.verdict p:last-child{margin-bottom:0}
+.verdict strong{font-weight:400;color:#2a2520}
+
+/* DUE DILIGENCE */
+.dd-list{margin-bottom:1.5rem}
+.dd-item{font-size:.8rem;color:#5a5550;line-height:1.7;padding:.35rem 0;border-bottom:1px solid #f9f6f2;display:flex;gap:.8rem}
+.dd-item:last-child{border-bottom:none}
+.dd-bullet{color:#b87a6a;flex-shrink:0}
+
+/* BROKER QUESTIONS */
+.q-section{margin-bottom:1rem}
+.q-section-title{font-size:.72rem;color:#2a2520;margin-bottom:.4rem;font-style:italic}
+.q-item{font-size:.78rem;color:#5a5550;line-height:1.7;padding:.2rem 0;border-bottom:1px solid #f9f6f2}
+.q-item:last-child{border-bottom:none}
+
+.footnote{font-size:.6rem;font-style:italic;color:#b0aaa3;line-height:1.7;padding-top:1.2rem;border-top:1px solid #f0ece4}
+</style>
+</head>
+<body>
+<div class="box">
+
+  <div class="nav"><a href="index.html">← Dashboard</a></div>
+  <div class="title">Housing Projection</div>
+  <div class="subtitle">Tricia & T · March 2026 · The Pointe, Ladner + Three Scenarios</div>
+  <div class="disclaimer">Estimates only — not financial advice. Talk to a mortgage broker before any decisions. All figures CAD.</div>
+
+  <!-- LISTING -->
+  <span class="lbl">The Listing · Active</span>
+  <div class="listing">
+    <div class="listing-title">The Pointe · Unit 302</div>
+    <div class="listing-address">4815 55B Street, Ladner · 2BR / 2BA · 894 sqft · Built 2016</div>
+    <div class="listing-grid">
+      <div><div class="listing-label">Asking price</div><div class="listing-val">$589,900 <span style="font-size:.68rem;color:#7a9e7a">(dropped $10k Feb 25)</span></div></div>
+      <div><div class="listing-label">Days on market</div><div class="listing-val flag">98 days — negotiate</div></div>
+      <div><div class="listing-label">Layout</div><div class="listing-val">Top floor penthouse · 9ft ceilings</div></div>
+      <div><div class="listing-label">Kitchen</div><div class="listing-val">Quartz counters · Gas cooktop · Wood organizers</div></div>
+      <div><div class="listing-label">Bathrooms</div><div class="listing-val good">In-floor heating · Both bathrooms</div></div>
+      <div><div class="listing-label">Storage</div><div class="listing-val good">10'5 × 7'8 inside unit · future apothecary</div></div>
+      <div><div class="listing-label">Outdoor</div><div class="listing-val">Private south balcony + rooftop garden</div></div>
+      <div><div class="listing-label">Strata fees</div><div class="listing-val">$451/mo · incl. gas, hot water, gardening</div></div>
+      <div><div class="listing-label">Pets</div><div class="listing-val good">2 cats allowed ✓</div></div>
+      <div><div class="listing-label">Age restrictions</div><div class="listing-val good">None · June welcome ✓</div></div>
+      <div><div class="listing-label">Rentals</div><div class="listing-val good">Long-term allowed · Airbnb restricted</div></div>
+      <div><div class="listing-label">Recommended offer</div><div class="listing-val good">$565,000 — likely accepted</div></div>
+    </div>
+    <div class="listing-note">98 days on market gives real negotiating power. At $565k offer: $660/sqft reflects current stale market. Seller is likely motivated. Get strata minutes and depreciation report before signing.</div>
+  </div>
+
+  <!-- ASSUMPTIONS -->
+  <span class="lbl">Assumptions</span>
+  <div class="assume-grid">
+    <div><div class="assume-label">T income (net)</div><div class="assume-val">~$6,000/mo</div></div>
+    <div><div class="assume-label">Current rent</div><div class="assume-val">$2,950/mo</div></div>
+    <div><div class="assume-label">School fees</div><div class="assume-val">Covered by loans/grants</div></div>
+    <div><div class="assume-label">Mortgage rate</div><div class="assume-val">4.33% (current · 30yr)</div></div>
+    <div><div class="assume-label">Appreciation</div><div class="assume-val">4%/yr (conservative)</div></div>
+    <div><div class="assume-label">Tricia R.Ac (2028+)</div><div class="assume-val">$40–60k/yr</div></div>
+    <div><div class="assume-label">Tricia Dr.TCM (2030+)</div><div class="assume-val">$80–100k/yr</div></div>
+    <div><div class="assume-label">Crypto reserve</div><div class="assume-val">~$5,000 (not counted)</div></div>
+  </div>
+
+  <!-- DOWN PAYMENT -->
+  <span class="lbl">Down Payment · At $565k Offer</span>
+  <div class="dp-grid">
+    <div><div class="assume-label">Parents contribution</div><div class="assume-val">$100,000</div></div>
+    <div><div class="assume-label">Sofi</div><div class="assume-val">$15,520</div></div>
+    <div><div class="assume-label">FHSA - T</div><div class="assume-val">$3,057</div></div>
+    <div><div class="assume-label">RRSP - T (HBP)</div><div class="assume-val">$3,615</div></div>
+    <div><div class="assume-label">TFSA</div><div class="assume-val">$6,024</div></div>
+    <div><div class="assume-label">Total down (20.2%)</div><div class="assume-val" style="color:#7a9e7a">~$113,000</div></div>
+  </div>
+  <div class="dp-note">Liquid accounts ($8,000+) kept for closing costs and buffer. Parents can top up if needed. At exactly 20% down — no CMHC insurance. Crypto (~$5,000) is a reserve not counted.</div>
+
+  <!-- CARRYING COST -->
+  <span class="lbl">Monthly Carrying Cost · At $565k</span>
+  <div class="carry">
+    <div class="carry-grid">
+      <div class="carry-card">
+        <div class="carry-title">At asking · $589,900</div>
+        <div class="carry-row"><span class="carry-label">Mortgage (30yr · 4.33%)</span><span class="carry-val">$2,328</span></div>
+        <div class="carry-row"><span class="carry-label">Strata fees</span><span class="carry-val">$451</span></div>
+        <div class="carry-row"><span class="carry-label">Property tax (net grant)</span><span class="carry-val">$155</span></div>
+        <div class="carry-total"><span class="carry-total-label">Total monthly</span><span class="carry-total-val" style="color:#8b8580">$2,934</span></div>
+      </div>
+      <div class="carry-card">
+        <div class="carry-title">At offer · $565,000</div>
+        <div class="carry-row"><span class="carry-label">Mortgage (30yr · 4.33%)</span><span class="carry-val">$2,230</span></div>
+        <div class="carry-row"><span class="carry-label">Strata fees</span><span class="carry-val">$451</span></div>
+        <div class="carry-row"><span class="carry-label">Property tax (net grant)</span><span class="carry-val">$155</span></div>
+        <div class="carry-total"><span class="carry-total-label">Total monthly</span><span class="carry-total-val" style="color:#7a9e7a">$2,836</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CASHFLOW -->
+  <span class="lbl">Monthly Cash Flow · During School</span>
+  <div class="cf-grid">
+    <div class="cf-card">
+      <div class="cf-title">Now · Renting</div>
+      <div class="cf-row"><span class="cf-label">T take-home</span><span class="cf-val">+$6,000</span></div>
+      <div class="cf-row"><span class="cf-label">Rent</span><span class="cf-val">−$2,950</span></div>
+      <div class="cf-row"><span class="cf-label">Utilities</span><span class="cf-val">−$250</span></div>
+      <div class="cf-row"><span class="cf-label">Living expenses</span><span class="cf-val">−$2,000</span></div>
+      <div class="cf-total"><span class="cf-total-label">Left over</span><span class="cf-total-val" style="color:#8b8580">~$800/mo</span></div>
+    </div>
+    <div class="cf-card">
+      <div class="cf-title">Owning The Pointe · During School</div>
+      <div class="cf-row"><span class="cf-label">T take-home</span><span class="cf-val">+$6,000</span></div>
+      <div class="cf-row"><span class="cf-label">Mortgage + strata + tax</span><span class="cf-val">−$2,836</span></div>
+      <div class="cf-row"><span class="cf-label">Living expenses</span><span class="cf-val">−$1,800</span></div>
+      <div class="cf-row"><span class="cf-label">Gas incl. in strata ✓</span><span class="cf-val">$0</span></div>
+      <div class="cf-row"><span class="cf-label">Loan disbursement</span><span class="cf-val">+$500–800</span></div>
+      <div class="cf-total"><span class="cf-total-label">Left over</span><span class="cf-total-val">~$1,664–1,964/mo</span></div>
+    </div>
+  </div>
+  <div class="cf-note">Roughly twice the monthly breathing room during school. Gas included in strata — one less bill.</div>
+
+  <!-- SCENARIOS -->
+  <hr>
+  <span class="lbl">Three Scenarios · Side by Side</span>
+  <div class="scenarios">
+
+    <div class="scenario">
+      <div class="sc-header">
+        <div class="sc-tag">Scenario A — Recommended</div>
+        <div class="sc-title">Buy The Pointe · $565k</div>
+        <div class="sc-sub">2026 · move up 2030–31</div>
+      </div>
+      <div class="sc-body">
+        <div class="rs">Month 1</div>
+        <div class="row"><span class="rl">Down payment</span><span class="rv">$113,000</span></div>
+        <div class="row"><span class="rl">Monthly carrying</span><span class="rv pos">$2,836</span></div>
+        <div class="row"><span class="rl">vs. current rent</span><span class="rv pos">$114/mo less</span></div>
+        <div class="rs">By 2030</div>
+        <div class="row"><span class="rl">Property value (~4%/yr)</span><span class="rv">~$661,000</span></div>
+        <div class="row"><span class="rl">Mortgage remaining</span><span class="rv">~$390,000</span></div>
+        <div class="row"><span class="rl">Equity</span><span class="rv pos">~$271,000</span></div>
+        <div class="row"><span class="rl">Selling costs</span><span class="rv neg">~$36,000</span></div>
+        <div class="row"><span class="rl">Extra savings (school)</span><span class="rv pos">~$70,000</span></div>
+      </div>
+      <div class="sc-total">
+        <span class="st-label">To move up · 2030</span>
+        <span class="st-val">~$305,000</span>
+      </div>
+    </div>
+
+    <div class="scenario">
+      <div class="sc-header">
+        <div class="sc-tag">Scenario B</div>
+        <div class="sc-title">Wait · Buy $950k · 2030</div>
+        <div class="sc-sub">Detached · after Dr.TCM</div>
+      </div>
+      <div class="sc-body">
+        <div class="rs">Renting 2026–2030</div>
+        <div class="row"><span class="rl">Total rent paid</span><span class="rv neg">~$148,000</span></div>
+        <div class="row"><span class="rl">Equity built</span><span class="rv neg">$0</span></div>
+        <div class="rs">Down payment · 2030</div>
+        <div class="row"><span class="rl">Parents + savings</span><span class="rv">$136,000</span></div>
+        <div class="row"><span class="rl">Saved during school</span><span class="rv">~$38,000</span></div>
+        <div class="row"><span class="rl">Total down (18.3%)</span><span class="rv neu">CMHC applies</span></div>
+        <div class="rs">Mortgage · 2030</div>
+        <div class="row"><span class="rl">Amount</span><span class="rv">~$776,000</span></div>
+        <div class="row"><span class="rl">Monthly</span><span class="rv neg">~$4,400/mo</span></div>
+      </div>
+      <div class="sc-total">
+        <span class="st-label">Position · 2030</span>
+        <span class="st-val" style="color:#8b8580;font-style:italic">Starting fresh</span>
+      </div>
+    </div>
+
+    <div class="scenario">
+      <div class="sc-header">
+        <div class="sc-tag">Scenario C — Baseline</div>
+        <div class="sc-title">Rent through school</div>
+        <div class="sc-sub">No purchase · 2026–2030</div>
+      </div>
+      <div class="sc-body">
+        <div class="rs">Cash flow during school</div>
+        <div class="row"><span class="rl">Monthly left over</span><span class="rv neg">~$800/mo</span></div>
+        <div class="row"><span class="rl">vs. Scenario A</span><span class="rv neg">$864/mo less</span></div>
+        <div class="rs">Renting 2026–2030</div>
+        <div class="row"><span class="rl">Total rent paid</span><span class="rv neg">~$148,000</span></div>
+        <div class="row"><span class="rl">Equity built</span><span class="rv neg">$0</span></div>
+        <div class="row"><span class="rl">Savings (tight years)</span><span class="rv neu">~$38,000</span></div>
+        <div class="rs">Position · 2030</div>
+        <div class="row"><span class="rl">Total to put down</span><span class="rv">~$174,000</span></div>
+        <div class="row"><span class="rl">Monthly mortgage</span><span class="rv neg">~$4,400/mo</span></div>
+        <div class="row"><span class="rl">CMHC insurance</span><span class="rv neg">Likely applies</span></div>
+      </div>
+      <div class="sc-total">
+        <span class="st-label">Cost of waiting</span>
+        <span class="st-val" style="color:#b87a6a">~$148k in rent</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- YEAR TABLE -->
+  <hr>
+  <span class="lbl">Year by Year · Scenario A · The Pointe</span>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Year</th>
+          <th>Life event</th>
+          <th class="num">Monthly left over</th>
+          <th class="num">Property value</th>
+          <th class="num">Equity</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="major">
+          <td>2026</td>
+          <td class="note">Buy $565k · School starts Sep</td>
+          <td class="num">~$1,664/mo</td>
+          <td class="num">$565,000</td>
+          <td class="num">$113,000</td>
+        </tr>
+        <tr>
+          <td>2027</td>
+          <td class="note">S2–S3 · June turns 4</td>
+          <td class="num">~$1,664/mo</td>
+          <td class="num">$588,000</td>
+          <td class="num">$141,000</td>
+        </tr>
+        <tr class="hi">
+          <td>2028</td>
+          <td class="note">R.Ac · Age 41 · Tricia earns</td>
+          <td class="num">~$4,200/mo</td>
+          <td class="num">$611,000</td>
+          <td class="num">$174,000</td>
+        </tr>
+        <tr>
+          <td>2029</td>
+          <td class="note">S7–S10 · Two full incomes</td>
+          <td class="num">~$4,200/mo</td>
+          <td class="num">$636,000</td>
+          <td class="num">$208,000</td>
+        </tr>
+        <tr class="major">
+          <td>2030</td>
+          <td class="note">Dr.TCM · Clinic · Sell → move up</td>
+          <td class="num">—</td>
+          <td class="num">~$661,000</td>
+          <td class="num">~$271,000</td>
+        </tr>
+        <tr class="hi">
+          <td>2031</td>
+          <td class="note">Buy $950k–$1.1m · ~$305k down</td>
+          <td class="num">~$3,500/mo</td>
+          <td class="num">$950,000+</td>
+          <td class="num">$305,000+</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- GOVERNMENT INCENTIVES -->
+  <hr>
+  <span class="lbl">Government Incentives · First-Time Buyer · BC 2026</span>
+  <div class="incentives">
+    <div class="incentive-row">
+      <div class="incentive-name">BC Property Transfer Tax Exemption</div>
+      <div class="incentive-desc">First-time buyers in BC are exempt from PTT on the first $500k of a home up to $835k. On a $565k purchase your PTT drops from ~$9,800 to ~$1,300. Must be Canadian citizen/PR and lived in BC 12+ consecutive months.</div>
+      <div class="incentive-val">~$8,500 saved</div>
+    </div>
+    <div class="incentive-row">
+      <div class="incentive-name">First Home Savings Account (FHSA)</div>
+      <div class="incentive-desc">$8,000/year per person, tax-deductible contributions, tax-free withdrawal for home purchase. T has $3,057 already. Keep maxing — every dollar contributed also reduces taxable income. You and T combined = up to $16,000/year.</div>
+      <div class="incentive-val">$3,057 + ongoing</div>
+    </div>
+    <div class="incentive-row">
+      <div class="incentive-name">RRSP Home Buyers' Plan (HBP)</div>
+      <div class="incentive-desc">Withdraw up to $60,000 per person from RRSP tax-free for a home purchase. T has $3,615 now — small but free. Repay over 15 years interest-free, starting year 5. Worth using at any amount.</div>
+      <div class="incentive-val">$3,615 available</div>
+    </div>
+    <div class="incentive-row">
+      <div class="incentive-name">First-Time Home Buyers' Tax Credit</div>
+      <div class="incentive-desc">Claim a $10,000 non-refundable federal tax credit the year you buy. Translates to roughly $1,500 actual cash back on your tax return. Covers moving costs and first grocery haul.</div>
+      <div class="incentive-val">~$1,500 back</div>
+    </div>
+    <div class="incentive-row">
+      <div class="incentive-name">BC Home Owner Grant</div>
+      <div class="incentive-desc">Annual property tax reduction of $570 for Metro Vancouver/Delta once you move in. Applies every year as long as it's your primary residence. Already factored into the $155/mo property tax estimate above.</div>
+      <div class="incentive-val">$570/yr ongoing</div>
+    </div>
+    <div class="incentive-row">
+      <div class="incentive-name">30-Year Amortization</div>
+      <div class="incentive-desc">With 20%+ down you qualify for 30-year amortization without CMHC insurance. Keeps monthly payments lower through the school years. At $565k this saves ~$300/mo vs. a 25-year amortization.</div>
+      <div class="incentive-val">~$300/mo saving</div>
+    </div>
+  </div>
+  <div class="incentive-total">
+    <span class="incentive-total-label">Total Day-1 Government Contribution</span>
+    <span class="incentive-total-val">~$10,070+ upfront · $570/yr ongoing</span>
+  </div>
+
+  <!-- DUE DILIGENCE -->
+  <hr>
+  <span class="lbl">Before You Sign · Due Diligence</span>
+  <div class="dd-list">
+    <div class="dd-item"><span class="dd-bullet">→</span><span>Request strata minutes (last 2 years) — look for any disputes, complaints, or recurring issues</span></div>
+    <div class="dd-item"><span class="dd-bullet">→</span><span>Get the depreciation report — 2016 building should have one; check contingency reserve fund health</span></div>
+    <div class="dd-item"><span class="dd-bullet">→</span><span>Ask why it's sat 98 days — the real reason matters. Motivated seller or hidden issue?</span></div>
+    <div class="dd-item"><span class="dd-bullet">→</span><span>Inspect the rooftop garden specifically — rooftop amenities on condos are a known leak risk</span></div>
+    <div class="dd-item"><span class="dd-bullet">→</span><span>Check for any upcoming special levies — a 2016 building shouldn't have major capital expenses yet but confirm</span></div>
+    <div class="dd-item"><span class="dd-bullet">→</span><span>Have T review the building specs as an architect — he'll catch things a standard inspection might miss</span></div>
+  </div>
+
+  <!-- VERDICT -->
+  <div class="verdict">
+    <span class="lbl">The honest read</span>
+    <p><strong>The Pointe at $565k is the strongest version of Scenario A.</strong> At $2,836/month total carrying cost you'd be paying $114 less per month than your current rent — while building equity, not paying someone else's mortgage. Gas is included in strata. Two bathrooms for a family of three. No neighbours above. The storage room becomes a TCM apothecary in 2030.</p>
+    <p><strong>The government is effectively giving you $10,070 to buy this year.</strong> PTT exemption alone saves $8,500 upfront — that covers most of your closing costs.</p>
+    <p><strong>By 2030</strong> you'd bring ~$305,000 to the table for the family home — equity built through school, savings stacked on two incomes from 2028, and a clean asset to leverage. Scenario B and C both mean starting from scratch with a larger mortgage and less breathing room.</p>
+    <p><strong>98 days on market is a gift.</strong> Offer $565k firm. They'll likely say yes.</p>
+    <p><strong>One thing left:</strong> confirm T qualifies for ~$452k mortgage on $95k gross income. One mortgage broker call. Everything else points to moving on this.</p>
+  </div>
+
+  <!-- BROKER QUESTIONS -->
+  <hr>
+  <span class="lbl">Questions for the Mortgage Broker</span>
+  <div class="q-section">
+    <div class="q-section-title">Qualification</div>
+    <div class="q-item">What's the maximum T qualifies for on $95k gross, single income?</div>
+    <div class="q-item">Does a stay-at-home spouse affect qualification?</div>
+    <div class="q-item">Does no-interest student loan debt affect borrowing capacity?</div>
+  </div>
+  <div class="q-section">
+    <div class="q-section-title">Down payment</div>
+    <div class="q-item">Can a gifted down payment from parents be used? What documentation?</div>
+    <div class="q-item">Can FHSA and RRSP HBP be combined toward the same purchase?</div>
+    <div class="q-item">With ~20% down on $565k — do we avoid CMHC entirely?</div>
+  </div>
+  <div class="q-section">
+    <div class="q-section-title">The mortgage</div>
+    <div class="q-item">Best rate right now — fixed vs. variable for our situation?</div>
+    <div class="q-item">We plan to sell in 4–5 years — which term/product makes sense?</div>
+    <div class="q-item">Prepayment penalties if we sell before the term ends?</div>
+    <div class="q-item">What happens at renewal if rates have changed significantly?</div>
+  </div>
+  <div class="q-section">
+    <div class="q-section-title">Costs</div>
+    <div class="q-item">Total closing costs to budget on a $565k purchase in BC?</div>
+    <div class="q-item">First-time buyer PTT exemption — do we qualify and exact amount?</div>
+    <div class="q-item">How long does pre-approval take and what documents do we need?</div>
+  </div>
+
+  <div class="footnote">
+    All figures are estimates. Property appreciation at 4%/yr — Ladner/Delta historical average has been higher. Mortgage payments at 4.33% fixed, 30-year amortization. Strata fees $451/mo as listed. Property tax estimated at $2,233/yr less BC Home Owner Grant $570 = $1,663/yr net = ~$155/mo. Transaction costs ~$36k (realtor, legal, land transfer after exemption). PTT exemption calculation based on March 2026 BC first-time buyer rules — verify with your lawyer. Tricia income projections based on average BC R.Ac/Dr.TCM revenues. This is not financial advice.
+  </div>
+
+</div>
+</body>
+</html>
