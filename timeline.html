@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Listening Season — Brand Timeline</title>
+<title>Listening Season, Brand Timeline</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Noto+Serif+SC:wght@300&display=swap" rel="stylesheet">
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
@@ -61,11 +61,12 @@ hr.rule { border:none; border-top:1px solid #e4dfd6; max-width:1400px; margin:0 
   <div>
     <div class="header-zh">聆聽季節</div>
     <h1>listening season</h1>
-    <div class="header-sub">brand timeline · mar 2026 — mar 2030</div>
+    <div class="header-sub">brand timeline · mar 2026, mar 2030</div>
   </div>
   <div class="legend">
     <div class="li"><div class="ld" style="background:#A8B8A0"></div>brand & content</div>
     <div class="li"><div class="ld" style="background:#CCB08A"></div>passive income</div>
+    <div class="li"><div class="ld" style="background:#D4A8A0"></div>product dev</div>
     <div class="li"><div class="ld" style="background:#8C96A0"></div>tcm school</div>
     <div class="li"><div class="ld" style="background:#9E8B75"></div>community</div>
     <div class="li"><div class="ld" style="background:#4A7090"></div>milestone</div>
@@ -78,11 +79,10 @@ hr.rule { border:none; border-top:1px solid #e4dfd6; max-width:1400px; margin:0 
 
 <script>
 // ── TIME CONFIG ──
-// Mar 2026 → Mar 2030 = 49 months
-const SY = 2026, SM = 3;  // start year/month (1-indexed)
+const SY = 2026, SM = 3;
 const EY = 2030, EM = 3;
-const CW = 19;   // px per month
-const LW = 188;  // label width px
+const CW = 19;
+const LW = 188;
 const MNAMES = ['J','F','M','A','M','J','J','A','S','O','N','D'];
 
 function colOf(y, m) { return (y - SY) * 12 + (m - SM); }
@@ -109,7 +109,6 @@ function hideTip() { ttEl.classList.remove('on'); }
 
 // ── TIME HEADER ──
 function buildHeader(root) {
-  // Year row
   const yr = document.createElement('div');
   yr.className = 'year-row';
   yr.style.marginLeft = LW + 'px';
@@ -125,7 +124,6 @@ function buildHeader(root) {
   }
   root.appendChild(yr);
 
-  // Month row
   const mr = document.createElement('div');
   mr.className = 'month-row';
   mr.style.marginLeft = LW + 'px';
@@ -140,14 +138,6 @@ function buildHeader(root) {
   root.appendChild(mr);
 }
 
-// ── PHASE DIVIDER ──
-function buildPhase(root, title) {
-  const row = document.createElement('div');
-  row.className = 'phase-row';
-  row.innerHTML = `<div class="pl" style="width:${LW}px"></div><div class="pline"></div><span class="ptitle">${title}</span>`;
-  root.appendChild(row);
-}
-
 // ── TRACK ──
 function buildTrack(root, name, sub, bars, milestones, isFirst) {
   const track = document.createElement('div');
@@ -156,7 +146,7 @@ function buildTrack(root, name, sub, bars, milestones, isFirst) {
   const lbl = document.createElement('div');
   lbl.className = 'tlabel';
   lbl.style.width = LW + 'px';
-  lbl.innerHTML = `<div class="tn">${name}</div>${sub?`<div class="ts">${sub}</div>`:''}`;
+  lbl.innerHTML = `<div class="tn">${name}</div>${sub ? `<div class="ts">${sub}</div>` : ''}`;
 
   const body = document.createElement('div');
   body.className = 'tbody';
@@ -178,9 +168,8 @@ function buildTrack(root, name, sub, bars, milestones, isFirst) {
     }
   }
 
-  // Today line on first track
+  // Today line
   if (isFirst) {
-    // Mar 7 2026 ≈ col 0 + 6/31 * CW
     const todayX = (6 / 31) * CW;
     const tl = document.createElement('div');
     tl.className = 'today-line';
@@ -190,6 +179,10 @@ function buildTrack(root, name, sub, bars, milestones, isFirst) {
   }
 
   bars.forEach(b => {
+    if (b.d) {
+      // milestone-style dot on bar track
+      return;
+    }
     const bx = xOf(b.s[0], b.s[1]);
     const bw = xOf(b.e[0], b.e[1]) - bx;
     if (bw <= 0) return;
@@ -203,7 +196,7 @@ function buildTrack(root, name, sub, bars, milestones, isFirst) {
     body.appendChild(el);
   });
 
-  (milestones||[]).forEach(m => {
+  (milestones || []).forEach(m => {
     const mx = xOf(m.d[0], m.d[1]);
     const el = document.createElement('div');
     el.className = 'ms';
@@ -220,223 +213,246 @@ function buildTrack(root, name, sub, bars, milestones, isFirst) {
   root.appendChild(track);
 }
 
-// ══════════════════════════════════════════════════
-// DATA
-// ══════════════════════════════════════════════════
+// ── PHASE MARKER (vertical drop line + label at top) ──
+function buildPhaseMarker(root, y, m, label) {
+  const x = xOf(y, m);
+  const row = document.createElement('div');
+  row.className = 'track phase-marker-row';
+  row.style.height = '22px';
+  row.style.marginBottom = '0';
 
+  const lbl = document.createElement('div');
+  lbl.className = 'tlabel';
+  lbl.style.width = LW + 'px';
+
+  const body = document.createElement('div');
+  body.className = 'tbody phase-marker-body';
+  body.style.minWidth = (TOTAL_COLS * CW) + 'px';
+  body.style.height = '22px';
+  body.style.borderBottom = 'none';
+
+  const line = document.createElement('div');
+  line.style.cssText = `position:absolute;left:${x}px;top:0;bottom:0;width:1px;background:#c8c0b4;`;
+  const labelEl = document.createElement('div');
+  labelEl.style.cssText = `position:absolute;left:${x + 4}px;top:3px;font-size:0.5rem;letter-spacing:0.14em;color:#a0988f;font-style:italic;white-space:nowrap;text-transform:uppercase;`;
+  labelEl.textContent = label;
+
+  body.appendChild(line);
+  body.appendChild(labelEl);
+  row.appendChild(lbl);
+  row.appendChild(body);
+  root.appendChild(row);
+}
+
+// ── SOLAR TERM PULSE (24 repeating segments across full width) ──
+function buildPulseTrack(root, name, sub) {
+  const track = document.createElement('div');
+  track.className = 'track';
+
+  const lbl = document.createElement('div');
+  lbl.className = 'tlabel';
+  lbl.style.width = LW + 'px';
+  lbl.innerHTML = `<div class="tn">${name}</div>${sub ? `<div class="ts">${sub}</div>` : ''}`;
+
+  const body = document.createElement('div');
+  body.className = 'tbody';
+  body.style.minWidth = (TOTAL_COLS * CW) + 'px';
+  body.style.height = '28px';
+
+  // Grid lines
+  for (let c = 0; c < TOTAL_COLS; c++) {
+    const absM = (SM - 1 + c) % 12;
+    if (absM === 0) {
+      const gl = document.createElement('div');
+      gl.className = 'gridl yr';
+      gl.style.left = (c * CW) + 'px';
+      body.appendChild(gl);
+    }
+  }
+
+  // 24 solar terms across 4 years, ~15 days each = ~0.5 months each
+  // Draw as alternating pulse segments across the full timeline
+  const totalMonths = TOTAL_COLS;
+  const termWidth = CW * 0.49; // ~15 days
+  const seasonColors = [
+    '#B8C8A8','#A8BC98','#98B08A','#88A47C', // spring
+    '#D4A87C','#CC9C70','#C49064','#BC8458', // summer
+    '#C4A87C','#B89C70','#AC9064','#A08458', // autumn
+    '#9CAAB8','#8CA0B0','#7C96A8','#6C8CA0', // winter
+    '#B8C8A8','#A8BC98','#98B08A','#88A47C', // spring again
+    '#D4A87C','#CC9C70','#C49064','#BC8458', // summer again
+    '#C4A87C','#B89C70','#AC9064','#A08458', // autumn again
+    '#9CAAB0','#8CA0A8',                      // winter partial
+  ];
+
+  // 24 terms per year, each ~15.2 days. Start from Mar 2026.
+  // Approximate: place 24 terms × number of years shown
+  const termsToShow = Math.floor(totalMonths * 2); // ~2 terms per month
+  for (let i = 0; i < termsToShow; i++) {
+    const x = i * termWidth * 2; // gap between starts = ~30 days
+    if (x > totalMonths * CW) break;
+    const el = document.createElement('div');
+    el.style.cssText = `position:absolute;left:${x}px;width:${termWidth}px;height:20px;top:4px;border-radius:1px;background:${seasonColors[i % 24]};opacity:0.75;`;
+    el.title = `Solar term ${(i % 24) + 1} of 24`;
+    body.appendChild(el);
+  }
+
+  // Pulse label
+  const forever = document.createElement('div');
+  forever.style.cssText = `position:absolute;right:4px;top:6px;font-size:0.48rem;letter-spacing:0.1em;color:#a0988f;font-style:italic;`;
+  forever.textContent = '↻ forever';
+  body.appendChild(forever);
+
+  track.appendChild(lbl);
+  track.appendChild(body);
+  root.appendChild(track);
+}
+
+// ══════════════════════════════════════════════════
+// BUILD
+// ══════════════════════════════════════════════════
 const chart = document.getElementById('chart');
 buildHeader(chart);
 
-// ─────────────────────────────────────────
-// PHASE 1 · Pre-school Mar–Aug 2026
-// ─────────────────────────────────────────
-buildPhase(chart, 'Phase 1 — The Art of Listening  ·  Mar – Aug 2026');
+// ── SOLAR TERM PULSE (always first, always running) ──
+buildPulseTrack(chart, '二十四節氣 Pulse', '15-day rhythm · never ends');
 
-buildTrack(chart, 'Brand & Content', 'instagram · 15-day pulse', [
+// ── PHASE 1 MARKER ──
+buildPhaseMarker(chart, 2026, 3, 'Phase 1 · The Art of Listening · Mar–Aug 2026');
+
+// ── BRAND & CONTENT ──
+buildTrack(chart, 'Brand & Content', 'instagram · study in public', [
   { label:'Build in public · solar terms', s:[2026,3], e:[2026,9],
-    color:'#C8D4BE',
-    tip:'Establish the 15-day pulse. Post around each solar term. Build the habit before school starts.',
-    dates:'Mar → Aug 2026' },
+    color:'#C8D4BE', tip:'Establish the 15-day pulse. Post around each solar term. Build the habit before school starts.', dates:'Mar → Aug 2026' },
+  { label:'Learning out loud · TCM integration', s:[2026,9], e:[2027,9],
+    color:'#B8C8B0', tip:'Solar terms content gains real TCM depth. Learning out loud becomes a beloved series.', dates:'Sep 2026 → Aug 2027' },
+  { label:'Year 2 · richer observations', s:[2027,9], e:[2028,9],
+    color:'#A8B8A0', tip:'Second layer of the living notebook. Same 24 terms, audience feels the difference in depth.', dates:'Sep 2027 → Aug 2028' },
+  { label:'R.Ac practitioner content', s:[2028,11], e:[2029,12],
+    color:'#A0B898', tip:'Third layer. Clinical observations. Audience has followed the whole journey.', dates:'Nov 2028 → Dec 2029' },
+  { label:'Clinic brand · Dr.TCM voice', s:[2030,1], e:[2030,3],
+    color:'#98B090', tip:'The brand and the practice become the same thing.', dates:'Jan → Mar 2030' },
 ],[
-  { label:'First post', d:[2026,3], color:'#A8B8A0',
-    tip:'Listening Season goes live on Instagram.', date:'Mar 2026' },
+  { label:'First post', d:[2026,3], color:'#A8B8A0', tip:'Listening Season goes live on Instagram.', date:'Mar 2026' },
 ], true);
 
-buildTrack(chart, 'Note System', 'capacities · field notes', [
-  { label:'Capacities setup', s:[2026,3], e:[2026,4],
-    color:'#D8D4CC',
-    tip:'One focused session. Field Notes, Solar Term pages, 7 tags. Follow the setup guide.',
-    dates:'Mar 2026' },
-  { label:'Daily capture rhythm', s:[2026,4], e:[2026,9],
-    color:'#E4E0DA',
-    tip:'Daily Notes → Field Notes → Solar Terms. 3-layer system running smoothly.',
-    dates:'Apr → Aug 2026' },
-],[]);
-
-buildTrack(chart, 'Lead Magnet', 'free printable → email list', [
-  { label:'Observation Log PDF', s:[2026,5], e:[2026,7],
-    color:'#EAD8A8',
-    tip:'First free printable: a seasonal Observation Log. Moves Instagram followers into your email list.',
-    dates:'May → Jun 2026' },
-],[
-  { label:'Email list opens', d:[2026,7], color:'#CCB08A',
-    tip:'Newsletter launches. The inner circle begins.', date:'Jul 2026' },
-]);
-
-// ─────────────────────────────────────────
-// PHASE 2 · TCM School — Acupuncture Sep 2026–Aug 2028
-// 3 semesters/year
-// S1: Sep–Dec 2026  S2: Jan–Apr 2027  S3: May–Aug 2027
-// S4: Sep–Dec 2027  S5: Jan–Apr 2028  S6: May–Aug 2028
-// Board exam: Oct 2028 (twice/year in BC)
-// ─────────────────────────────────────────
-buildPhase(chart, 'Phase 2 — TCM School · Acupuncture  ·  Sep 2026 – Aug 2028  ·  Semesters 1–6');
-
-buildTrack(chart, 'TCM School', 'acupuncture · sem 1–6', [
+// ── TCM SCHOOL ──
+buildTrack(chart, 'TCM School', 'acupuncture S1–6 · herbology S7–10', [
   { label:'S1 · Foundations', s:[2026,9], e:[2026,12],
-    color:'#C0C8D0', tip:'TCM theory foundations. Five elements, yin/yang, qi, meridian overview.', dates:'Sep–Dec 2026' },
+    color:'#C0C8D0', tip:'TCM theory. Five elements, yin/yang, qi, meridian overview.', dates:'Sep–Dec 2026' },
   { label:'S2 · Points', s:[2027,1], e:[2027,5],
     color:'#B8C2CC', tip:'Acupuncture point locations. Meridian pathways. Study notes feed Capacities.', dates:'Jan–Apr 2027' },
   { label:'S3 · Patterns', s:[2027,5], e:[2027,9],
-    color:'#AEBCC8', tip:'Pattern differentiation. You start seeing the body through a TCM lens. Content deepens.', dates:'May–Aug 2027' },
+    color:'#AEBCC8', tip:'Pattern differentiation. Seeing the body through a TCM lens.', dates:'May–Aug 2027' },
   { label:'S4 · Clinical theory', s:[2027,9], e:[2027,12],
-    color:'#A2B4C2', tip:'Treatment principles. Clinical theory. Living notebook year 2 — noticeably richer.', dates:'Sep–Dec 2027' },
+    color:'#A2B4C2', tip:'Treatment principles. Living notebook year 2, noticeably richer.', dates:'Sep–Dec 2027' },
   { label:'S5 · Clinical practice', s:[2028,1], e:[2028,5],
     color:'#96AABC', tip:'Supervised clinical hours begin. Board exam prep starts.', dates:'Jan–Apr 2028' },
   { label:'S6 · Final acup.', s:[2028,5], e:[2028,9],
-    color:'#8C96A0', tip:'Final acupuncture semester. Board exam in Oct 2028 (twice/year in BC).', dates:'May–Aug 2028' },
+    color:'#8C96A0', tip:'Final acupuncture semester. Board exam Oct 2028.', dates:'May–Aug 2028' },
+  { label:'S7 · Materia medica', s:[2028,9], e:[2028,12],
+    color:'#C0CEB8', tip:'Single herbs. Materia medica. Botanical world opens, rich content territory.', dates:'Sep–Dec 2028' },
+  { label:'S8 · Formulas', s:[2029,1], e:[2029,5],
+    color:'#B4C4AC', tip:'Herbal formulas. Pattern-based prescribing.', dates:'Jan–Apr 2029' },
+  { label:'S9 · Advanced clinical', s:[2029,5], e:[2029,9],
+    color:'#A8BAA0', tip:'Advanced clinical herbology. Integration with acupuncture deepens.', dates:'May–Aug 2029' },
+  { label:'S10 · Final', s:[2029,9], e:[2029,12],
+    color:'#9CB094', tip:'Final semester. Board exam prep. Clinical hours complete.', dates:'Sep–Dec 2029' },
 ],[
-  { label:'School starts', d:[2026,9], color:'#8C96A0',
-    tip:'TCM school begins. The Study in Public era opens.', date:'Sep 2026' },
-  { label:'R.Ac board exam', d:[2028,10], color:'#4A7090',
-    tip:'BC board exam — held twice yearly. Sit in Oct 2028 after completing S6.', date:'Oct 2028' },
-  { label:'R.Ac ✓', d:[2028,11], color:'#2d5a7a',
-    tip:'Registered Acupuncturist designation. Can now practice acupuncture while continuing herbology.', date:'Nov 2028' },
+  { label:'School starts', d:[2026,9], color:'#8C96A0', tip:'TCM school begins. The Study in Public era opens.', date:'Sep 2026' },
+  { label:'R.Ac board exam', d:[2028,10], color:'#4A7090', tip:'BC board exam, twice/year. Sit Oct 2028 after S6.', date:'Oct 2028' },
+  { label:'R.Ac ✓', d:[2028,11], color:'#2d5a7a', tip:'Registered Acupuncturist. Can now practice while continuing herbology.', date:'Nov 2028' },
+  { label:'Dr.TCM board exam', d:[2030,2], color:'#4a7a4a', tip:'Second board exam. Sit early 2030 after S10.', date:'Feb 2030' },
+  { label:'Dr. TCM ✓', d:[2030,3], color:'#2a5a2a', tip:'Full Doctor of TCM. Acupuncture + Herbology.', date:'Mar 2030' },
 ]);
 
-buildTrack(chart, 'Brand & Content', 'study in public · layer 2', [
-  { label:'Learning out loud · TCM integration', s:[2026,9], e:[2027,9],
-    color:'#B8C8B0',
-    tip:'Solar terms content gains real TCM depth. "Learning out loud" becomes a beloved series.',
-    dates:'Sep 2026 → Aug 2027' },
-  { label:'Year 2 · richer observations', s:[2027,9], e:[2028,9],
-    color:'#A8B8A0',
-    tip:'Second layer of the living notebook. Same 24 terms — audience feels the difference in depth.',
-    dates:'Sep 2027 → Aug 2028' },
-],[]);
+// ── PHASE 2 MARKER ──
+buildPhaseMarker(chart, 2026, 9, 'Phase 2 · TCM School · Acupuncture · Sep 2026–Aug 2028');
 
-buildTrack(chart, 'Passive Income', 'printables · planner · zines', [
+// ── ACUPUNCTURE PRACTICE ──
+buildTrack(chart, 'Acupuncture Practice', 'r.ac · seeing patients', [
+  { label:'Building clientele', s:[2028,11], e:[2030,3],
+    color:'#C8D8C0', tip:'Seeing patients while completing herbology. Brand audience = first referral network.', dates:'Nov 2028 → Mar 2030' },
+],[
+  { label:'First patients', d:[2028,11], color:'#5a7a4a', tip:'First paying patients as R.Ac.', date:'Nov 2028' },
+]);
+
+// ── PASSIVE INCOME ──
+buildTrack(chart, 'Passive Income', 'planner · zines · workshops', [
   { label:'2027 Solar Terms Planner', s:[2026,10], e:[2027,1],
-    color:'#EAD4A0',
-    tip:'First paid product. Printed or digital planner for 2027. Your colour palette, your design, your observations.',
-    dates:'Oct 2026 → Jan 2027' },
+    color:'#EAD4A0', tip:'First paid product. Digital or printed planner for 2027.', dates:'Oct 2026 → Jan 2027' },
   { label:'Zine No.1 · Spring', s:[2027,2], e:[2027,4],
-    color:'#E0C890',
-    tip:'First seasonal zine. Six spring terms. Personal essay + observation logs + botanical references. Limited run.',
-    dates:'Feb → Apr 2027' },
+    color:'#E0C890', tip:'First seasonal zine. Six spring terms. Personal essay + observation logs.', dates:'Feb → Apr 2027' },
   { label:'Zine No.2 · Summer', s:[2027,6], e:[2027,8],
-    color:'#D8BC80',
-    tip:'Second zine. Summer terms. The series finds its audience.', dates:'Jun → Jul 2027' },
+    color:'#D8BC80', tip:'Second zine. Summer terms. The series finds its audience.', dates:'Jun → Jul 2027' },
   { label:'Zine No.3 · Autumn', s:[2027,9], e:[2027,11],
-    color:'#D0B070',
-    tip:'Third zine. Autumn terms. Waiting list forming.', dates:'Sep → Oct 2027' },
+    color:'#D0B070', tip:'Third zine. Autumn terms. Waiting list forming.', dates:'Sep → Oct 2027' },
   { label:'Zine No.4 · Winter', s:[2027,12], e:[2028,2],
-    color:'#C8A460',
-    tip:'Fourth zine. Winter terms. Year one of the series complete.', dates:'Dec 2027 → Jan 2028' },
+    color:'#C8A460', tip:'Fourth zine. Winter. Year one of the series complete.', dates:'Dec 2027 → Jan 2028' },
   { label:'2028 Planner', s:[2027,10], e:[2028,1],
-    color:'#EAD4A0',
-    tip:'Second annual planner. More TCM depth, stronger design. Returning buyers.', dates:'Oct 2027 → Jan 2028' },
+    color:'#EAD4A0', tip:'Second annual planner. More TCM depth. Returning buyers.', dates:'Oct 2027 → Jan 2028' },
   { label:'Zine Year 2', s:[2028,2], e:[2028,9],
-    color:'#CCB08A',
-    tip:'Year 2 of the zine series. TCM student voice adds real credibility.', dates:'Feb → Aug 2028' },
+    color:'#CCB08A', tip:'Year 2 of the zine series. TCM student voice adds credibility.', dates:'Feb → Aug 2028' },
+  { label:'Zine Year 3 · TCM depth', s:[2028,10], e:[2029,8],
+    color:'#C4A870', tip:'Year 3 zines. Clinical voice. Herbology enters the series. Premium pricing justified.', dates:'Oct 2028 → Jul 2029' },
+  { label:'2029 Planner + bundle', s:[2028,10], e:[2029,1],
+    color:'#EAD4A0', tip:'Third annual planner. Bundle with past zines for gift season.', dates:'Oct 2028 → Jan 2029' },
+  { label:'Workshop · seasonal TCM', s:[2029,3], e:[2029,9],
+    color:'#D4B880', tip:'First paid workshop. Seasonal self-care through TCM. Live or recorded. Small group.', dates:'Mar → Aug 2029' },
+  { label:'2030 Planner · clinic edition', s:[2029,10], e:[2029,12],
+    color:'#EAD4A0', tip:'Fourth annual planner. Clinic launch edition.', dates:'Oct → Dec 2029' },
 ],[
-  { label:'First paid product', d:[2027,1], color:'#CCB08A',
-    tip:'Solar Terms Planner goes on sale — first revenue.', date:'Jan 2027' },
+  { label:'First revenue', d:[2027,1], color:'#CCB08A', tip:'Solar Terms Planner goes on sale, first income.', date:'Jan 2027' },
+  { label:'First workshop', d:[2029,3], color:'#B89060', tip:'First paid live workshop.', date:'Mar 2029' },
 ]);
 
+// ── PRODUCT DEV ──
+buildTrack(chart, 'Product Dev', 'making the things', [
+  { label:'Observation Log PDF', s:[2026,5], e:[2026,7],
+    color:'#E8C4BC', tip:'Free lead magnet. Printable observation log. Hook that builds the email list.', dates:'May → Jun 2026' },
+  { label:'Planner design', s:[2026,10], e:[2026,12],
+    color:'#DEB8B0', tip:'Designing the 2027 Solar Terms Planner. Your palette, your observations as copy.', dates:'Oct → Dec 2026' },
+  { label:'Zine No.1 · writing + design', s:[2027,1], e:[2027,3],
+    color:'#D4ACA4', tip:'Writing, designing, printing Zine No.1 · Spring. Limited run.', dates:'Jan → Mar 2027' },
+  { label:'Snail mail pilot', s:[2027,4], e:[2027,6],
+    color:'#CAA098', tip:'Small pilot: physical mailer to a handful of subscribers.', dates:'Apr → May 2027' },
+  { label:'ADHD + TCM digital guide', s:[2028,11], e:[2029,3],
+    color:'#E8C4BC', tip:'First digital product with clinical voice. ADHD through TCM lens.', dates:'Nov 2028 → Feb 2029' },
+  { label:'Workshop build', s:[2029,1], e:[2029,3],
+    color:'#DEB8B0', tip:'Writing and designing the first paid workshop. Curriculum, slides, workbook.', dates:'Jan → Feb 2029' },
+  { label:'Snail mail subscription', s:[2029,6], e:[2029,12],
+    color:'#D4ACA4', tip:'Quarterly physical mailer. Seasonal zine + herb samples + observation card.', dates:'Jun → Dec 2029' },
+],[
+  { label:'Email platform live', d:[2026,6], color:'#C8A898', tip:'Substack or Kit set up. Ready for newsletter launch Jul 2026.', date:'Jun 2026' },
+  { label:'Shop set up', d:[2026,12], color:'#C8A898', tip:'Gumroad or similar. Ready to sell the planner Jan 2027.', date:'Dec 2026' },
+]);
+
+// ── COMMUNITY ──
 buildTrack(chart, 'Community', 'newsletter · inner circle', [
   { label:'Free monthly newsletter', s:[2026,7], e:[2027,6],
-    color:'#C8B8A8',
-    tip:'Monthly email. Observation logs, seasonal notes, what you\'re learning. Building trust.',
-    dates:'Jul 2026 → May 2027' },
+    color:'#C8B8A8', tip:'Monthly email. Observation logs, seasonal notes, what you\'re learning. Building trust.', dates:'Jul 2026 → May 2027' },
   { label:'Paid newsletter tier', s:[2027,6], e:[2028,9],
-    color:'#B8A898',
-    tip:'Paid tier: deeper TCM notes, early zine access, study reflections. Substack or similar.',
-    dates:'Jun 2027 → Aug 2028' },
+    color:'#B8A898', tip:'Paid tier: deeper TCM notes, early zine access, study reflections.', dates:'Jun 2027 → Aug 2028' },
+  { label:'Practitioner notes · paid', s:[2028,9], e:[2030,3],
+    color:'#A89888', tip:'Newsletter deepens with clinical voice. Herbology adds dimension. Full arc community.', dates:'Sep 2028 → Mar 2030' },
 ],[
-  { label:'Paid tier launches', d:[2027,6], color:'#9E8B75',
-    tip:'Inner Circle becomes a paid subscription.', date:'Jun 2027' },
+  { label:'Paid tier launches', d:[2027,6], color:'#9E8B75', tip:'Inner Circle becomes paid.', date:'Jun 2027' },
 ]);
 
-// ─────────────────────────────────────────
-// PHASE 3 · Practicing R.Ac + Herbology Sep 2028–Dec 2029
-// S7: Sep–Dec 2028  S8: Jan–Apr 2029  S9: May–Aug 2029  S10: Sep–Dec 2029
-// Full TCM Dr. board exam: early 2030
-// ─────────────────────────────────────────
-buildPhase(chart, 'Phase 3 — Practicing R.Ac + Herbology  ·  Sep 2028 – Dec 2029  ·  Semesters 7–10');
+// ── PHASE 3 MARKER ──
+buildPhaseMarker(chart, 2028, 9, 'Phase 3 · R.Ac Practicing + Herbology · Sep 2028–Dec 2029');
 
-buildTrack(chart, 'TCM School', 'herbology · sem 7–10', [
-  { label:'S7 · Materia medica', s:[2028,9], e:[2028,12],
-    color:'#C0CEB8', tip:'Single herbs. Materia medica. The botanical world opens — rich content territory.', dates:'Sep–Dec 2028' },
-  { label:'S8 · Formulas', s:[2029,1], e:[2029,5],
-    color:'#B4C4AC', tip:'Herbal formulas. Pattern-based prescribing. TCM as a complete system becomes visible.', dates:'Jan–Apr 2029' },
-  { label:'S9 · Advanced clinical', s:[2029,5], e:[2029,9],
-    color:'#A8BAA0', tip:'Advanced clinical herbology. Integration with acupuncture practice deepens.', dates:'May–Aug 2029' },
-  { label:'S10 · Final', s:[2029,9], e:[2029,12],
-    color:'#9CB094', tip:'Final semester. Clinical hours, thesis completion. Full TCM Dr. board exam preparation.', dates:'Sep–Dec 2029' },
-],[
-  { label:'Full TCM Dr. board exam', d:[2030,2], color:'#4a7a4a',
-    tip:'Second board exam — held twice yearly in BC. Sit early 2030 after completing S10.', date:'Feb 2030' },
-  { label:'Dr. TCM ✓', d:[2030,3], color:'#2a5a2a',
-    tip:'Full Doctor of Traditional Chinese Medicine designation. Acupuncture + Herbology.', date:'Mar 2030' },
-]);
+// ── PHASE 4 MARKER ──
+buildPhaseMarker(chart, 2030, 3, 'Phase 4 · Clinic Launch · Dr.TCM');
 
-buildTrack(chart, 'Acupuncture Practice', 'r.ac · seeing patients', [
-  { label:'Practicing acupuncturist — building clientele', s:[2028,11], e:[2030,3],
-    color:'#C8D8C0',
-    tip:'Seeing patients while completing herbology. The brand audience becomes your first referral network.',
-    dates:'Nov 2028 → Mar 2030' },
-],[
-  { label:'First patients', d:[2028,11], color:'#5a7a4a',
-    tip:'First paying patients as a Registered Acupuncturist.', date:'Nov 2028' },
-]);
-
-buildTrack(chart, 'Brand & Content', 'practitioner voice · layer 3', [
-  { label:'R.Ac practitioner content', s:[2028,11], e:[2029,12],
-    color:'#A0B898',
-    tip:'Third layer of the living notebook. Clinical observations. Content credibility peaks. Audience has followed the whole journey.',
-    dates:'Nov 2028 → Dec 2029' },
-],[]);
-
-buildTrack(chart, 'Passive Income', 'deeper products', [
-  { label:'Zine Year 3 · TCM depth', s:[2028,10], e:[2029,8],
-    color:'#C4A870',
-    tip:'Year 3 zines carry real clinical voice. Herbology content enters the series. Premium pricing justified.',
-    dates:'Oct 2028 → Jul 2029' },
-  { label:'2029 Planner + digital bundle', s:[2028,10], e:[2029,1],
-    color:'#EAD4A0',
-    tip:'Third annual planner. Bundle with past zines for gift season.', dates:'Oct 2028 → Jan 2029' },
-  { label:'Workshop or short course', s:[2029,3], e:[2029,9],
-    color:'#D4B880',
-    tip:'First paid workshop: seasonal self-care through TCM. Live or recorded. Small group. High trust audience.',
-    dates:'Mar → Aug 2029' },
-  { label:'2030 Planner', s:[2029,10], e:[2029,12],
-    color:'#EAD4A0',
-    tip:'Fourth annual planner. Clinic launch edition.', dates:'Oct → Dec 2029' },
-],[
-  { label:'First workshop', d:[2029,3], color:'#B89060',
-    tip:'First paid live workshop — seasonal TCM self-care.', date:'Mar 2029' },
-]);
-
-buildTrack(chart, 'Community', 'growing inner circle', [
-  { label:'Paid newsletter · practitioner notes', s:[2028,9], e:[2030,3],
-    color:'#A89888',
-    tip:'Newsletter deepens with clinical voice. Herbology content adds new dimension. Audience follows the full arc.',
-    dates:'Sep 2028 → Mar 2030' },
-],[]);
-
-// ─────────────────────────────────────────
-// PHASE 4 · Clinic Launch 2030+
-// ─────────────────────────────────────────
-buildPhase(chart, 'Phase 4 — Clinic Launch  ·  2030');
-
+// ── CLINIC ──
 buildTrack(chart, 'Clinic Practice', 'full tcm dr. · acup + herbs', [
   { label:'Clinic opens', s:[2030,3], e:[2030,3],
-    color:'#9CB894',
-    tip:'Full scope of practice. Acupuncture + herbology. The brand audience is your warm referral network.',
-    dates:'Mar 2030' },
+    color:'#9CB894', tip:'Full scope of practice. Acupuncture + herbology. Brand audience = warm referral network.', dates:'Mar 2030' },
 ],[
-  { label:'Clinic opens', d:[2030,3], color:'#2a5a2a',
-    tip:'The whole arc lands here. Four years of building in public becomes a practice with a community already waiting.',
-    date:'Mar 2030' },
+  { label:'Clinic opens', d:[2030,3], color:'#2a5a2a', tip:'The whole arc lands here.', date:'Mar 2030' },
 ]);
 
-buildTrack(chart, 'Brand evolution', 'platform → practice', [
-  { label:'Listening Season becomes the practice brand', s:[2030,3], e:[2030,3],
-    color:'#B8C8B0',
-    tip:'The Instagram, the zines, the newsletter, the planner — they were always building toward this. The brand and the practice are the same thing.',
-    dates:'Mar 2030' },
-],[]);
 </script>
 </body>
 </html>
