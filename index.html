@@ -37,32 +37,16 @@ body{
 
 hr{border:none;border-top:1px solid #f0ece4;margin:2rem 0}
 
-/* TOP ROW: capture + term */
+/* TOP ROW */
 .top-row{display:grid;grid-template-columns:1fr 1fr;gap:3rem;margin-bottom:2rem}
 @media(max-width:640px){.top-row{grid-template-columns:1fr}}
 
-/* CAPTURE */
-.capture-prompt{font-size:1.1rem;font-style:italic;color:#2a2520;margin-bottom:1.2rem;line-height:1.6}
-.capture-input{
-  width:100%;background:transparent;border:none;
-  border-bottom:1px solid #e4dfd6;
-  font-family:'Cormorant Garamond',Georgia,serif;
-  font-size:1rem;font-weight:300;color:#2a2520;
-  padding:.4rem 0;outline:none;letter-spacing:.02em;margin-bottom:1.2rem
-}
-.capture-input::placeholder{color:#ccc8c0;font-style:italic}
-.capture-btn{
-  display:inline-flex;align-items:center;gap:.45rem;
-  text-decoration:none;
-  font-family:'Cormorant Garamond',Georgia,serif;
-  font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;
-  color:#2a2520;
-  border:1px solid #c8c4bc;
-  padding:.55rem 1rem;border-radius:1px;
-  transition:background .15s,color .15s;
-}
-.capture-btn:hover{background:#2a2520;color:#f4f1ec}
-.capture-sym{font-size:.85rem;color:#A8B8A0}
+/* NUDGE */
+.nudge-poem{font-size:1rem;font-style:italic;color:#2a2520;line-height:1.75;margin-bottom:.9rem}
+.nudge-note{font-size:.75rem;color:#8b8580;line-height:1.7;margin-bottom:1rem;padding-bottom:1rem;border-bottom:1px solid #f0ece4}
+.nudge-links{display:flex;flex-direction:column;gap:.5rem}
+.nudge-link{font-size:.78rem;color:#2a2520;text-decoration:none;border-bottom:1px solid #e4dfd6;padding-bottom:1px;align-self:flex-start;transition:color .15s,border-color .15s}
+.nudge-link:hover{color:#6b6560;border-color:#b0aaa3}
 
 /* CURRENT TERM */
 .term-zh{font-family:'Noto Serif SC',serif;font-size:2.6rem;line-height:1;color:#2a2520;margin-bottom:.25rem}
@@ -103,10 +87,10 @@ hr{border:none;border-top:1px solid #f0ece4;margin:2rem 0}
 .next-date{font-size:.75rem;color:#6b6560;font-style:italic}
 
 /* ARC */
-.arc-track{display:flex;align-items:center;margin-bottom:2rem;gap:.9rem}
+.arc-track{display:flex;align-items:center;margin-bottom:2.6rem;gap:.9rem}
 .arc-track:last-child{margin-bottom:0}
 .arc-tlbl{font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:#4a4540;width:52px;flex-shrink:0;text-align:right}
-.arc-line{flex:1;position:relative;height:44px}
+.arc-line{flex:1;position:relative;height:56px}
 .arc-bg{position:absolute;top:50%;left:0;right:0;height:1px;background:#d4cfc8;transform:translateY(-50%)}
 .arc-fill{position:absolute;top:50%;left:0;height:2px;transform:translateY(-50%)}
 .arc-node{position:absolute;top:50%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center}
@@ -115,8 +99,8 @@ hr{border:none;border-top:1px solid #f0ece4;margin:2rem 0}
 .arc-dot.major{background:#A8B8A0;width:8px;height:8px}
 .arc-dot.warm{background:#CCB08A;width:7px;height:7px}
 .arc-nlbl{position:absolute;font-size:.54rem;letter-spacing:.04em;color:#4a4540;white-space:nowrap;text-align:center;line-height:1.2}
-.arc-nlbl.above{bottom:20px}
-.arc-nlbl.below{top:20px}
+.arc-nlbl.above{bottom:26px}
+.arc-nlbl.below{top:26px}
 
 /* MY WORLD */
 .world-row{display:flex;flex-wrap:wrap;gap:.3rem 1.8rem}
@@ -144,16 +128,13 @@ footer{margin-top:2rem;padding-top:1.2rem;border-top:1px solid #f0ece4;display:f
     </div>
   </header>
 
-  <!-- TOP ROW: capture + current term -->
+  <!-- TOP ROW: arc position + current term -->
   <div class="top-row">
 
     <div>
-      <div class="lbl">What did you notice today</div>
-      <div class="capture-prompt" id="term-prompt"></div>
-      <input class="capture-input" id="focus-input" type="text" placeholder="one sentence. what crossed your mind." maxlength="160"/>
-      <a class="capture-btn" href="https://wa.me/12086173097" target="_blank" id="capture-btn">
-        <span class="capture-sym">✦</span>Capture → WhatsApp
-      </a>
+      <div class="lbl">Where you are</div>
+      <div class="nudge-poem" id="arc-poem"></div>
+      <div class="nudge-note" id="arc-note"></div>
     </div>
 
     <div>
@@ -171,19 +152,21 @@ footer{margin-top:2rem;padding-top:1.2rem;border-top:1px solid #f0ece4;display:f
 
   <hr>
 
-  <!-- TOOLS + MY WORLD -->
+  <!-- TOOLS -->
   <div class="lbl">Tools</div>
   <div class="tools-row" style="margin-bottom:1.2rem">
     <a class="tool-link" href="solar-terms.html">Solar Terms</a>
     <a class="tool-link" href="timeline.html">Brand Timeline</a>
-    <a class="tool-link" href="capture.html">Capture System</a>
+    <a class="tool-link" href="content-map.html">Content Map</a>
+    <a class="tool-link" href="observation-log-jingzhe.html">Observation Log</a>
     <a class="tool-link" href="philosophy.html">Life Philosophy</a>
     <a class="tool-link" href="brand-voice.html">Brand Voice</a>
     <a class="tool-link" href="mindmap.html">Ideas Map</a>
+    <a class="tool-link" href="projection.html">Housing Projection</a>
+    <a class="tool-link" href="home-buying.html">Home Buying</a>
+    <a class="tool-link" href="school-prep.html">School Prep</a>
+    <a class="tool-link" href="capture.html">Capture System</a>
     <a class="tool-link" href="ux-tcm-journey.html">UX TCM Journey</a>
-    <a class="tool-link" href="observation-log-jingzhe.html">Observation Log · 驚蟄</a>
-    <a class="tool-link" href="reminders-setup.html">Reminders Setup</a>
-    <a class="tool-link" href="projection.html">House Purchase Projection</a>
   </div>
   <hr>
 
@@ -332,10 +315,56 @@ function render(){
   document.getElementById('term-desc').textContent=term.desc;
   document.getElementById('term-notice').textContent=term.notice;
 
-  // Prompt
-  document.getElementById('term-prompt').textContent=PROMPTS[idx];
 
-  // Next term
+
+  // Arc nudge — phase-aware
+  const school = new Date('2026-09-08');
+  const rac = new Date('2028-10-01');
+  const drtcm = new Date('2030-02-01');
+  let poem, note, links;
+
+  if(now < school) {
+    const daysToSchool = days(now, school);
+    const monthsToSchool = Math.round(daysToSchool / 30);
+    poem = `${monthsToSchool} months before everything changes.`;
+    note = `Phase 1 · The Art of Listening. School hasn't started yet — this is the time to build the foundation, get financially ready, and let the brand find its rhythm. Check home buying and school prep this term.`;
+    links = [
+      {href:'home-buying.html', label:'Home Buying reference →'},
+      {href:'school-prep.html', label:'School Prep reference →'},
+      {href:'projection.html', label:'Housing Projection →'},
+    ];
+  } else if(now < rac) {
+    poem = `You are in school. You are doing the thing.`;
+    note = `Phase 2 · Acupuncture. ${days(now, rac)} days to R.Ac board exam. Keep the brand alive between semesters. One solar term at a time.`;
+    links = [
+      {href:'timeline.html', label:'Brand Timeline →'},
+      {href:'observation-log-jingzhe.html', label:'Observation Log →'},
+    ];
+  } else if(now < drtcm) {
+    poem = `R.Ac. You did it. Now herbology.`;
+    note = `Phase 3 · Herbology semesters. Building toward Dr.TCM in 2030. The clinic is coming into view.`;
+    links = [
+      {href:'timeline.html', label:'Brand Timeline →'},
+      {href:'ux-tcm-journey.html', label:'UX TCM Journey →'},
+    ];
+  } else {
+    poem = `Dr. TCM. The clinic is open.`;
+    note = `Phase 4 · Practice. Everything you built is now in service of the people who walk through your door.`;
+    links = [];
+  }
+
+  document.getElementById('arc-poem').textContent = poem;
+  document.getElementById('arc-note').textContent = note;
+  const linksEl = document.createElement('div');
+  linksEl.className = 'nudge-links';
+  links.forEach(l => {
+    const a = document.createElement('a');
+    a.href = l.href; a.className = 'nudge-link'; a.textContent = l.label;
+    linksEl.appendChild(a);
+  });
+  document.getElementById('arc-note').after(linksEl);
+
+
   document.getElementById('next-days').textContent=days(now,nd);
   document.getElementById('next-name').textContent=`${nt.zh} · ${nt.en}`;
   document.getElementById('next-date').textContent=nd.toLocaleDateString('en-CA',{month:'long',day:'numeric',year:'numeric'});
@@ -422,11 +451,6 @@ function buildArc(){
     row.appendChild(lbl);row.appendChild(line);c.appendChild(row);
   });
 }
-
-// ── FOCUS PERSIST ──
-const fi=document.getElementById('focus-input');
-fi.value=localStorage.getItem('tricia_focus')||'';
-fi.addEventListener('input',()=>localStorage.setItem('tricia_focus',fi.value));
 
 render();
 </script>

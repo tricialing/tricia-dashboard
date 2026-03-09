@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solar Terms Content Map · Listening Season</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --spring:#8BA888;
+  --spring-light:#f0f4ef;
+  --spring-mid:#d4e2d2;
+  --summer:#C17D5A;
+  --summer-light:#f8f0ea;
+  --summer-mid:#ead4c0;
+  --autumn:#B08060;
+  --autumn-light:#f5f0e8;
+  --autumn-mid:#ddd0b8;
+  --winter:#7A8FA8;
+  --winter-light:#edf0f5;
+  --winter-mid:#c8d4e2;
+  --ink:#2a2520;
+  --stone:#5a5550;
+  --dust:#8b8580;
+  --fog:#b0aaa3;
+  --paper:#fdfcf9;
+  --cream:#f7f4ee;
+}
+
+body{
+  background:var(--cream);
+  font-family:Georgia,'Times New Roman',serif;
+  color:var(--ink);
+  min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* NAV */
+.nav{
+  position:sticky;
+  top:0;
+  z-index:100;
+  background:var(--cream);
+  border-bottom:1px solid #e8e2d8;
+  padding:.9rem 2rem;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.nav a{font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:var(--fog);text-decoration:none}
+.nav-title{font-size:.72rem;font-style:italic;color:var(--dust)}
+
+/* HERO */
+.hero{
+  padding:3rem 2rem 2rem;
+  max-width:1100px;
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:2rem;
+  align-items:end;
+}
+@media(max-width:600px){.hero{grid-template-columns:1fr;padding:2rem 1.2rem 1.5rem}}
+.hero-title{font-size:2.4rem;color:var(--ink);line-height:1.05;margin-bottom:.5rem;font-weight:400}
+@media(max-width:600px){.hero-title{font-size:1.8rem}}
+.hero-sub{font-size:.82rem;font-style:italic;color:var(--dust);line-height:1.7;max-width:480px}
+.year-wheel{
+  width:90px;height:90px;
+  border-radius:50%;
+  background:conic-gradient(
+    var(--spring) 0deg 90deg,
+    var(--summer) 90deg 180deg,
+    var(--autumn) 180deg 270deg,
+    var(--winter) 270deg 360deg
+  );
+  opacity:.7;
+  flex-shrink:0;
+}
+@media(max-width:600px){.year-wheel{display:none}}
+
+/* LEGEND */
+.legend{
+  max-width:1100px;
+  margin:0 auto;
+  padding:0 2rem 2rem;
+  display:flex;
+  gap:1.5rem;
+  flex-wrap:wrap;
+}
+@media(max-width:600px){.legend{padding:0 1.2rem 1.5rem;gap:1rem}}
+.legend-item{display:flex;align-items:center;gap:.4rem;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--dust)}
+.legend-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+/* SEASON SECTIONS */
+.season{
+  max-width:1100px;
+  margin:0 auto 3rem;
+  padding:0 2rem;
+}
+@media(max-width:600px){.season{padding:0 1.2rem;margin-bottom:2rem}}
+
+.season-header{
+  display:grid;
+  grid-template-columns:auto 1fr auto;
+  align-items:center;
+  gap:1.5rem;
+  margin-bottom:1.5rem;
+  padding-bottom:1rem;
+  border-bottom:2px solid currentColor;
+}
+.season-header.spring{color:var(--spring)}
+.season-header.summer{color:var(--summer)}
+.season-header.autumn{color:var(--autumn)}
+.season-header.winter{color:var(--winter)}
+
+.season-char{font-size:2.8rem;line-height:1;opacity:.9}
+.season-info{}
+.season-name{font-size:1rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.2rem}
+.season-detail{font-size:.68rem;font-style:italic;color:var(--dust)}
+.season-dates{font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--fog);text-align:right}
+
+/* TERM GRID */
+.terms{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:1rem;
+}
+@media(max-width:800px){.terms{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:480px){.terms{grid-template-columns:1fr}}
+
+/* TERM CARD */
+.card{
+  border:1px solid #e4dfd6;
+  border-radius:2px;
+  overflow:hidden;
+  background:var(--paper);
+  transition:box-shadow .2s;
+}
+.card:hover{box-shadow:0 4px 20px rgba(0,0,0,0.06)}
+
+.card-top{
+  padding:.8rem 1rem .6rem;
+  border-bottom:1px solid #f0ece4;
+}
+.card-top.spring{background:var(--spring-light);border-bottom-color:var(--spring-mid)}
+.card-top.summer{background:var(--summer-light);border-bottom-color:var(--summer-mid)}
+.card-top.autumn{background:var(--autumn-light);border-bottom-color:var(--autumn-mid)}
+.card-top.winter{background:var(--winter-light);border-bottom-color:var(--winter-mid)}
+
+.card-char{font-size:1.4rem;color:var(--ink);line-height:1;margin-bottom:.15rem}
+.card-pinyin{font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:var(--dust);margin-bottom:.1rem}
+.card-english{font-size:.75rem;font-style:italic;color:var(--stone)}
+.card-date{font-size:.58rem;letter-spacing:.1em;color:var(--fog);margin-top:.3rem}
+
+.card-body{padding:.9rem 1rem}
+.card-element{
+  font-size:.52rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--fog);margin-bottom:.6rem;
+  display:flex;gap:.5rem;align-items:center;
+}
+.card-element span{color:var(--dust)}
+
+.card-angle{
+  font-size:.8rem;line-height:1.65;color:var(--stone);
+  font-style:italic;margin-bottom:.8rem;
+  border-left:2px solid #e4dfd6;
+  padding-left:.7rem;
+}
+.card-angle.spring{border-left-color:var(--spring-mid)}
+.card-angle.summer{border-left-color:var(--summer-mid)}
+.card-angle.autumn{border-left-color:var(--autumn-mid)}
+.card-angle.winter{border-left-color:var(--winter-mid)}
+
+/* TODAY MARKER */
+.current-marker{
+  display:inline-block;
+  font-size:.5rem;letter-spacing:.12em;text-transform:uppercase;
+  background:var(--spring);color:#fff;
+  padding:.15rem .5rem;border-radius:2px;
+  margin-left:.5rem;vertical-align:middle;
+}
+
+/* FOOTNOTE */
+.footnote{
+  max-width:1100px;margin:0 auto;
+  padding:2rem 2rem 3rem;
+  border-top:1px solid #e8e2d8;
+  font-size:.62rem;font-style:italic;color:var(--fog);line-height:1.8;
+}
+@media(max-width:600px){.footnote{padding:1.5rem 1.2rem 2rem}}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="index.html">← Dashboard</a>
+  <span class="nav-title">Solar Terms Content Map</span>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div>
+    <div class="hero-title">Solar Terms<br>Content Map</div>
+    <div class="hero-sub">24 moments across the year. One content angle each. Your brand lens — seasonal living, TCM wisdom, honest observation.</div>
+  </div>
+  <div class="year-wheel"></div>
+</div>
+
+<!-- LEGEND -->
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:var(--spring)"></div>Spring · Wood</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--summer)"></div>Summer · Fire</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--autumn)"></div>Autumn · Metal</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--winter)"></div>Winter · Water</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--ink)"></div>Essay</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--dust)"></div>Observation Log</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--fog)"></div>Reel / Visual</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#c8b8a8"></div>Printable</div>
+</div>
+
+<!-- ===== SPRING ===== -->
+<section class="season">
+  <div class="season-header spring">
+    <div class="season-char">春</div>
+    <div class="season-info">
+      <div class="season-name">Spring</div>
+      <div class="season-detail">Wood · Liver & Gallbladder · Rising energy · Vision & planning</div>
+    </div>
+    <div class="season-dates">Feb – Apr</div>
+  </div>
+  <div class="terms">
+
+    <div class="card">
+      <div class="card-top spring">
+        <div class="card-char">立春</div>
+        <div class="card-pinyin">Lì Chūn</div>
+        <div class="card-english">Start of Spring</div>
+        <div class="card-date">Feb 3 · Solar term 1 of 24</div>
+      </div>
+      <div class="card-body">
+        <div class="card-element"><span>Wood · Liver</span></div>
+        <div class="card-angle spring">The calendar says spring before the body believes it. What are you pretending isn't already changing?</div>
+      </div>
+    </div>
+    </div>
+
+    <div class="card">
+      <div class="card-top spring">
+        <div class="card-char">雨水</div>
+        <div class="card-pinyin">Yǔ Shuǐ</div>
+        <div class="card-english">Rain Water</div>
+        <div class="card-date">Feb 18 · Solar term 2 of 24</div>
+      </div>
+      <div class="card-body">
+        <div class="card-element"><span>Wood · Liver</span></div>
+        <div class="card-angle spring">Snow becomes rain. Hard becomes soft. TCM says the Liver needs moisture to move freely. What have you been forcing that might flow if you softened?</div>
+      </div>
+    </div>
+    </div>
+
+    <div class="card">
+      <div class="card-top spring">
+        <div class="card-char">驚蟄</div>
+        <div class="card-pinyin">Jīng Zhé</div>
+        <div class="card-english">Awakening of Insects<span class="current-marker">now</span></div>
+        <div class="card-date">Mar 5 · Solar term 3 of 24</div>
+      </div>
+      <div class="card-body">
+        <div class="card-element"><span>Wood · Liver</span></div>
+        <div class="card-angle spring">Thunder wakes what's been dormant. You don't decide to wake up — something wakes you. What cracked open this season?</div>
+      </div>
+    </div>
+    </div>
+
+    <div class="card">
+      <div class="card-top spring">
+        <div class="card-char">春分</div>
+        <div class="card-pinyin">Chūn Fēn</div>
+        <div class="card-english">Spring Equinox</div>
+        <div class="card-date">Mar 20 · Solar term 4 of 24</div>
+      </div>
+      <div class="card-body">
+        <div class="card-element"><span>Wood · Liver</span></div>
+        <div class="card-angle spring">Equal light and dark, for one day. Balance isn't a destination — it's a crossing point. What are you in the middle of right now?</div>
+      </div>
+    </div>
+    </div>
+
+    <div class="card">
+      <div class="card-top spring">
+        <div class="card-char">清明</div>
+        <div class="card-pinyin">Qīng Míng</div>
+        <div class="card-english">Clear and Bright</div>
+        <div class="card-date">Apr 4 · Solar term 5 of 24</div>
+      </div>
+      <div class="card-body">
+        <div class="card-element"><span>Wood · Liver</span></div>
+        <div class="card-angle spring">The air is clean enough to see clearly. Clarity isn't forced — it arrives when the noise settles. What becomes visible when you stop explaining yourself?</div>
+      </div>
+    </div>
+    </div>
+
+    <div class="card">
+      <div class="card-top spring">
+        <div class="card-char">穀雨</div>
+        <div class="card-pinyin">Gǔ Yǔ</div>
+        <div class="card-english">Grain Rain</div>
+        <div class="card-date">Apr 19 · Solar term 6 of 24</div>
+      </div>
+      <div class="card-body">
+        <div class="card-element"><span>Wood · Liver</span></div>
+        <div class="card-angle spring">The last rain before summer. Nourishment before the heat arrives. What are you tending now that won't show results until later?</div>
+      </div>
+    </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== SUMMER ===== -->
+<section class="season">
+  <div class="season-header summer">
+    <div class="season-char">夏</div>
+    <div class="season-info">
+      <div class="season-name">Summer</div>
+      <div class="season-detail">Fire · Heart & Small Intestine · Peak energy · Joy & connection</div>
+    </div>
+    <div class="season-dates">May – Jul</div>
+  </div>
+  <div class="terms">
+
+    <div class="card">
+      <div class="card-top summer">
+        <div class="card-char">立夏</div>
+        <div class="card-pinyin">Lì Xià</div>
+        <div class="card-english">Start of Summer</div>
+        <div class="card-date">May 5 · Solar term 7 of 24</div>
+      </div>
+      <div class="card-body">
+        <div class="card-element"><span>Fire · Heart</span></div>
+        <div class="card-angle summer">The Heart opens in summer. TCM says this is when what you've been growing becomes visible. What are you finally willing to be seen doing?</div>
+      </div>
+    </div>
+    </div>
+
+    <div class="card">
+      <div class="card-top summer">
+        <div class="card-char">小滿</div>
+        <div class="card-pinyin">Xiǎo Mǎn</div>
+        <div class="card-english">Grain Buds</div>
+        <div class="card-date">May 20 · Solar term 8 of 24</div>
+      </div>
+      <div class="card-body">
+        <div class="card-element"><span>Fire · Heart</span></div>
+        <div class="card-angle summer">小滿 means "a little full" — not complete, just filling. The grain is plump but not ripe. There's wisdom in not rushing the last 20%.</div>
+      </div>
+    </div>
+    </div>
+
+    <div class="card">
+      <div class="card-top summer">
+        <div class="card-char">芒種</div>
+        <div class="card-pinyin">Máng Zhòng</div>
+        <div class="card-english">Grain in Ear</div>
+        <div class="card-date">Jun 5 · Solar term 9 of 24</div>
+      </div>
+      <div class="card-body">
+        <div class="card-element"><span>Fire · Heart</span></div>
+        <div class="card-angle summer">Busy hands, full fields. The most productive season demands the most from the body. What does your nervous system need when everything is asking for you?</div>
+      </div>
+    </div>
+    </div>
+
+    <div class="card">
+      <div class="card-top summer">
+        <div class="card-char">夏至</div>
+        <div class="card-pinyin">Xià Zhì</div>
+        <div class="card-english">Summer Solstice</div>
+        <div class="card-date">Jun 21 · Solar term 10 of 24</div>
+      </div>
+      <div class="card-body">
+        <div class="card-element"><span>Fire · Heart</span></div>
+        <div class="card-angle summer">The longest day. Yang at its peak — and immediately beginning its retreat. Every high point contains the seed of its turning. What are you at the top of right now?</div>
+      </div>
+    </div>
+    </div>
+
+    <div class="card">
+      <div class="card-top summer">
+        <div class="card-char">小暑</div>
+        <div class="card-pinyin">Xiǎo Shǔ</div>
+        <div class="card-english">Minor Heat</div>
+        <div class="card-date">Jul 7 · Solar term 11 of 24</div>
+      </div>
+      <div class="card-body">
+        <div class="card-element"><span>Fire · Heart</span></div>
+        <div class="card-angle summer">Heat accumulates before it peaks. TCM warns against cold drinks in summer — the body is working hard to stay warm inside. What are you numbing that needs to be felt?</div>
+      </div>
+    </div>
+    </div>
+
+    <div class="card">
+      <div class="card-top summer">
+        <div class="card-char">大暑</div>
+        <div class="card-pinyin">Dà Shǔ</div>
+        <div class="card-english">Major Heat</div>
+        <div class="card-date">Jul 22 · Solar term 12 of 24</div>
+      </div>
+      <div class="card-body">
+        <div class="card-element"><span>Fire · Heart</span></div>
+        <div class="card-angle summer">Peak heat. The year's most intense point. Everything is fully exposed. This is the term June was born into — fire season, heart wide open.</div>
+      </div>
+    </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== AUTUMN ===== -->
+<section class="season">
+  <div class="season-header autumn">
+    <div class="season-char">秋</div>
+    <div class="season-info">
+      <div class="season-name">Autumn</div>
+      <div class="season-detail">Metal · Lung & Large Intestine · Descending energy · Letting go & grief</div>
+    </div>
+    <div class="season-dates">Aug – Oct</div>
+  </div>
+  <div class="terms">
+
+    <div class="card">
+      <div class="card-top autumn">
+        <div class="card-char">立秋</div>
+        <div class="card-pinyin">Lì Qiū</div>
+        <div class="card-english">Start of Autumn</div>
+        <div class="card-date">Aug 7 · Solar term 13 of 24</div>
+      </div>
+      <div class="card-body">
+        <div class="card-element"><span>Metal · Lung</span></div>
+        <div class="card-angle autumn">The first exhale after summer. Metal season begins. The Lung governs letting go — every breath out is a small release. What are you ready to stop carrying?</div>
+      </div>
+    </div>
+    </div>
+
+    <div class="card">
+      <div class="card-top autumn">
+        <div class="card-char">處暑</div>
+        <div class="card-pinyin">Chǔ Shǔ</div>
+        <div class="card-english">End of Heat</div>
+        <div class="card-date">Aug 22 · Solar term 14 of 24</div>
+      </div>
+      <div class="card-body">
+        <div class="card-element"><span>Metal · Lung</span></div>
+        <div class="card-angle autumn">Summer doesn't end — it retreats. There's a difference. School starts this week. The heat is ending and something more serious begins. Ready or not.</div>
+      </div>
+    </div>
+    </div>
+
+    <div class="card">
+      <div class="card-top autumn">
+        <div class="card-char">白露</div>
+        <div class="card-pinyin">Bái Lù</div>
+        <div class="card-english">White Dew</div>
+        <div class="card-date">Sep 7 · Solar term 15 of 24</div>
+      </div>
+      <div class="card-body">
+        <div class="card-element"><span>Metal · Lung</span></div>
+        <div class="card-angle autumn">Dew appears when warm air meets cold surface. The visible sign of an invisible shift. What changes in you are only now becoming apparent — to you or to others?</div>
+      </div>
+    </div>
+    </div>
+
+    <div class="card">
+      <div class="card-top autumn">
+        <div class="card-char">秋分</div>
+        <div class="card-pinyin">Qiū Fēn</div>
+        <div class="card-english">Autumn Equinox</div>
+        <div class="card-date">Sep 22 · Solar term 16 of 24</div>
+      </div>
+      <div class="card-body">
+        <div class="card-element"><span>Metal · Lung</span></div>
+        <div class="card-angle autumn">Equal again. But this time the dark is winning. The equinox in autumn feels different than spring — heavier, more honest. What truth are you sitting with this season?</div>
+      </div>
+    </div>
+    </div>
+
+    <div class="card">
+      <div class="card-top autumn">
+        <div class="card-char">寒露</div>
+        <div class="card-pinyin">Hán Lù</div>
+        <div class="card-english">Cold Dew</div>
+        <div class="card-date">Oct 8 · Solar term 17 of 24</div>
+      </div>
+      <div class="card-body">
+        <div class="card-element"><span>Metal · Lung</span></div>
+        <div class="card-angle autumn">The dew is cold now. The Lung is most vulnerable. TCM says grief lives here — not to be fixed, but to be breathed through. What are you grieving that you haven't named?</div>
+      </div>
+    </div>
+    </div>
+
+    <div class="card">
+      <div class="card-top autumn">
+        <div class="card-char">霜降</div>
+        <div class="card-pinyin">Shuāng Jiàng</div>
+        <div class="card-english">Frost's Descent</div>
+        <div class="card-date">Oct 23 · Solar term 18 of 24</div>
+      </div>
+      <div class="card-body">
+        <div class="card-element"><span>Metal · Lung</span></div>
+        <div class="card-angle autumn">First frost. What was soft is now crisp. Boundaries become visible — in nature and in us. Where have you gotten clearer about what you will and won't carry?</div>
+      </div>
+    </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== WINTER ===== -->
+<section class="season">
+  <div class="season-header winter">
+    <div class="season-char">冬</div>
+    <div class="season-info">
+      <div class="season-name">Winter</div>
+      <div class="season-detail">Water · Kidney & Bladder · Conserving energy · Rest, will & ancestral wisdom</div>
+    </div>
+    <div class="season-dates">Nov – Jan</div>
+  </div>
+  <div class="terms">
+
+    <div class="card">
+      <div class="card-top winter">
+        <div class="card-char">立冬</div>
+        <div class="card-pinyin">Lì Dōng</div>
+        <div class="card-english">Start of Winter</div>
+        <div class="card-date">Nov 7 · Solar term 19 of 24</div>
+      </div>
+      <div class="card-body">
+        <div class="card-element"><span>Water · Kidney</span></div>
+        <div class="card-angle winter">The Kidney holds your reserves — your deepest energy, your will to keep going. Winter is not for spending. It's for storing. What are you protecting this season?</div>
+      </div>
+    </div>
+    </div>
+
+    <div class="card">
+      <div class="card-top winter">
+        <div class="card-char">小雪</div>
+        <div class="card-pinyin">Xiǎo Xuě</div>
+        <div class="card-english">Minor Snow</div>
+        <div class="card-date">Nov 21 · Solar term 20 of 24</div>
+      </div>
+      <div class="card-body">
+        <div class="card-element"><span>Water · Kidney</span></div>
+        <div class="card-angle winter">The first snow covers everything equally. There's something about that — the way winter makes no distinction. What would it feel like to stop ranking your problems?</div>
+      </div>
+    </div>
+    </div>
+
+    <div class="card">
+      <div class="card-top winter">
+        <div class="card-char">大雪</div>
+        <div class="card-pinyin">Dà Xuě</div>
+        <div class="card-english">Major Snow</div>
+        <div class="card-date">Dec 6 · Solar term 21 of 24</div>
+      </div>
+      <div class="card-body">
+        <div class="card-element"><span>Water · Kidney</span></div>
+        <div class="card-angle winter">Deep stillness. TCM says the body craves early sleep and late rising in winter. Every system fighting that rhythm is fighting nature. When did you last actually rest?</div>
+      </div>
+    </div>
+    </div>
+
+    <div class="card">
+      <div class="card-top winter">
+        <div class="card-char">冬至</div>
+        <div class="card-pinyin">Dōng Zhì</div>
+        <div class="card-english">Winter Solstice</div>
+        <div class="card-date">Dec 21 · Solar term 22 of 24</div>
+      </div>
+      <div class="card-body">
+        <div class="card-element"><span>Water · Kidney</span></div>
+        <div class="card-angle winter">The longest night. Yin at its peak, yang begins its return. The body knows before the mind does. What is quietly turning in you, even now in the dark?</div>
+      </div>
+    </div>
+    </div>
+
+    <div class="card">
+      <div class="card-top winter">
+        <div class="card-char">小寒</div>
+        <div class="card-pinyin">Xiǎo Hán</div>
+        <div class="card-english">Minor Cold</div>
+        <div class="card-date">Jan 5 · Solar term 23 of 24</div>
+      </div>
+      <div class="card-body">
+        <div class="card-element"><span>Water · Kidney</span></div>
+        <div class="card-angle winter">Not the coldest yet, but almost. The Kidney is tested here. New year energy wants to rush — the body says wait. What are you not ready to begin yet, and is that okay?</div>
+      </div>
+    </div>
+    </div>
+
+    <div class="card">
+      <div class="card-top winter">
+        <div class="card-char">大寒</div>
+        <div class="card-pinyin">Dà Hán</div>
+        <div class="card-english">Major Cold</div>
+        <div class="card-date">Jan 20 · Solar term 24 of 24</div>
+      </div>
+      <div class="card-body">
+        <div class="card-element"><span>Water · Kidney</span></div>
+        <div class="card-angle winter">The last term. The coldest point before the wheel turns again. 立春 is two weeks away. You've made it through. What did this year ask of you that you didn't expect to give?</div>
+      </div>
+    </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="footnote">
+  Solar term dates are approximate and shift slightly year to year. Dates shown are for 2026. Organ systems listed reflect TCM theory — not Western medical claims. Content angles are seeds, not scripts. Rewrite them in your own voice before publishing. Format suggestions are starting points only — follow what the term asks for. · Listening Season · 二十四節氣
+</div>
+
+</body>
+</html>
