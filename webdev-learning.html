@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Web Dev · Learning</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Noto+Serif+SC:wght@300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="listening-season.css">
+<style>
+/* ── HEADER ── */
+header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: .5rem;
+  margin-bottom: 1.8rem;
+  padding-bottom: 1.2rem;
+  border-bottom: 1px solid var(--rule);
+}
+.header-title { font-size: 1.6rem; font-weight: 300; color: var(--ink); }
+.header-meta {
+  display: flex;
+  gap: 1.6rem;
+  font-size: .6rem;
+  color: var(--muted);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  font-style: italic;
+}
+.header-meta span { color: var(--accent); font-style: normal; }
+
+/* ── INTRO ── */
+.intro {
+  padding: 1.2rem 1.4rem;
+  margin-bottom: 1.6rem;
+  border-left: 2px solid var(--rule);
+  background: var(--faint);
+}
+.intro p {
+  font-size: .85rem;
+  font-style: italic;
+  color: var(--mid);
+  line-height: 1.8;
+}
+.intro p + p { margin-top: .5rem; }
+
+/* ── PROGRESS ── */
+.progress-panel {
+  display: flex;
+  align-items: center;
+  gap: 1.4rem;
+  margin-bottom: 1.8rem;
+  flex-wrap: wrap;
+}
+.progress-label {
+  font-size: .58rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.progress-bar { flex: 1; height: 2px; background: var(--rule); min-width: 80px; }
+.progress-fill { height: 100%; background: var(--green); transition: width .4s ease; }
+.progress-count { font-size: .6rem; color: var(--accent); white-space: nowrap; font-style: italic; }
+
+/* ── PHASE LABEL ── */
+.phase-label {
+  font-size: .55rem;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 2rem 0 .4rem;
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+}
+.phase-label::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
+.phase-desc {
+  font-size: .78rem;
+  font-style: italic;
+  color: var(--muted);
+  margin-bottom: .8rem;
+}
+
+/* ── LESSON ROWS ── */
+.lesson-row {
+  display: grid;
+  grid-template-columns: 52px 1fr auto 28px;
+  gap: 0 1rem;
+  align-items: start;
+  padding: .7rem .6rem;
+  border-bottom: 1px solid var(--rule);
+  cursor: pointer;
+  transition: background .12s;
+}
+.lesson-row:hover { background: var(--faint); }
+.lesson-row.done { background: var(--done); }
+.lesson-row.done .lesson-topic {
+  color: var(--muted);
+  text-decoration: line-through;
+  text-decoration-color: var(--muted);
+}
+.lesson-row.current {
+  border-left: 2px solid var(--ink);
+  padding-left: calc(.6rem - 2px);
+  background: #faf8f4;
+}
+
+/* lesson id */
+.lesson-id { display: flex; flex-direction: column; gap: .1rem; padding-top: .08rem; }
+.lesson-num { font-size: .6rem; letter-spacing: .08em; color: var(--muted); }
+.lesson-row.current .lesson-num { color: var(--ink); font-weight: 400; }
+
+.lesson-main {}
+.lesson-topic {
+  font-size: .92rem;
+  color: var(--ink);
+  line-height: 1.4;
+  margin-bottom: .2rem;
+}
+.lesson-note {
+  font-size: .72rem;
+  font-style: italic;
+  color: var(--ink);
+  line-height: 1.6;
+}
+.lesson-note .lived {
+  color: var(--green);
+  font-style: normal;
+  font-size: .68rem;
+  display: block;
+  margin-top: .15rem;
+  letter-spacing: .02em;
+}
+
+.lesson-tag {
+  font-size: .55rem;
+  letter-spacing: .04em;
+  color: var(--muted);
+  padding-top: .1rem;
+  text-align: right;
+  white-space: nowrap;
+  font-style: italic;
+}
+
+.lesson-check {
+  font-size: .9rem;
+  text-align: center;
+  padding-top: .05rem;
+  user-select: none;
+  color: var(--muted);
+}
+.lesson-row.done .lesson-check { color: var(--green); }
+
+/* ── HR ── */
+hr { border: none; border-top: 1px solid var(--rule); margin: 2rem 0; }
+
+/* ── FOOTER ── */
+footer {
+  margin-top: 2rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--rule);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: .5rem;
+  font-size: .58rem;
+  color: var(--muted);
+  letter-spacing: .08em;
+  font-style: italic;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 640px) {
+  body { padding: 1rem; }
+  .box { padding: 1.2rem; }
+  .lesson-row { grid-template-columns: 44px 1fr 24px; }
+  .lesson-tag { display: none; }
+}
+</style>
+</head>
+<body>
+<div class="box">
+
+<div class="nav"><a href="index.html">← Dashboard</a></div>
+
+<header>
+  <div class="header-title">Web Dev · Learning</div>
+  <div class="header-meta">
+    <span>Mar 2026 – ongoing</span>
+    <span>5 phases · self-paced</span>
+    <span>Vehicle: <span>this dashboard</span></span>
+  </div>
+</header>
+
+<div class="intro">
+  <p>The dashboard is the curriculum. No tutorials, no toy projects — every concept here was lived through building something real with real constraints. You already have instincts. This gives them names.</p>
+  <p>The goal is not to become a developer. It is to understand enough to have strong opinions, make good decisions, and know when to ask the right question. That's a designer with web literacy — which is what you already are, just more so.</p>
+</div>
+
+<div class="progress-panel">
+  <div class="progress-label">Progress</div>
+  <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+  <div class="progress-count" id="prog-count">0 of 20 lessons</div>
+</div>
+
+<!-- ═══════════════════ PHASE 1 -->
+<div class="phase-label">Phase 1 · HTML & CSS Fundamentals</div>
+<div class="phase-desc">The building blocks. You already read this code and have opinions on it. The gap is vocabulary and confidence.</div>
+
+<div class="lesson-row done" onclick="toggleDone(this)">
+  <div class="lesson-id"><div class="lesson-num">1.1</div></div>
+  <div class="lesson-main">
+    <div class="lesson-topic">HTML is structure, not style</div>
+    <div class="lesson-note">Every element is a box. div, p, span, header, footer — they describe what something is, not how it looks. You have been reading and editing these correctly all along.
+      <span class="lived">Lived: every page in this dashboard</span>
+    </div>
+  </div>
+  <div class="lesson-tag">concept</div>
+  <div class="lesson-check">✓</div>
+</div>
+
+<div class="lesson-row done" onclick="toggleDone(this)">
+  <div class="lesson-id"><div class="lesson-num">1.2</div></div>
+  <div class="lesson-main">
+    <div class="lesson-topic">The box model — margin, padding, border</div>
+    <div class="lesson-note">Everything on screen is a rectangle. Padding is space inside the box. Margin is space outside. Border is the edge. You already think in these terms from design school.
+      <span class="lived">Lived: .box padding in every page</span>
+    </div>
+  </div>
+  <div class="lesson-tag">concept</div>
+  <div class="lesson-check">✓</div>
+</div>
+
+<div class="lesson-row done" onclick="toggleDone(this)">
+  <div class="lesson-id"><div class="lesson-num">1.3</div></div>
+  <div class="lesson-main">
+    <div class="lesson-topic">CSS selectors and specificity</div>
+    <div class="lesson-note">How CSS decides which rule wins when two rules fight over the same element. Class beats tag. ID beats class. Inline beats everything. This is why order and structure matter.
+      <span class="lived">Lived: shared CSS loading before page styles</span>
+    </div>
+  </div>
+  <div class="lesson-tag">concept</div>
+  <div class="lesson-check">✓</div>
+</div>
+
+<div class="lesson-row done" onclick="toggleDone(this)">
+  <div class="lesson-id"><div class="lesson-num">1.4</div></div>
+  <div class="lesson-main">
+    <div class="lesson-topic">Flexbox — one-dimensional layout</div>
+    <div class="lesson-note">Flex lets you line things up in a row or column and control how they space and wrap. The nav, header-meta, progress panel, footer — all flexbox.
+      <span class="lived">Lived: .nav, footer, .progress-panel</span>
+    </div>
+  </div>
+  <div class="lesson-tag">concept</div>
+  <div class="lesson-check">✓</div>
+</div>
+
+<div class="lesson-row current" onclick="toggleDone(this)">
+  <div class="lesson-id"><div class="lesson-num">1.5</div></div>
+  <div class="lesson-main">
+    <div class="lesson-topic">CSS Grid — two-dimensional layout</div>
+    <div class="lesson-note">Grid lets you define rows and columns at the same time. More powerful than flexbox for page layouts. The week rows, the tools grid on the dashboard, the arc track — all grid.
+      <span class="lived">Lived: .week-row, .tools-grid, .top-row</span>
+    </div>
+  </div>
+  <div class="lesson-tag">concept</div>
+  <div class="lesson-check">○</div>
+</div>
+
+<div class="lesson-row" onclick="toggleDone(this)">
+  <div class="lesson-id"><div class="lesson-num">1.6</div></div>
+  <div class="lesson-main">
+    <div class="lesson-topic">CSS variables (custom properties)</div>
+    <div class="lesson-note">Define a value once, use it everywhere. --ink, --muted, --rule. Change one line, the whole site updates. This is why we have listening-season.css — it's the single source of truth for colour and spacing.
+      <span class="lived">Lived: :root tokens in listening-season.css</span>
+    </div>
+  </div>
+  <div class="lesson-tag">concept</div>
+  <div class="lesson-check">○</div>
+</div>
+
+<!-- ═══════════════════ PHASE 2 -->
+<div class="phase-label">Phase 2 · Separation of Concerns · DRY</div>
+<div class="phase-desc">You lived through this refactor this weekend. Now give it the right names.</div>
+
+<div class="lesson-row" onclick="toggleDone(this)">
+  <div class="lesson-id"><div class="lesson-num">2.1</div></div>
+  <div class="lesson-main">
+    <div class="lesson-topic">HTML / CSS / JS — three jobs, three files</div>
+    <div class="lesson-note">Structure, style, behaviour. Mixing them together works until it doesn't. Separating them means changing one thing doesn't break another. This is the single most important concept in front-end architecture.
+      <span class="lived">Lived: extracting listening-season.css and .js</span>
+    </div>
+  </div>
+  <div class="lesson-tag">principle</div>
+  <div class="lesson-check">○</div>
+</div>
+
+<div class="lesson-row" onclick="toggleDone(this)">
+  <div class="lesson-id"><div class="lesson-num">2.2</div></div>
+  <div class="lesson-main">
+    <div class="lesson-topic">DRY — Don't Repeat Yourself</div>
+    <div class="lesson-note">If you write the same thing twice, you will eventually change one and forget the other. The shared CSS is DRY in practice. Every page was re-declaring body and font — that was the problem we fixed this session.
+      <span class="lived">Lived: the entire cleanup pass Mar 10 2026</span>
+    </div>
+  </div>
+  <div class="lesson-tag">principle</div>
+  <div class="lesson-check">○</div>
+</div>
+
+<div class="lesson-row" onclick="toggleDone(this)">
+  <div class="lesson-id"><div class="lesson-num">2.3</div></div>
+  <div class="lesson-main">
+    <div class="lesson-topic">Cascade order — why the order of your CSS links matters</div>
+    <div class="lesson-note">CSS reads top to bottom. A rule lower in the file wins over the same rule higher up. This is why shared CSS must load before page-specific styles — so page rules can override the shared ones intentionally.
+      <span class="lived">Lived: fixing wrong-order links in 5 files</span>
+    </div>
+  </div>
+  <div class="lesson-tag">concept</div>
+  <div class="lesson-check">○</div>
+</div>
+
+<div class="lesson-row" onclick="toggleDone(this)">
+  <div class="lesson-id"><div class="lesson-num">2.4</div></div>
+  <div class="lesson-main">
+    <div class="lesson-topic">Dev vs production</div>
+    <div class="lesson-note">Dev is where you build and experiment. Production is what real users see (your Netlify site). The base template workflow — build self-contained, do a production pass before pushing — is a lightweight version of this distinction.
+      <span class="lived">Lived: base-template.html production pass workflow</span>
+    </div>
+  </div>
+  <div class="lesson-tag">concept</div>
+  <div class="lesson-check">○</div>
+</div>
+
+<!-- ═══════════════════ PHASE 3 -->
+<div class="phase-label">Phase 3 · JavaScript Basics</div>
+<div class="phase-desc">JS is behaviour — it makes things happen. You have already seen it work. Now understand what it's actually doing.</div>
+
+<div class="lesson-row" onclick="toggleDone(this)">
+  <div class="lesson-id"><div class="lesson-num">3.1</div></div>
+  <div class="lesson-main">
+    <div class="lesson-topic">What JS actually does — the DOM</div>
+    <div class="lesson-note">JS talks to the page through the DOM (Document Object Model) — a map of every element on the page. JS can find elements, read them, change them, add or remove them. Every toggle and countdown is JS doing this.
+      <span class="lived">Lived: checkbox toggles in anatomy-prep.html</span>
+    </div>
+  </div>
+  <div class="lesson-tag">concept</div>
+  <div class="lesson-check">○</div>
+</div>
+
+<div class="lesson-row" onclick="toggleDone(this)">
+  <div class="lesson-id"><div class="lesson-num">3.2</div></div>
+  <div class="lesson-main">
+    <div class="lesson-topic">Variables, functions, events</div>
+    <div class="lesson-note">Variables hold values. Functions are reusable instructions. Events are triggers — a click, a page load, a timer firing. Almost every JS pattern is a combination of these three things.
+      <span class="lived">Lived: toggleDone(), onclick, the TERMS array in listening-season.js</span>
+    </div>
+  </div>
+  <div class="lesson-tag">concept</div>
+  <div class="lesson-check">○</div>
+</div>
+
+<div class="lesson-row" onclick="toggleDone(this)">
+  <div class="lesson-id"><div class="lesson-num">3.3</div></div>
+  <div class="lesson-main">
+    <div class="lesson-topic">localStorage — making things persist</div>
+    <div class="lesson-note">localStorage lets a page remember things after you close it. That's why your anatomy checkboxes stay ticked between visits — they're saved to your browser, not a server. It's local to your device.
+      <span class="lived">Lived: checkbox state in anatomy-prep.html</span>
+    </div>
+  </div>
+  <div class="lesson-tag">concept</div>
+  <div class="lesson-check">○</div>
+</div>
+
+<div class="lesson-row" onclick="toggleDone(this)">
+  <div class="lesson-id"><div class="lesson-num">3.4</div></div>
+  <div class="lesson-main">
+    <div class="lesson-topic">Dates and countdowns</div>
+    <div class="lesson-note">JS has a built-in Date object that knows what time it is right now. Subtract two dates, convert to days or weeks. The school countdown, the solar term logic — all date math.
+      <span class="lived">Lived: countdowns in index.html, solar term logic in listening-season.js</span>
+    </div>
+  </div>
+  <div class="lesson-tag">concept</div>
+  <div class="lesson-check">○</div>
+</div>
+
+<!-- ═══════════════════ PHASE 4 -->
+<div class="phase-label">Phase 4 · Git & Deployment</div>
+<div class="phase-desc">You are already doing this. Understanding the mental model makes it less fragile.</div>
+
+<div class="lesson-row" onclick="toggleDone(this)">
+  <div class="lesson-id"><div class="lesson-num">4.1</div></div>
+  <div class="lesson-main">
+    <div class="lesson-topic">What Git actually is</div>
+    <div class="lesson-note">Git is a time machine for your files. Every commit is a snapshot you can go back to. The repo is the full history of every snapshot. You are not just saving files — you are saving a record of every change and why.
+      <span class="lived">Lived: every push to tricialing/tricia-dashboard</span>
+    </div>
+  </div>
+  <div class="lesson-tag">concept</div>
+  <div class="lesson-check">○</div>
+</div>
+
+<div class="lesson-row" onclick="toggleDone(this)">
+  <div class="lesson-id"><div class="lesson-num">4.2</div></div>
+  <div class="lesson-main">
+    <div class="lesson-topic">Commit messages — why they matter</div>
+    <div class="lesson-note">A good commit message is a note to your future self. Present tense, specific, short. "CSS cleanup pass, fix ordering" tells you exactly what changed and why. "update files" tells you nothing.
+      <span class="lived">Lived: commit messages at every session wrap up</span>
+    </div>
+  </div>
+  <div class="lesson-tag">practice</div>
+  <div class="lesson-check">○</div>
+</div>
+
+<div class="lesson-row" onclick="toggleDone(this)">
+  <div class="lesson-id"><div class="lesson-num">4.3</div></div>
+  <div class="lesson-main">
+    <div class="lesson-topic">How Netlify deployment works</div>
+    <div class="lesson-note">Netlify watches your GitHub repo. Every time you push to main, it pulls the latest files and serves them at your URL. That's the whole pipeline. No servers to manage, no build step yet — just files going live automatically.
+      <span class="lived">Lived: tricia-dashboard.netlify.app auto-deploying</span>
+    </div>
+  </div>
+  <div class="lesson-tag">concept</div>
+  <div class="lesson-check">○</div>
+</div>
+
+<!-- ═══════════════════ PHASE 5 -->
+<div class="phase-label">Phase 5 · Beyond Static HTML</div>
+<div class="phase-desc">When the dashboard outgrows flat files. Not urgent — but worth knowing what's ahead.</div>
+
+<div class="lesson-row" onclick="toggleDone(this)">
+  <div class="lesson-id"><div class="lesson-num">5.1</div></div>
+  <div class="lesson-main">
+    <div class="lesson-topic">What a build step is</div>
+    <div class="lesson-note">Right now your files go straight from editor to browser. A build step is a process that transforms your files first — combining them, compressing them, checking for errors. It adds capability but also complexity. You don't need it yet.</div>
+  </div>
+  <div class="lesson-tag">concept</div>
+  <div class="lesson-check">○</div>
+</div>
+
+<div class="lesson-row" onclick="toggleDone(this)">
+  <div class="lesson-id"><div class="lesson-num">5.2</div></div>
+  <div class="lesson-main">
+    <div class="lesson-topic">Components — stop repeating your HTML</div>
+    <div class="lesson-note">Right now the nav and footer are copy-pasted into every file. A component system lets you define them once and reuse them. This is the next logical evolution of DRY for HTML. Frameworks like React or even simple tools like web components solve this.</div>
+  </div>
+  <div class="lesson-tag">concept</div>
+  <div class="lesson-check">○</div>
+</div>
+
+<div class="lesson-row" onclick="toggleDone(this)">
+  <div class="lesson-id"><div class="lesson-num">5.3</div></div>
+  <div class="lesson-main">
+    <div class="lesson-topic">When to reach for a framework</div>
+    <div class="lesson-note">Frameworks solve specific scaling problems — repeated UI, shared state, complex interactions. They also add learning overhead and dependency. The honest question is always: does the problem I have right now actually require this? For the dashboard today, probably not yet.</div>
+  </div>
+  <div class="lesson-tag">concept</div>
+  <div class="lesson-check">○</div>
+</div>
+
+<!-- ═══════════════════ PHASE 6 -->
+<div class="phase-label">Phase 6 · Backend & Sync · Eventually</div>
+<div class="phase-desc">When localStorage isn't enough. This is how data lives on a server and follows you across devices.</div>
+
+<div class="lesson-row" onclick="toggleDone(this)">
+  <div class="lesson-id"><div class="lesson-num">6.1</div></div>
+  <div class="lesson-main">
+    <div class="lesson-topic">What a backend actually is</div>
+    <div class="lesson-note">Right now your site has no memory on a server — it's just files. A backend is a program running on a server that can receive data, store it in a database, and send it back. It's the difference between a brochure and an app.</div>
+  </div>
+  <div class="lesson-tag">concept</div>
+  <div class="lesson-check">○</div>
+</div>
+
+<div class="lesson-row" onclick="toggleDone(this)">
+  <div class="lesson-id"><div class="lesson-num">6.2</div></div>
+  <div class="lesson-main">
+    <div class="lesson-topic">What a database is</div>
+    <div class="lesson-note">A database is organised storage on a server. Instead of saving checkbox state to your browser (localStorage), you save it to a database. Now any device can read it. This is how syncing works everywhere — Capacities, Notion, all of it.</div>
+  </div>
+  <div class="lesson-tag">concept</div>
+  <div class="lesson-check">○</div>
+</div>
+
+<div class="lesson-row" onclick="toggleDone(this)">
+  <div class="lesson-id"><div class="lesson-num">6.3</div></div>
+  <div class="lesson-main">
+    <div class="lesson-topic">APIs — how front and back talk to each other</div>
+    <div class="lesson-note">An API is a contract between two programs. Your front-end sends a request ("save this checkbox state"), the backend receives it, stores it, and sends back a response ("saved"). Every app you use is doing this constantly in the background.</div>
+  </div>
+  <div class="lesson-tag">concept</div>
+  <div class="lesson-check">○</div>
+</div>
+
+<div class="lesson-row" onclick="toggleDone(this)">
+  <div class="lesson-id"><div class="lesson-num">6.4</div></div>
+  <div class="lesson-main">
+    <div class="lesson-topic">First backend project — synced checkboxes</div>
+    <div class="lesson-note">The practical application of everything above. Take the anatomy-prep or webdev-learning checkboxes and make them sync across your phone and laptop. Small project, real problem, concrete payoff. This is the right first backend build.</div>
+  </div>
+  <div class="lesson-tag">project</div>
+  <div class="lesson-check">○</div>
+</div>
+
+<footer>
+  <span>Last updated: Mar 10 2026 · 驚蟄</span>
+  <span>tricialing/tricia-dashboard</span>
+</footer>
+
+</div>
+
+<script>
+const TOTAL = 24;
+
+function toggleDone(row) {
+  row.classList.toggle('done');
+  row.classList.remove('current');
+  const check = row.querySelector('.lesson-check');
+  check.textContent = row.classList.contains('done') ? '✓' : '○';
+  saveState();
+  updateProgress();
+}
+
+function saveState() {
+  const rows = document.querySelectorAll('.lesson-row');
+  const state = Array.from(rows).map(r => r.classList.contains('done'));
+  localStorage.setItem('webdev-progress', JSON.stringify(state));
+}
+
+function loadState() {
+  const saved = localStorage.getItem('webdev-progress');
+  if (!saved) return;
+  const state = JSON.parse(saved);
+  const rows = document.querySelectorAll('.lesson-row');
+  rows.forEach((row, i) => {
+    if (state[i]) {
+      row.classList.add('done');
+      row.classList.remove('current');
+      row.querySelector('.lesson-check').textContent = '✓';
+    }
+  });
+}
+
+function updateProgress() {
+  const done = document.querySelectorAll('.lesson-row.done').length;
+  const pct = Math.round((done / TOTAL) * 100);
+  document.getElementById('prog-fill').style.width = pct + '%';
+  document.getElementById('prog-count').textContent = done + ' of ' + TOTAL + ' lessons';
+}
+
+loadState();
+updateProgress();
+</script>
+<script src="listening-season.js"></script>
+</body>
+</html>

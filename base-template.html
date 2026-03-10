@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Page Title · Listening Season</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Noto+Serif+SC:wght@300&display=swap" rel="stylesheet">
+<style>
+/* ── TOKENS ── */
+:root {
+  --ink:    #2a2520;
+  --mid:    #8b8580;
+  --muted:  #b0aaa3;
+  --faint:  #f0ece4;
+  --rule:   #f0ece4;
+  --paper:  #ffffff;
+  --accent: #6b6560;
+  --green:  #5a7a5a;
+}
+
+/* ── RESET ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── BODY ── */
+body {
+  min-height: 100vh;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+  padding: 2.5rem;
+  background: #E0C0B4; /* fallback — replaced by listening-season.js in production */
+  transition: background 1.5s ease;
+}
+
+/* ── BOX ── */
+.box {
+  max-width: 780px;
+  margin: 0 auto;
+  background: var(--paper);
+  border-radius: 3px;
+  box-shadow: 0 2px 40px rgba(0,0,0,.06);
+  padding: 2.5rem 3rem 3rem;
+  color: var(--ink);
+}
+
+/* ── NAV ── */
+.nav {
+  font-size: .58rem;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 1.8rem;
+}
+.nav a { color: var(--muted); text-decoration: none; transition: color .15s; }
+.nav a:hover { color: var(--ink); }
+
+/* ── PAGE HEADER ── */
+.page-title {
+  font-size: 1.6rem;
+  font-weight: 300;
+  color: var(--ink);
+  margin-bottom: .25rem;
+}
+.page-sub {
+  font-size: .82rem;
+  font-style: italic;
+  color: var(--mid);
+  margin-bottom: .4rem;
+}
+.page-note {
+  font-size: .68rem;
+  color: var(--muted);
+  margin-bottom: 2rem;
+  padding-bottom: 1.4rem;
+  border-bottom: 1px solid var(--rule);
+  line-height: 1.7;
+}
+
+/* ── SECTION LABEL ── */
+.lbl {
+  font-size: .55rem;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: .7rem;
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+}
+.lbl::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
+
+/* ── HR ── */
+hr { border: none; border-top: 1px solid var(--rule); margin: 2rem 0; }
+
+/* ── FOOTER ── */
+footer {
+  margin-top: 2rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--rule);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: .5rem;
+  font-size: .58rem;
+  color: var(--muted);
+  letter-spacing: .08em;
+  font-style: italic;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 640px) {
+  body { padding: 1rem; }
+  .box { padding: 1.2rem; }
+}
+
+/* ─────────────────────────────────────────
+   PAGE-SPECIFIC STYLES BELOW THIS LINE
+   Remove everything above when doing
+   the production pass — swap in:
+   <link rel="stylesheet" href="listening-season.css">
+   and keep only what's below.
+───────────────────────────────────────── */
+
+</style>
+</head>
+<body>
+<div class="box">
+
+  <div class="nav"><a href="index.html">← Dashboard</a></div>
+
+  <div class="page-title">Page Title</div>
+  <div class="page-sub">One line describing what this page is.</div>
+  <div class="page-note">Context note — date, solar term, any useful framing.</div>
+
+  <!-- content goes here -->
+
+  <footer>
+    <span>Last updated: Mon DD YYYY · Solar Term</span>
+    <span>tricialing/tricia-dashboard</span>
+  </footer>
+
+</div>
+
+<!-- PRODUCTION: swap the inline styles above for these two lines -->
+<!-- <script src="listening-season.js"></script> -->
+</body>
+</html>

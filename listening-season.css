@@ -3,6 +3,9 @@
    Shared styles for all Tricia Ling / Listening Season pages
    ───────────────────────────────────────────────────── */
 
+/* ── SCALE ── */
+html { font-size: 18px; } /* base up from 16px — scales all rem values proportionally */
+
 /* ── RESET ── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
