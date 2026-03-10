@@ -5,50 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Anatomy Prep · Curriculum</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Noto+Serif+SC:wght@300&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="listening-season.css">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
-<style>
-:root {
-  --bg: transparent;
-  --paper:  #ffffff;
-  --faint:  #faf7f4;
-  --rule:   #f0ece4;
-  --mid:    #8b8580;
-  --muted:  #b0aaa3;
-  --ink:    #2a2520;
-  --accent: #6b6560;
-  --green:  #5a7a5a;
-  --done:   #f0f5f0;
-}
-
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-body {
-  background: var(--bg);
-  color: var(--ink);
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-weight: 300;
-  font-size: 13.5px;
-  line-height: 1.6;
-  min-height: 100vh;
-  padding: 2.5rem;
-  -webkit-font-smoothing: antialiased;
-}
-
-.box {
-  max-width: 860px;
-  margin: 0 auto;
-  background: var(--paper);
-  border-radius: 3px;
-  box-shadow: 0 2px 40px rgba(0,0,0,.06);
-  padding: 2.5rem 3rem 3rem;
-}
-
-.nav { font-size: .58rem; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); margin-bottom: 1.8rem; }
-.nav a { color: var(--muted); text-decoration: none; transition: color .15s; }
-.nav a:hover { color: var(--accent); }
-
-header {
+<style>header {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
@@ -227,7 +186,6 @@ header {
 
 .week-row.done .week-check { color: var(--green); }
 
-
 /* ── SUPPLEMENTARY ROWS ── */
 .supp-row {
   display: grid;
@@ -271,27 +229,13 @@ header {
 .supp-row.done .supp-check { opacity: 1; }
 
 /* ── FOOTER ── */
-footer {
-  margin-top: 2rem;
-  padding-top: 1.2rem;
-  border-top: 1px solid var(--rule);
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: .5rem;
-  font-size: .58rem;
-  color: var(--muted);
-  letter-spacing: .08em;
-  font-style: italic;
-}
 
 @media (max-width: 640px) {
   .box { padding: 1.2rem; }
   body { padding: 1rem; }
   .week-row { grid-template-columns: 44px 1fr 24px; }
   .week-tcm { display: none; }
-}
-</style>
+}</style>
 </head>
 <body>
 <div class="box">
@@ -770,8 +714,6 @@ function loadState() {
 loadState();
 updateProgress();
 </script>
-
-
 
 <script src="listening-season.js"></script>
 </body>

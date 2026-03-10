@@ -4,18 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Changelog · Listening Season</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:#c4bdb4;min-height:100vh;font-family:Georgia,'Times New Roman',serif;-webkit-font-smoothing:antialiased;padding:1.5rem}
-.box{max-width:760px;margin:0 auto;background:#fff;border-radius:3px;padding:2rem 1.8rem 3rem}
-.nav{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:#b0aaa3;margin-bottom:1.8rem}
-.nav a{color:#b0aaa3;text-decoration:none}
-
-.page-title{font-size:1.7rem;color:#2a2520;margin-bottom:.15rem}
-.page-sub{font-size:.82rem;font-style:italic;color:#8b8580;margin-bottom:.2rem}
-.page-note{font-size:.68rem;color:#b0aaa3;margin-bottom:0;padding-bottom:0;border-bottom:none;line-height:1.7}
-
-/* ── ENTRY ───────────────────────────────────────── */
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Noto+Serif+SC:wght@300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="listening-season.css">
+<style>/* ── ENTRY ───────────────────────────────────────── */
 .entry{padding:2rem 0;border-bottom:1px solid #f0ece4}
 .entry:last-child{border-bottom:none}
 
@@ -49,9 +41,7 @@ body{background:#c4bdb4;min-height:100vh;font-family:Georgia,'Times New Roman',s
 .note-label{font-size:.48rem;letter-spacing:.13em;text-transform:uppercase;color:#c8c4bc;flex-shrink:0;margin-top:3px;min-width:54px}
 .note-text{font-size:.72rem;font-style:italic;color:#a09890;line-height:1.7}
 
-.how-to{font-size:.58rem;color:#c8c4bc;line-height:1.7;padding:.5rem 0 1.4rem;border-bottom:1px solid #f0ece4;margin-bottom:2rem}
-</style>
-  <link rel="stylesheet" href="listening-season.css">
+.how-to{font-size:.58rem;color:#c8c4bc;line-height:1.7;padding:.5rem 0 1.4rem;border-bottom:1px solid #f0ece4;margin-bottom:2rem}</style>
 </head>
 <body>
 <div class="box">
@@ -63,6 +53,72 @@ body{background:#c4bdb4;min-height:100vh;font-family:Georgia,'Times New Roman',s
 
 
 
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- ENTRY 004 · Mar 10 2026                            -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="entry">
+
+    <div class="entry-header">
+      <div class="entry-kicker">Entry 004 · Mar 10 2026 · 驚蟄 Awakening of Insects</div>
+      <div class="entry-headline">Codebase tidied. DRY principle lived. Web dev learning thread begins.</div>
+      <div class="entry-meta">Session length: afternoon · Phase 1 · The Art of Listening · Pre-school</div>
+    </div>
+
+    <div class="entry-context">
+      Moved to a new chat after the previous one got too bloated. Set up proper session management: "wrap up" trigger updates handoff.html and changelog.html. Audited all HTML files for redundant inline CSS now that listening-season.css and listening-season.js handle shared styles. Full cleanup pass across all Tricia pages. Decided to treat the dashboard build as a structured web dev learning project, with the dashboard itself as the vehicle throughout.
+    </div>
+
+    <div class="files-block">
+      <div class="files-label">Files this session</div>
+      <div class="files-list">
+        <span class="file-pill new">✦ all Tricia HTML files (CSS cleanup)</span>
+        <span class="file-pill">handoff.html</span>
+        <span class="file-pill">changelog.html</span>
+      </div>
+    </div>
+
+    <div class="entry-rows">
+
+      <div class="entry-row">
+        <span class="tag tag-shipped">Shipped</span>
+        <span class="row-text">Full CSS cleanup pass across all Tricia pages. Removed duplicate font imports, duplicate body/reset declarations, wrong-order CSS links, and a broken selector in brand-voice.html. Each file now only declares styles unique to that page.</span>
+      </div>
+
+      <div class="entry-row">
+        <span class="tag tag-decided">Decided</span>
+        <span class="row-text">Session management: "wrap up" triggers immediate update of handoff.html and changelog.html. Tricia says "just pushed" to log the last push date. Trigger-based, no reminders.</span>
+      </div>
+
+      <div class="entry-row">
+        <span class="tag tag-decided">Decided</span>
+        <span class="row-text">Dashboard is a learning project. 5 phases: HTML/CSS fundamentals, separation of concerns/DRY, JavaScript basics, Git and deployment, beyond static HTML. The dashboard itself is the vehicle. webdev-learning.html to be built next.</span>
+      </div>
+
+      <div class="entry-row">
+        <span class="tag tag-working">Working on</span>
+        <span class="row-text">Build base template for new pages. Build webdev-learning.html. Update index.html links with column grouping. Push all cleaned files.</span>
+      </div>
+
+      <div class="entry-row">
+        <span class="tag tag-decided">Decided</span>
+        <span class="row-text">New pages built self-contained with inline styles so they preview on mobile in Claude app. Production pass (swap in listening-season.css) happens before pushing. Keeps the build workflow smooth.</span>
+      </div>
+
+      <div class="entry-row">
+        <span class="tag tag-decided">Decided</span>
+        <span class="row-text">Capacities is the single source of truth for tasks. Claude provides a ready-to-paste next actions list at every wrap up session. Monday.com integration not yet available in Claude — revisit later.</span>
+      </div>
+
+      <div class="entry-row">
+        <span class="tag tag-decided">Decided</span>
+        <span class="row-text">Dashboard universe is getting big. Shift toward doing. Active pages earning their keep: index, anatomy-prep, changelog, handoff, life-map. Reference pages (brand-voice, philosophy, ux-tcm-journey, content-map) don't need more building right now.</span>
+      </div>
+
+    </div>
+
+  </div>
+  <!-- end entry 004 -->
 
   <!-- ═══════════════════════════════════════════════════ -->
   <!-- ENTRY 003 · Mar 10 2026                            -->
