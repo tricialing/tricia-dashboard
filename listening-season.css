@@ -1,0 +1,138 @@
+/* ─────────────────────────────────────────────────────
+   listening-season.css
+   Shared styles for all Tricia Ling / Listening Season pages
+   ───────────────────────────────────────────────────── */
+
+/* ── RESET ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── TOKENS ── */
+:root {
+  --ink:     #2a2520;
+  --mid:     #8b8580;
+  --muted:   #b0aaa3;
+  --faint:   #f0ece4;
+  --rule:    #f0ece4;
+  --paper:   #ffffff;
+  --accent:  #6b6560;
+  --green:   #5a7a5a;
+  --warm:    #c8bfb0;
+  --done:    #f0f5f0;
+}
+
+/* ── BODY ── */
+body {
+  min-height: 100vh;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+  padding: 2.5rem;
+  transition: background 1.5s ease;
+}
+
+/* ── BOX (centred content card) ── */
+.box {
+  max-width: 780px;
+  margin: 0 auto;
+  background: var(--paper);
+  border-radius: 3px;
+  box-shadow: 0 2px 40px rgba(0,0,0,.06);
+  padding: 2.5rem 3rem 3rem;
+  color: var(--ink);
+}
+
+/* ── NAV ── */
+.nav {
+  font-size: .58rem;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 1.8rem;
+}
+.nav a {
+  color: var(--muted);
+  text-decoration: none;
+  transition: color .15s;
+}
+.nav a:hover { color: var(--ink); }
+
+/* ── PAGE HEADER ── */
+.page-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.6rem;
+  font-weight: 300;
+  color: var(--ink);
+  margin-bottom: .25rem;
+}
+.page-sub {
+  font-size: .82rem;
+  font-style: italic;
+  color: var(--mid);
+  margin-bottom: .4rem;
+}
+.page-note {
+  font-size: .68rem;
+  color: var(--muted);
+  margin-bottom: 2rem;
+  padding-bottom: 1.4rem;
+  border-bottom: 1px solid var(--rule);
+  line-height: 1.7;
+}
+
+/* ── SECTION LABELS ── */
+.lbl {
+  font-size: .55rem;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: .7rem;
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+}
+.lbl::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--rule);
+}
+
+/* ── HORIZONTAL RULE ── */
+hr {
+  border: none;
+  border-top: 1px solid var(--rule);
+  margin: 2rem 0;
+}
+
+/* ── LINKS ── */
+.page-link {
+  font-size: .78rem;
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 1px;
+  transition: color .15s, border-color .15s;
+}
+.page-link:hover { color: var(--accent); border-color: var(--accent); }
+
+/* ── FOOTER ── */
+footer {
+  margin-top: 2rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--rule);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: .5rem;
+  font-size: .58rem;
+  color: var(--muted);
+  letter-spacing: .08em;
+  font-style: italic;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 640px) {
+  body { padding: 1rem; }
+  .box { padding: 1.2rem; }
+}

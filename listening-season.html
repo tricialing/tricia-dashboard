@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Listening Season — 二十四节气</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Noto+Serif+SC:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #f4f1ec;
+    color: #2a2520;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 300;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+  header {
+    padding: 4rem 3rem 2rem;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+  .header-zh {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.4em;
+    color: #b0aaa3;
+    margin-bottom: 0.4rem;
+  }
+  h1 {
+    font-size: clamp(2.2rem, 6vw, 4rem);
+    font-weight: 300;
+    letter-spacing: 0.06em;
+    line-height: 1;
+  }
+  .header-sub {
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    color: #b0aaa3;
+    font-style: italic;
+    margin-top: 0.3rem;
+  }
+  .color-band {
+    max-width: 960px;
+    margin: 2rem auto 0;
+    padding: 0 3rem;
+    display: flex;
+    height: 4px;
+    gap: 1px;
+  }
+  .band-seg {
+    flex: 1;
+    height: 100%;
+    cursor: pointer;
+    transition: height 0.15s, margin-top 0.15s, opacity 0.15s;
+    opacity: 0.65;
+  }
+  .band-seg:hover { height: 8px; margin-top: -4px; opacity: 1; }
+  .band-seg.active { height: 10px; margin-top: -6px; opacity: 1; }
+
+  nav {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 1.8rem 3rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  .nav-btn {
+    background: none; border: none; cursor: pointer;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.78rem; letter-spacing: 0.2em;
+    color: #b0aaa3; padding: 0; transition: color 0.2s;
+  }
+  .nav-btn.active { color: #2a2520; border-bottom: 1px solid #2a2520; padding-bottom: 1px; }
+  .nav-btn:hover { color: #2a2520; }
+  .nav-sep { width: 1px; height: 10px; background: #d8d2c8; }
+  .season-filters { margin-left: auto; display: flex; gap: 1.2rem; align-items: center; }
+  .sfbtn {
+    background: none; border: none; cursor: pointer;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.72rem; letter-spacing: 0.15em;
+    color: #b0aaa3; display: flex; align-items: center; gap: 0.35rem; transition: color 0.2s;
+  }
+  .sfbtn .dot { width: 5px; height: 5px; border-radius: 50%; opacity: 0.35; transition: opacity 0.2s; }
+  .sfbtn.active { color: #2a2520; }
+  .sfbtn.active .dot { opacity: 1; }
+  .sfbtn:hover { color: #2a2520; }
+  .sfbtn:hover .dot { opacity: 0.8; }
+
+  hr.rule { border: none; border-top: 1px solid #e4dfd6; max-width: 960px; margin: 0 auto; }
+
+  /* GRID */
+  #grid-view {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 3rem 2rem;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: #e4dfd6;
+  }
+  .term-card {
+    background: var(--tc-bg, #f4f1ec);
+    padding: 1.5rem 1.3rem 1.3rem;
+    cursor: pointer;
+    transition: filter 0.15s, opacity 0.15s;
+    min-height: 150px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+  }
+  .term-card:hover { filter: brightness(0.96); }
+  .term-card.active { filter: brightness(0.93); outline: 1px solid rgba(0,0,0,0.08); }
+  .term-card.dimmed { opacity: 0.28; pointer-events: none; }
+  .card-top { display: flex; justify-content: space-between; }
+  .card-zh { font-family: 'Noto Serif SC', serif; font-size: 0.72rem; font-weight: 300; color: rgba(42,37,32,0.4); letter-spacing: 0.08em; }
+  .card-index { font-size: 0.58rem; letter-spacing: 0.1em; color: rgba(42,37,32,0.25); }
+  .card-name { margin-top: auto; padding-top: 1.5rem; font-size: 0.82rem; font-weight: 300; letter-spacing: 0.04em; line-height: 1.4; color: rgba(42,37,32,0.65); }
+  .card-vibe { font-size: 0.6rem; letter-spacing: 0.1em; color: rgba(42,37,32,0.4); margin-top: 0.3rem; font-style: italic; }
+
+  /* DETAIL */
+  #detail-panel {
+    display: none;
+    max-width: 960px;
+    margin: 0 auto;
+    border-top: 1px solid #e4dfd6;
+    border-bottom: 1px solid #e4dfd6;
+    background: #faf8f4;
+  }
+  #detail-panel.open { display: block; }
+  .detail-bar { height: 3px; width: 100%; transition: background 0.4s; }
+  .detail-body {
+    padding: 2.5rem 3rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+  }
+  .d-zh-big {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 3.5rem; font-weight: 300;
+    opacity: 0.15; line-height: 1;
+    margin-bottom: 0.3rem; letter-spacing: 0.08em;
+    transition: color 0.4s;
+  }
+  .d-name { font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 300; letter-spacing: 0.04em; line-height: 1.1; color: #2a2520; }
+  .d-pinyin { font-size: 0.78rem; letter-spacing: 0.15em; color: #b0aaa3; margin-top: 0.3rem; font-style: italic; }
+  .d-meta { display: flex; gap: 2rem; margin: 1.2rem 0 1.5rem; flex-wrap: wrap; }
+  .d-meta-item { display: flex; flex-direction: column; gap: 0.1rem; }
+  .d-meta-label { font-size: 0.58rem; letter-spacing: 0.25em; color: #b0aaa3; text-transform: uppercase; }
+  .d-meta-val { font-size: 0.82rem; color: #6b6560; font-style: italic; }
+  .d-desc { font-style: italic; font-size: 1rem; line-height: 1.8; color: #6b6560; padding-left: 1rem; border-left: 1px solid #e4dfd6; }
+  .d-section-label { font-size: 0.58rem; letter-spacing: 0.28em; color: #b0aaa3; text-transform: uppercase; margin-bottom: 0.7rem; }
+  .d-tcm { font-size: 0.88rem; line-height: 1.8; color: #6b6560; margin-bottom: 2rem; }
+  .d-content-box { padding: 1.1rem 1.3rem; border-left: 2px solid; background: #f4f1ec; transition: border-color 0.4s; }
+  .d-content-box p { font-style: italic; font-size: 0.88rem; line-height: 1.8; color: #2a2520; }
+  .d-close {
+    width: 100%; padding: 0.9rem 3rem;
+    background: none; border: none; border-top: 1px solid #e4dfd6;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.7rem; letter-spacing: 0.25em; color: #b0aaa3;
+    cursor: pointer; text-align: left; transition: color 0.2s;
+  }
+  .d-close:hover { color: #2a2520; }
+
+  /* LIST */
+  #list-view { display: none; max-width: 960px; margin: 0 auto; padding: 0 3rem 4rem; }
+  .ls-season-head {
+    display: flex; align-items: center; gap: 0.8rem;
+    padding: 2rem 0 0.8rem;
+    border-bottom: 1px solid #e4dfd6;
+  }
+  .ls-season-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+  .ls-season-en { font-size: 0.68rem; letter-spacing: 0.3em; color: #b0aaa3; }
+  .ls-season-zh { font-family: 'Noto Serif SC', serif; font-size: 0.68rem; font-weight: 300; color: #b0aaa3; margin-left: auto; }
+  .ls-row {
+    display: grid;
+    grid-template-columns: 1.5rem 1fr auto auto;
+    gap: 1.5rem; align-items: baseline;
+    padding: 0.9rem 0;
+    border-bottom: 1px solid #f0ece4;
+    cursor: pointer; transition: background 0.15s;
+  }
+  .ls-row:hover { background: #faf8f4; margin: 0 -1rem; padding: 0.9rem 1rem; }
+  .ls-idx { font-size: 0.6rem; color: #ccc8c0; letter-spacing: 0.05em; text-align: right; }
+  .ls-en { font-size: 0.95rem; letter-spacing: 0.02em; }
+  .ls-zh { font-family: 'Noto Serif SC', serif; font-size: 0.72rem; font-weight: 300; color: #b0aaa3; }
+  .ls-date { font-size: 0.68rem; letter-spacing: 0.08em; color: #b0aaa3; font-style: italic; white-space: nowrap; }
+  .ls-expanded { display: none; padding: 1rem 0 1.5rem 3rem; background: #faf8f4; border-bottom: 1px solid #e4dfd6; }
+  .ls-expanded.open { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+  .ls-exp-desc { font-style: italic; font-size: 0.88rem; line-height: 1.75; color: #6b6560; margin-bottom: 0.8rem; }
+  .ls-exp-tcm { font-size: 0.8rem; line-height: 1.7; color: #6b6560; }
+  .ls-exp-content { font-size: 0.8rem; line-height: 1.7; color: #2a2520; font-style: italic; padding: 0.8rem 1rem; border-left: 2px solid; background: #f4f1ec; align-self: start; }
+
+  /* Today marker */
+  .today-marker::before {
+    content: 'today';
+    position: absolute;
+    top: 0.4rem; right: 0.5rem;
+    font-size: 0.55rem;
+    letter-spacing: 0.15em;
+    color: #b0aaa3;
+    font-style: italic;
+  }
+
+  @media (max-width: 700px) {
+    header, nav { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .color-band { padding: 0 1.5rem; }
+    hr.rule { margin: 0 1.5rem; }
+    #grid-view { padding: 0 1.5rem 2rem; grid-template-columns: repeat(2, 1fr); }
+    .detail-body { grid-template-columns: 1fr; gap: 1.5rem; padding: 2rem 1.5rem; }
+    .d-close { padding: 0.9rem 1.5rem; }
+    #list-view { padding: 0 1.5rem 3rem; }
+    .ls-expanded.open { grid-template-columns: 1fr; }
+    .season-filters { display: none; }
+    .ls-date { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-zh">二十四節氣</div>
+  <h1>listening season</h1>
+  <div class="header-sub">the twenty-four solar terms · 2026</div>
+</header>
+
+<div class="color-band" id="colorBand"></div>
+
+<nav>
+  <button class="nav-btn active" id="btnGrid" onclick="setView('grid')">grid</button>
+  <div class="nav-sep"></div>
+  <button class="nav-btn" id="btnList" onclick="setView('list')">list</button>
+  <div class="season-filters">
+    <button class="sfbtn active" data-s="all" onclick="filterSeason('all')"><span class="dot" style="background:#2a2520"></span>all</button>
+    <button class="sfbtn" data-s="spring" onclick="filterSeason('spring')"><span class="dot" style="background:#CBD4C2"></span>spring</button>
+    <button class="sfbtn" data-s="summer" onclick="filterSeason('summer')"><span class="dot" style="background:#CCB08A"></span>summer</button>
+    <button class="sfbtn" data-s="autumn" onclick="filterSeason('autumn')"><span class="dot" style="background:#BEB7A4"></span>autumn</button>
+    <button class="sfbtn" data-s="winter" onclick="filterSeason('winter')"><span class="dot" style="background:#A2ABB5"></span>winter</button>
+  </div>
+</nav>
+
+<hr class="rule">
+<div id="grid-view"></div>
+
+<div id="detail-panel">
+  <div class="detail-bar" id="detailBar"></div>
+  <div class="detail-body">
+    <div>
+      <div class="d-zh-big" id="dZh"></div>
+      <div class="d-name" id="dName"></div>
+      <div class="d-pinyin" id="dPinyin"></div>
+      <div class="d-meta">
+        <div class="d-meta-item"><span class="d-meta-label">date</span><span class="d-meta-val" id="dDate"></span></div>
+        <div class="d-meta-item"><span class="d-meta-label">element</span><span class="d-meta-val" id="dElement"></span></div>
+        <div class="d-meta-item"><span class="d-meta-label">organ</span><span class="d-meta-val" id="dOrgan"></span></div>
+        <div class="d-meta-item"><span class="d-meta-label">vibe</span><span class="d-meta-val" id="dVibe"></span></div>
+      </div>
+      <div class="d-desc" id="dDesc"></div>
+    </div>
+    <div>
+      <div class="d-section-label">tcm & body</div>
+      <div class="d-tcm" id="dTcm"></div>
+      <div class="d-section-label">listening season · content</div>
+      <div class="d-content-box" id="dBox"><p id="dContent"></p></div>
+    </div>
+  </div>
+  <button class="d-close" onclick="closeDetail()">↑ close</button>
+</div>
+
+<div id="list-view"></div>
+
+<script>
+const TERMS = [
+  { zh:'立春', pinyin:'Lìchūn',      name:'Beginning of Spring',  date:'Feb 4',  season:'spring', hex:'#F2E3E3', vibe:'Budding/Waking',      element:'Wood',  organ:'Liver',             desc:'Yang energy stirs beneath the frozen earth. The first breath of new cycles.',                          tcm:'Liver & Gallbladder awaken. Time for gentle movement, green foods, and releasing what winter held tight.',    content:'What are you planting this year? A prompt for intentions that honour slowness over urgency.' },
+  { zh:'雨水', pinyin:'Yǔshuǐ',      name:'Rain Water',            date:'Feb 19', season:'spring', hex:'#D8E2E8', vibe:'Melting/Damp',         element:'Earth', organ:'Spleen',            desc:'Snow melts into rain. Moisture returns to nourish seeds underground.',                                    tcm:'Dampness begins to rise. Support the Spleen, avoid cold raw foods that tax digestion.',                       content:'On nourishment: what are you drinking in? Rain as metaphor for receiving.' },
+  { zh:'驚蟄', pinyin:'Jīngzhé',     name:'Awakening of Insects',  date:'Mar 5',  season:'spring', hex:'#DDE2D5', vibe:'Sprouting/Awakening',   element:'Wood',  organ:'Liver',             desc:'Thunder wakes the hibernating creatures. Sudden, electric movement after long stillness.',                  tcm:'Liver qi surges. Emotions may feel charged — channel through creativity rather than suppression.',             content:'What has been sleeping in you that is now awake? An audio essay on emergence.' },
+  { zh:'春分', pinyin:'Chūnfēn',     name:'Spring Equinox',        date:'Mar 20', season:'spring', hex:'#CBD4C2', vibe:'Balance/Equinox',       element:'Wood',  organ:'Liver/Gallbladder', desc:'Perfect balance of day and night. A fulcrum moment poised before tipping toward light.',                  tcm:'Balance yin and yang equally. Walk outdoors, eat lightly and with variety.',                                   content:'Equinox ritual: a practice of noticing what is balanced, what is asking for attention.' },
+  { zh:'清明', pinyin:'Qīngmíng',    name:'Pure Brightness',       date:'Apr 5',  season:'spring', hex:'#A8B8A0', vibe:'Clarity/Freshness',     element:'Wood',  organ:'Liver',             desc:'Air turns luminous. Time to honour ancestors and tend to what remains.',                                  tcm:'Liver qi flows smoothly. Walk outdoors, breathe deeply, visit what you have neglected.',                       content:'Ancestor reverence across cultures. Who do you come from? A zine letter to lineage.' },
+  { zh:'穀雨', pinyin:'Gǔyǔ',        name:'Grain Rain',            date:'Apr 20', season:'spring', hex:'#8C9985', vibe:'Saturation/Rain',        element:'Earth', organ:'Spleen',            desc:'Rain that makes grain grow. Abundance requires patient, invisible tending.',                               tcm:'Dampness peaks. Last chance to strengthen the Spleen before summer heat arrives.',                             content:'On patience: the gap between seed and harvest as a contemplative practice.' },
+  { zh:'立夏', pinyin:'Lìxià',       name:'Beginning of Summer',   date:'May 5',  season:'summer', hex:'#E8D8B0', vibe:'Warming/Growth',         element:'Fire',  organ:'Heart',             desc:'Heat arrives. Energy rises toward the surface; life becomes visible and loud.',                            tcm:'Heart energy peaks. Cultivate joy, but protect from overexcitement and restlessness.',                        content:'Summer opener: what does thriving feel like in your body? A somatic inquiry.' },
+  { zh:'小滿', pinyin:'Xiǎomǎn',     name:'Grain Buds',            date:'May 21', season:'summer', hex:'#D9C5A0', vibe:'Filling/Fullness',       element:'Fire',  organ:'Heart',             desc:'Grain is plump but not yet full. Satisfaction in the almost-there.',                                       tcm:'Heart-Small Intestine axis. Discernment — sorting what nourishes from what does not.',                        content:'The fullness of incompleteness. On not-yet and why it matters.' },
+  { zh:'芒種', pinyin:'Mángzhòng',   name:'Grain in Ear',          date:'Jun 5',  season:'summer', hex:'#CCB08A', vibe:'Ripening/Seed-Ear',      element:'Fire',  organ:'Heart',             desc:'Grains with awns ripen. Harvest and planting overlap — full, abundant complexity.',                         tcm:'Peak Yang arriving. Guard Heart from excess heat, rest briefly at midday.',                                    content:'Doing many things at once. How do you hold multiplicity without fragmentation?' },
+  { zh:'夏至', pinyin:'Xiàzhì',      name:'Summer Solstice',       date:'Jun 21', season:'summer', hex:'#BBA48B', vibe:'Peak Light/Solstice',    element:'Fire',  organ:'Heart',             desc:'Longest day. Yang peaks — and immediately, imperceptibly, begins its return.',                             tcm:'Pure Yang. Plant yin seeds now. Rest is not laziness at this moment; it is wisdom.',                          content:'Solstice: the turning. What is at its peak in your life right now?' },
+  { zh:'小暑', pinyin:'Xiǎoshǔ',     name:'Lesser Heat',           date:'Jul 7',  season:'summer', hex:'#D9A080', vibe:'Aridity/Heat',           element:'Fire',  organ:'Heart',             desc:'Heat intensifies. The world slows to a long, heavy simmer.',                                              tcm:'Protect Heart from excess. Bitter foods, slower movement, more water.',                                        content:'On slowing down as a radical act. Summer heat as invitation to stillness.' },
+  { zh:'大暑', pinyin:'Dàshǔ',       name:'Greater Heat',          date:'Jul 23', season:'summer', hex:'#C48E69', vibe:'Peak Heat/Fire',          element:'Fire',  organ:'Heart',             desc:'The most intense heat of the year. Endurance, not resistance.',                                           tcm:'Preserve fluids and spirit. Fear of heat creates more heat — meet it with softness.',                         content:'What are you learning to endure gracefully? A season of deep summer letters.' },
+  { zh:'立秋', pinyin:'Lìqiū',       name:'Beginning of Autumn',   date:'Aug 7',  season:'autumn', hex:'#9E8B75', vibe:'Drying/Harvest',         element:'Metal', organ:'Lung',              desc:'A whisper of coolness arrives in the evening air. Harvest season begins its long arc.',                    tcm:'Lung energy rises. Begin to gather inward, condense, turn attention toward what matters.',                     content:'The first cool morning. On noticing subtle shifts before anyone else does.' },
+  { zh:'處暑', pinyin:'Chǔshǔ',      name:'End of Heat',           date:'Aug 23', season:'autumn', hex:'#BEB7A4', vibe:'Cooling/Settling',       element:'Metal', organ:'Lung',              desc:'Summer heat finally subsides. The world exhales for the first time in months.',                            tcm:'Lung and Large Intestine strengthen. What can be processed and released?',                                    content:'Release: what summer accumulated that no longer belongs. Letting go rituals.' },
+  { zh:'白露', pinyin:'Báilù',       name:'White Dew',             date:'Sep 7',  season:'autumn', hex:'#D0D0D0', vibe:'Dew/Crispness',          element:'Metal', organ:'Lung',              desc:'Dew forms on grass at night. The Earth weeps cool, quiet tears.',                                          tcm:'Dryness arrives with autumn. Moisten Lungs: pears, sesame, warm water with honey.',                           content:'Moisture as care. What keeps you from drying out — literally and metaphorically?' },
+  { zh:'秋分', pinyin:'Qiūfēn',      name:'Autumn Equinox',        date:'Sep 23', season:'autumn', hex:'#A8A494', vibe:'Balance/Equinox',        element:'Metal', organ:'Lung',              desc:'Day and night balance once more. This time tipping toward darkness.',                                      tcm:'Yin begins to deepen. Emotional sensitivity heightens — honour grief as intelligence.',                       content:'On grief as intelligence. What autumn asks us to feel that summer let us avoid.' },
+  { zh:'寒露', pinyin:'Hánlù',       name:'Cold Dew',              date:'Oct 8',  season:'autumn', hex:'#938F81', vibe:'Cold Dew/Heavy',         element:'Metal', organ:'Kidney',            desc:'Dew turns cold. Clarity sharpens in the cool, spare air.',                                                tcm:'Kidney energy begins to store. Protect feet and lower back from the cold.',                                   content:'Clarity. What becomes visible when the heat finally drops?' },
+  { zh:'霜降', pinyin:'Shuāngjiàng', name:"Frost's Descent",       date:'Oct 23', season:'autumn', hex:'#EAEAEA', vibe:'Frost/Descent',          element:'Metal', organ:'Lung/Kidney',       desc:'First frost arrives. Transformation crystallises on the very surface of things.',                          tcm:'Final autumn protection. Warmth is medicine now. Prepare body for winter storage.',                           content:'Frost as boundary: what hardens at the edge of things, and what that reveals.' },
+  { zh:'立冬', pinyin:'Lìdōng',      name:'Beginning of Winter',   date:'Nov 7',  season:'winter', hex:'#B8C0C5', vibe:'Entering/Closing',       element:'Water', organ:'Kidney',            desc:'Water freezes, earth cracks. The season of storage and deep rest begins.',                                 tcm:'Kidney is sovereign in winter. Rest, darkness, and warmth are literal prescriptions.',                        content:'Winter opener: the case for doing less. A love letter to darkness and rest.' },
+  { zh:'小雪', pinyin:'Xiǎoxuě',     name:'Lesser Snow',           date:'Nov 22', season:'winter', hex:'#A2ABB5', vibe:'Hiding/Stillness',       element:'Water', organ:'Kidney',            desc:'Light snow begins to fall. Silence descends with it.',                                                     tcm:'Yang energy retreats deep inside. Conserve. Sleep more. Protect the flame within.',                           content:'On silence as a season. What does your inner winter actually sound like?' },
+  { zh:'大雪', pinyin:'Dàxuě',       name:'Greater Snow',          date:'Dec 7',  season:'winter', hex:'#8C96A0', vibe:'Weight/Snow',            element:'Water', organ:'Kidney',            desc:'Heavy snow. The familiar landscape disappears under white.',                                               tcm:'Deep Kidney nourishment: black sesame, walnuts, bone broth, early sleep.',                                    content:'Disappearing: what happens when the familiar is covered over and you must navigate by feel?' },
+  { zh:'冬至', pinyin:'Dōngzhì',     name:'Winter Solstice',       date:'Dec 22', season:'winter', hex:'#7B848E', vibe:'Darkest Night',          element:'Water', organ:'Kidney',            desc:'The longest night. From here, imperceptibly, light begins its return.',                                    tcm:'Yin peaks, Yang is reborn. The most potent moment of the year for deep nourishment.',                        content:'The turning point inside darkness. On hope that does not require proof.' },
+  { zh:'小寒', pinyin:'Xiǎohán',     name:'Lesser Cold',           date:'Jan 5',  season:'winter', hex:'#9E9EB0', vibe:'Frigid/Quiet',           element:'Water', organ:'Kidney',            desc:'Cold deepens. Endurance and the warmth found from within.',                                                tcm:'Kidney stores essence. Moxa, warming foods, protect the ming men fire.',                                      content:'Inner warmth: where does yours come from? On cultivating fire in deep winter.' },
+  { zh:'大寒', pinyin:'Dàhán',       name:'Great Cold',            date:'Jan 20', season:'winter', hex:'#BCBCCB', vibe:'The Final Cold',         element:'Water', organ:'Kidney',            desc:'The coldest moment. Hold steady. Spring is only weeks away.',                                              tcm:"Final winter nourishment. Prepare the body's qi for spring's imminent emergence.",                           content:'Almost: the hard last stretch before turning. What has this winter taught you?' },
+];
+
+const SEASON_COLORS = { spring:'#A8B8A0', summer:'#CCB08A', autumn:'#A8A494', winter:'#8C96A0' };
+const SEASON_ZH = { spring:'春', summer:'夏', autumn:'秋', winter:'冬' };
+
+let activeIndex = null;
+let activeFilter = 'all';
+let activeView = 'grid';
+
+// Mix hex color with paper (#f4f1ec) at given opacity to create soft wash
+function hexToWash(hex, opacity) {
+  const r = parseInt(hex.slice(1,3),16);
+  const g = parseInt(hex.slice(3,5),16);
+  const b = parseInt(hex.slice(5,7),16);
+  const pr = 244, pg = 241, pb = 236; // #f4f1ec
+  const mr = Math.round(pr + (r - pr) * opacity);
+  const mg = Math.round(pg + (g - pg) * opacity);
+  const mb = Math.round(pb + (b - pb) * opacity);
+  return `rgb(${mr},${mg},${mb})`;
+}
+
+function buildBand() {
+  const band = document.getElementById('colorBand');
+  TERMS.forEach((t, i) => {
+    const seg = document.createElement('div');
+    seg.className = 'band-seg';
+    seg.style.background = t.hex;
+    seg.title = t.name;
+    seg.onclick = () => { if (activeView !== 'grid') setView('grid'); openDetail(i); };
+    band.appendChild(seg);
+  });
+}
+
+function buildGrid() {
+  const grid = document.getElementById('grid-view');
+  TERMS.forEach((t, i) => {
+    const card = document.createElement('div');
+    card.className = 'term-card';
+    card.id = `card-${i}`;
+    // Convert hex to a soft wash: mix with paper at ~35% opacity
+    card.style.setProperty('--tc-bg', hexToWash(t.hex, 0.32));
+    const isToday = (i === 2); // Mar 5 = Awakening of Insects
+    if (isToday) card.classList.add('today-marker');
+    card.innerHTML = `
+      <div class="card-top">
+        <span class="card-zh">${t.zh}</span>
+        <span class="card-index">${String(i+1).padStart(2,'0')}</span>
+      </div>
+      <div class="card-name">${t.name}</div>
+      <div class="card-vibe">${t.vibe}</div>
+    `;
+    card.onclick = () => openDetail(i);
+    grid.appendChild(card);
+  });
+}
+
+function buildList() {
+  const list = document.getElementById('list-view');
+  ['spring','summer','autumn','winter'].forEach(s => {
+    const head = document.createElement('div');
+    head.className = 'ls-season-head';
+    head.dataset.season = s;
+    head.innerHTML = `<div class="ls-season-dot" style="background:${SEASON_COLORS[s]}"></div><span class="ls-season-en">${s}</span><span class="ls-season-zh">${SEASON_ZH[s]}</span>`;
+    list.appendChild(head);
+
+    TERMS.forEach((t, i) => {
+      if (t.season !== s) return;
+      const row = document.createElement('div');
+      row.className = 'ls-row';
+      row.dataset.season = s;
+      row.innerHTML = `<span class="ls-idx">${String(i+1).padStart(2,'0')}</span><span class="ls-en">${t.name}</span><span class="ls-zh">${t.zh}</span><span class="ls-date">${t.date}</span>`;
+
+      const exp = document.createElement('div');
+      exp.className = 'ls-expanded';
+      exp.dataset.season = s;
+      exp.innerHTML = `
+        <div><div class="ls-exp-desc">${t.desc}</div><div class="ls-exp-tcm">${t.tcm}</div></div>
+        <div class="ls-exp-content" style="border-color:${t.hex}">${t.content}</div>
+      `;
+      row.onclick = () => {
+        const was = exp.classList.contains('open');
+        document.querySelectorAll('.ls-expanded').forEach(e => e.classList.remove('open'));
+        if (!was) exp.classList.add('open');
+      };
+      list.appendChild(row);
+      list.appendChild(exp);
+    });
+  });
+}
+
+function openDetail(i) {
+  const t = TERMS[i];
+  activeIndex = i;
+  document.querySelectorAll('.band-seg').forEach((s,idx) => s.classList.toggle('active', idx === i));
+  document.querySelectorAll('.term-card').forEach((c,idx) => c.classList.toggle('active', idx === i));
+
+  document.getElementById('detailBar').style.background = t.hex;
+  document.getElementById('dZh').style.color = t.hex;
+  document.getElementById('dBox').style.borderColor = t.hex;
+
+  document.getElementById('dZh').textContent = t.zh;
+  document.getElementById('dName').textContent = t.name;
+  document.getElementById('dPinyin').textContent = t.pinyin;
+  document.getElementById('dDate').textContent = t.date + ', 2026';
+  document.getElementById('dElement').textContent = t.element;
+  document.getElementById('dOrgan').textContent = t.organ;
+  document.getElementById('dVibe').textContent = t.vibe;
+  document.getElementById('dDesc').textContent = t.desc;
+  document.getElementById('dTcm').textContent = t.tcm;
+  document.getElementById('dContent').textContent = t.content;
+
+  const panel = document.getElementById('detail-panel');
+  panel.classList.add('open');
+  setTimeout(() => panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50);
+}
+
+function closeDetail() {
+  document.getElementById('detail-panel').classList.remove('open');
+  document.querySelectorAll('.term-card').forEach(c => c.classList.remove('active'));
+  document.querySelectorAll('.band-seg').forEach(s => s.classList.remove('active'));
+  activeIndex = null;
+}
+
+function setView(v) {
+  activeView = v;
+  document.getElementById('grid-view').style.display = v === 'grid' ? 'grid' : 'none';
+  document.getElementById('detail-panel').style.display = v === 'grid' ? '' : 'none';
+  document.getElementById('list-view').style.display = v === 'list' ? 'block' : 'none';
+  document.getElementById('btnGrid').classList.toggle('active', v === 'grid');
+  document.getElementById('btnList').classList.toggle('active', v === 'list');
+  if (v === 'list') filterSeason(activeFilter, true);
+}
+
+function filterSeason(s, skipBtn) {
+  activeFilter = s;
+  if (!skipBtn) document.querySelectorAll('.sfbtn').forEach(b => b.classList.toggle('active', b.dataset.s === s));
+  if (activeView === 'grid') {
+    document.querySelectorAll('.term-card').forEach((c, i) => c.classList.toggle('dimmed', s !== 'all' && TERMS[i].season !== s));
+  } else {
+    document.querySelectorAll('[data-season]').forEach(el => {
+      el.style.display = (s === 'all' || el.dataset.season === s) ? '' : 'none';
+    });
+  }
+}
+
+buildBand();
+buildGrid();
+buildList();
+setView('grid');
+</script>
+</body>
+</html>

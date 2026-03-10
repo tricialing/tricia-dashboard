@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anatomy Prep · Curriculum</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="listening-season.css">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: transparent;
+  --paper:  #ffffff;
+  --faint:  #faf7f4;
+  --rule:   #f0ece4;
+  --mid:    #8b8580;
+  --muted:  #b0aaa3;
+  --ink:    #2a2520;
+  --accent: #6b6560;
+  --green:  #5a7a5a;
+  --done:   #f0f5f0;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 300;
+  font-size: 13.5px;
+  line-height: 1.6;
+  min-height: 100vh;
+  padding: 2.5rem;
+  -webkit-font-smoothing: antialiased;
+}
+
+.box {
+  max-width: 860px;
+  margin: 0 auto;
+  background: var(--paper);
+  border-radius: 3px;
+  box-shadow: 0 2px 40px rgba(0,0,0,.06);
+  padding: 2.5rem 3rem 3rem;
+}
+
+.nav { font-size: .58rem; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); margin-bottom: 1.8rem; }
+.nav a { color: var(--muted); text-decoration: none; transition: color .15s; }
+.nav a:hover { color: var(--accent); }
+
+header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: .5rem;
+  margin-bottom: 1.8rem;
+  padding-bottom: 1.2rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.header-title { font-size: 1.6rem; font-weight: 300; color: var(--ink); }
+
+.header-meta {
+  display: flex;
+  gap: 1.6rem;
+  font-size: .6rem;
+  color: var(--muted);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  font-style: italic;
+}
+
+.header-meta span { color: var(--accent); font-style: normal; }
+
+/* ── INTRO ── */
+.intro {
+  padding: 1.2rem 1.4rem;
+  margin-bottom: 1.6rem;
+  border-left: 2px solid var(--rule);
+  background: var(--faint);
+}
+
+.intro p {
+  font-size: .85rem;
+  font-style: italic;
+  color: var(--mid);
+  line-height: 1.8;
+}
+
+.intro p + p { margin-top: .5rem; }
+
+/* ── PROGRESS ── */
+.progress-panel {
+  display: flex;
+  align-items: center;
+  gap: 1.4rem;
+  margin-bottom: 1.8rem;
+  flex-wrap: wrap;
+}
+
+.progress-label {
+  font-size: .58rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.progress-bar {
+  flex: 1;
+  height: 2px;
+  background: var(--rule);
+  min-width: 80px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--green);
+  transition: width .4s ease;
+}
+
+.progress-count {
+  font-size: .6rem;
+  color: var(--accent);
+  white-space: nowrap;
+  font-style: italic;
+}
+
+/* ── PHASE LABELS ── */
+.phase-label {
+  font-size: .55rem;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 2rem 0 .4rem;
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+}
+
+.phase-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--rule);
+}
+
+.phase-desc {
+  font-size: .78rem;
+  font-style: italic;
+  color: var(--muted);
+  margin-bottom: .8rem;
+}
+
+/* ── WEEK ROWS ── */
+.week-row {
+  display: grid;
+  grid-template-columns: 52px 1fr auto 28px;
+  gap: 0 1rem;
+  align-items: start;
+  padding: .7rem .6rem;
+  border-bottom: 1px solid var(--rule);
+  cursor: pointer;
+  transition: background .12s;
+}
+
+.week-row:hover { background: var(--faint); }
+
+.week-row.done { background: var(--done); }
+.week-row.done .week-topic { color: var(--muted); text-decoration: line-through; text-decoration-color: var(--muted); }
+
+.week-row.current {
+  border-left: 2px solid var(--ink);
+  padding-left: calc(.6rem - 2px);
+  background: #faf8f4;
+}
+
+/* stacked week num + date */
+.week-id { display: flex; flex-direction: column; gap: .1rem; padding-top: .08rem; }
+.week-num { font-size: .6rem; letter-spacing: .08em; color: var(--muted); }
+.week-date-sub { font-size: .6rem; color: var(--mid); font-style: italic; }
+.week-row.current .week-num { color: var(--ink); font-weight: 400; }
+.week-row.current .week-date-sub { color: var(--ink); }
+
+.week-main {}
+.week-topic {
+  font-size: .92rem;
+  color: var(--ink);
+  line-height: 1.4;
+  margin-bottom: .2rem;
+}
+
+.week-note {
+  font-size: .72rem;
+  font-style: italic;
+  color: var(--mid);
+  line-height: 1.6;
+}
+
+.week-note .supp {
+  color: var(--green);
+  font-style: normal;
+  font-size: .68rem;
+  display: block;
+  margin-top: .15rem;
+  letter-spacing: .02em;
+}
+
+.week-tcm {
+  font-size: .6rem;
+  color: var(--green);
+  letter-spacing: .04em;
+  line-height: 1.4;
+  padding-top: .1rem;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.week-check {
+  font-size: .9rem;
+  text-align: center;
+  padding-top: .05rem;
+  user-select: none;
+  color: var(--muted);
+}
+
+.week-row.done .week-check { color: var(--green); }
+
+
+/* ── SUPPLEMENTARY ROWS ── */
+.supp-row {
+  display: grid;
+  grid-template-columns: 52px 1fr 28px;
+  gap: 0 1rem;
+  align-items: start;
+  padding: .5rem .6rem .5rem 2.4rem;
+  border-bottom: 1px solid var(--rule);
+  background: #fdf9f5;
+  cursor: pointer;
+  transition: background .12s;
+}
+
+.supp-row:hover { background: #f8f3ee; }
+.supp-row.done { background: var(--done); }
+.supp-row.done .supp-topic { color: var(--muted); text-decoration: line-through; text-decoration-color: var(--muted); }
+
+.supp-marker {
+  font-size: .55rem;
+  letter-spacing: .08em;
+  color: var(--green);
+  padding-top: .1rem;
+  font-style: italic;
+}
+
+.supp-topic {
+  font-size: .82rem;
+  color: var(--green);
+  line-height: 1.4;
+  font-style: italic;
+}
+
+.supp-check {
+  font-size: .85rem;
+  text-align: center;
+  user-select: none;
+  color: var(--green);
+  opacity: .6;
+}
+
+.supp-row.done .supp-check { opacity: 1; }
+
+/* ── FOOTER ── */
+footer {
+  margin-top: 2rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--rule);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: .5rem;
+  font-size: .58rem;
+  color: var(--muted);
+  letter-spacing: .08em;
+  font-style: italic;
+}
+
+@media (max-width: 640px) {
+  .box { padding: 1.2rem; }
+  body { padding: 1rem; }
+  .week-row { grid-template-columns: 44px 1fr 24px; }
+  .week-tcm { display: none; }
+}
+</style>
+</head>
+<body>
+<div class="box">
+
+<div class="nav"><a href="index.html">← Dashboard</a></div>
+
+<header>
+  <div class="header-title">Anatomy Prep · Curriculum</div>
+  <div class="header-meta">
+    <span>Feb 16 – Sep 1 2026</span>
+    <span>26 weeks · 1 session/week</span>
+    <span>School: <span>Sep 8 2026</span></span>
+  </div>
+</header>
+
+<div class="intro">
+  <p>CMU OLI Anatomy & Physiology — free, self-paced, two-semester equivalent. One session per week. You have exactly the time the course was designed for.</p>
+  <p>The goal is not to master everything. It is to arrive at school with a working mental map of the body so the first semester clicks instead of overwhelms. Reading and Shu point work is folded in alongside the CMU modules — do a little each session, not all at once.</p>
+</div>
+
+<div class="progress-panel">
+  <div class="progress-label">Progress</div>
+  <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+  <div class="progress-count" id="prog-count">0 of 26 weeks</div>
+</div>
+
+<!-- ═══════════════════════════════════════ PHASE 1 -->
+<div class="phase-label">Phase 1 · Foundations · Weeks 1–6 · Feb–Mar 2026</div>
+<div class="phase-desc">Light entry. Get the language. Build the mental map before going deep. Start Web That Has No Weaver.</div>
+
+<div class="week-row done" onclick="toggleDone(this)">
+  <div class="week-id"><div class="week-num">W01</div><div class="week-date-sub">Feb 16</div></div>
+  <div class="week-main">
+    <div class="week-topic">How to succeed in A&P + Big ideas</div>
+    <div class="week-note">The four themes: structure/function, homeostasis, levels of organization, integration. The frame everything else hangs on.</div>
+  </div>
+  <div class="week-tcm">Framework for body systems</div>
+  <div class="week-check">✓</div>
+</div>
+
+<div class="week-row done" onclick="toggleDone(this)">
+  <div class="week-id"><div class="week-num">W02</div><div class="week-date-sub">Feb 23</div></div>
+  <div class="week-main">
+    <div class="week-topic">Body organization & anatomical terms</div>
+    <div class="week-note">Planes, directions, cavities, regions. The language of location. You will use this every day in clinic.
+
+    </div>
+  </div>
+  <div class="week-tcm">Meridian mapping language</div>
+  <div class="week-check">✓</div>
+</div>
+
+<div class="week-row done" onclick="toggleDone(this)">
+  <div class="week-id"><div class="week-num">W03</div><div class="week-date-sub">Mar 02</div></div>
+  <div class="week-main">
+    <div class="week-topic">Cells — structure & function</div>
+    <div class="week-note">The basic unit. Membrane, organelles, how cells communicate. Foundational for everything.
+
+    </div>
+  </div>
+  <div class="week-tcm">Qi at cellular level</div>
+  <div class="week-check">✓</div>
+</div>
+
+<div class="week-row current" onclick="toggleDone(this)">
+  <div class="week-id"><div class="week-num">W04</div><div class="week-date-sub">Mar 09</div></div>
+  <div class="week-main">
+    <div class="week-topic">Tissues — the four types</div>
+    <div class="week-note">Epithelial, connective, muscle, nervous. Every organ is made of these. Knowing tissue = knowing how things go wrong.
+
+    </div>
+  </div>
+  <div class="week-tcm">Fascia + connective tissue</div>
+  <div class="week-check">○</div>
+</div>
+
+<div class="supp-row" onclick="toggleSupp(this)">
+  <div class="supp-marker">📖 read</div>
+  <div class="supp-topic">Web That Has No Weaver — begin Ch. 1–2 this week</div>
+  <div class="supp-check">○</div>
+</div>
+
+<div class="supp-row" onclick="toggleSupp(this)">
+  <div class="supp-marker">✦ memorize</div>
+  <div class="supp-topic">Shu points — write out all 12 Back-Shu locations, don't memorize yet, just locate</div>
+  <div class="supp-check">○</div>
+</div>
+
+<div class="week-row current" onclick="toggleDone(this)">
+  <div class="week-id"><div class="week-num">W05</div><div class="week-date-sub">Mar 16</div></div>
+  <div class="week-main">
+    <div class="week-topic">Integumentary system (skin)</div>
+    <div class="week-note">Skin layers, functions, sensory receptors. Relevant to acupuncture point location and needle depth.
+
+    </div>
+  </div>
+  <div class="week-tcm">Needle depth + skin zones</div>
+  <div class="week-check">○</div>
+</div>
+
+<div class="supp-row" onclick="toggleSupp(this)">
+  <div class="supp-marker">📖 read</div>
+  <div class="supp-topic">Web That Has No Weaver — Ch. 3–4</div>
+  <div class="supp-check">○</div>
+</div>
+
+<div class="supp-row" onclick="toggleSupp(this)">
+  <div class="supp-marker">✦ memorize</div>
+  <div class="supp-topic">Shu points — BL13–BL18 (Lung → Liver): location on spine</div>
+  <div class="supp-check">○</div>
+</div>
+
+<div class="week-row" onclick="toggleDone(this)">
+  <div class="week-id"><div class="week-num">W06</div><div class="week-date-sub">Mar 23</div></div>
+  <div class="week-main">
+    <div class="week-topic">Skeletal system — bones & cartilage</div>
+    <div class="week-note">Bone types, structure, joints. You need to know where bones are to know where acupuncture points are.
+
+    </div>
+  </div>
+  <div class="week-tcm">Bone landmarks for point location</div>
+  <div class="week-check">○</div>
+</div>
+
+<div class="supp-row" onclick="toggleSupp(this)">
+  <div class="supp-marker">📖 read</div>
+  <div class="supp-topic">Web That Has No Weaver — Ch. 5 to finish</div>
+  <div class="supp-check">○</div>
+</div>
+
+<div class="supp-row" onclick="toggleSupp(this)">
+  <div class="supp-marker">✦ memorize</div>
+  <div class="supp-topic">Shu points — BL19–BL25 (Gallbladder → Large Intestine)</div>
+  <div class="supp-check">○</div>
+</div>
+
+<!-- ═══════════════════════════════════════ PHASE 2 -->
+<div class="phase-label">Phase 2 · Systems · Weeks 7–18 · Mar–Jun 2026</div>
+<div class="phase-desc">The main body of the course. One system per week. Begin Between Heaven and Earth around W10. Continue Shu point review throughout.</div>
+
+<div class="week-row" onclick="toggleDone(this)">
+  <div class="week-id"><div class="week-num">W07</div><div class="week-date-sub">Mar 30</div></div>
+  <div class="week-main">
+    <div class="week-topic">Skeletal system — joints & movement</div>
+    <div class="week-note">Types of joints, range of motion, synovial joints. Movement vocabulary is essential for clinical notes.
+
+    </div>
+  </div>
+  <div class="week-tcm">Joint Bi syndrome 痹證</div>
+  <div class="week-check">○</div>
+</div>
+
+<div class="supp-row" onclick="toggleSupp(this)">
+  <div class="supp-marker">✦ memorize</div>
+  <div class="supp-topic">Shu points — full recall test: write all 12 from memory</div>
+  <div class="supp-check">○</div>
+</div>
+
+<div class="week-row" onclick="toggleDone(this)">
+  <div class="week-id"><div class="week-num">W08</div><div class="week-date-sub">Apr 06</div></div>
+  <div class="week-main">
+    <div class="week-topic">Muscular system — structure</div>
+    <div class="week-note">How muscles are built, fibre types, muscle names and locations. Many acupuncture points sit on or between muscle bellies.</div>
+  </div>
+  <div class="week-tcm">Muscle anatomy for needling</div>
+  <div class="week-check">○</div>
+</div>
+
+<div class="week-row" onclick="toggleDone(this)">
+  <div class="week-id"><div class="week-num">W09</div><div class="week-date-sub">Apr 13</div></div>
+  <div class="week-main">
+    <div class="week-topic">Muscular system — physiology</div>
+    <div class="week-note">How muscles contract, fatigue, repair. Why overwork causes injury — relevant to your own body too.</div>
+  </div>
+  <div class="week-tcm">Repetitive strain + Qi stagnation</div>
+  <div class="week-check">○</div>
+</div>
+
+<div class="week-row" onclick="toggleDone(this)">
+  <div class="week-id"><div class="week-num">W10</div><div class="week-date-sub">Apr 20</div></div>
+  <div class="week-main">
+    <div class="week-topic">Nervous system — central (brain & spinal cord)</div>
+    <div class="week-note">Big picture of CNS. Don't memorize — map.
+
+    </div>
+  </div>
+  <div class="week-tcm">Mind-body in TCM · Shen</div>
+  <div class="week-check">○</div>
+</div>
+
+<div class="supp-row" onclick="toggleSupp(this)">
+  <div class="supp-marker">📖 read</div>
+  <div class="supp-topic">Between Heaven and Earth — begin Ch. 1–2</div>
+  <div class="supp-check">○</div>
+</div>
+
+<div class="week-row" onclick="toggleDone(this)">
+  <div class="week-id"><div class="week-num">W11</div><div class="week-date-sub">Apr 27</div></div>
+  <div class="week-main">
+    <div class="week-topic">Nervous system — peripheral & autonomic</div>
+    <div class="week-note">Sympathetic/parasympathetic. Stress response. The biology behind the stress cycle you learned in therapy.
+
+    </div>
+  </div>
+  <div class="week-tcm">Stress cycle + nervous system</div>
+  <div class="week-check">○</div>
+</div>
+
+<div class="supp-row" onclick="toggleSupp(this)">
+  <div class="supp-marker">📖 read</div>
+  <div class="supp-topic">Between Heaven and Earth — Ch. 3–4</div>
+  <div class="supp-check">○</div>
+</div>
+
+<div class="week-row" onclick="toggleDone(this)">
+  <div class="week-id"><div class="week-num">W12</div><div class="week-date-sub">May 04</div></div>
+  <div class="week-main">
+    <div class="week-topic">Special senses</div>
+    <div class="week-note">Eyes, ears, taste, smell, touch. Sensory input is how the body listens.
+
+    </div>
+  </div>
+  <div class="week-tcm">Orifice theory in TCM</div>
+  <div class="week-check">○</div>
+</div>
+
+<div class="supp-row" onclick="toggleSupp(this)">
+  <div class="supp-marker">📖 read</div>
+  <div class="supp-topic">Between Heaven and Earth — Ch. 5–6</div>
+  <div class="supp-check">○</div>
+</div>
+
+<div class="week-row" onclick="toggleDone(this)">
+  <div class="week-id"><div class="week-num">W13</div><div class="week-date-sub">May 11</div></div>
+  <div class="week-main">
+    <div class="week-topic">Endocrine system</div>
+    <div class="week-note">Hormones, glands, feedback loops. Thyroid, adrenals, reproductive hormones. Core for women's health practice.
+
+    </div>
+  </div>
+  <div class="week-tcm">Women's body + hormonal cycles</div>
+  <div class="week-check">○</div>
+</div>
+
+<div class="supp-row" onclick="toggleSupp(this)">
+  <div class="supp-marker">📖 read</div>
+  <div class="supp-topic">Between Heaven and Earth — Ch. 7–8</div>
+  <div class="supp-check">○</div>
+</div>
+
+<div class="week-row" onclick="toggleDone(this)">
+  <div class="week-id"><div class="week-num">W14</div><div class="week-date-sub">May 18</div></div>
+  <div class="week-main">
+    <div class="week-topic">Blood & cardiovascular — heart</div>
+    <div class="week-note">Heart anatomy and function, cardiac cycle. In TCM the Heart governs the Shen.
+
+    </div>
+  </div>
+  <div class="week-tcm">Heart organ in TCM</div>
+  <div class="week-check">○</div>
+</div>
+
+<div class="supp-row" onclick="toggleSupp(this)">
+  <div class="supp-marker">📖 read</div>
+  <div class="supp-topic">Between Heaven and Earth — Ch. 9–10</div>
+  <div class="supp-check">○</div>
+</div>
+
+<div class="week-row" onclick="toggleDone(this)">
+  <div class="week-id"><div class="week-num">W15</div><div class="week-date-sub">May 25</div></div>
+  <div class="week-main">
+    <div class="week-topic">Cardiovascular — blood vessels & circulation</div>
+    <div class="week-note">Arteries, veins, capillaries. Blood flow and pressure. Meridian theory has been linked to fascial and vascular pathways.
+
+    </div>
+  </div>
+  <div class="week-tcm">Blood vessels + meridian pathways</div>
+  <div class="week-check">○</div>
+</div>
+
+<div class="supp-row" onclick="toggleSupp(this)">
+  <div class="supp-marker">📖 read</div>
+  <div class="supp-topic">Between Heaven and Earth — Ch. 11–12</div>
+  <div class="supp-check">○</div>
+</div>
+
+<div class="week-row" onclick="toggleDone(this)">
+  <div class="week-id"><div class="week-num">W16</div><div class="week-date-sub">Jun 01</div></div>
+  <div class="week-main">
+    <div class="week-topic">Lymphatic & immune system</div>
+    <div class="week-note">How the body defends itself. Lymph nodes, spleen, immunity. TCM Defensive Qi (Wei Qi) maps closely here.
+
+    </div>
+  </div>
+  <div class="week-tcm">Wei Qi + immune defense</div>
+  <div class="week-check">○</div>
+</div>
+
+<div class="supp-row" onclick="toggleSupp(this)">
+  <div class="supp-marker">📖 read</div>
+  <div class="supp-topic">Between Heaven and Earth — finish</div>
+  <div class="supp-check">○</div>
+</div>
+
+<div class="week-row" onclick="toggleDone(this)">
+  <div class="week-id"><div class="week-num">W17</div><div class="week-date-sub">Jun 08</div></div>
+  <div class="week-main">
+    <div class="week-topic">Respiratory system</div>
+    <div class="week-note">Lungs, airways, breathing mechanics. In TCM the Lung governs Qi and the skin. Breath is Qi.</div>
+  </div>
+  <div class="week-tcm">Lung organ — Qi + skin</div>
+  <div class="week-check">○</div>
+</div>
+
+<div class="week-row" onclick="toggleDone(this)">
+  <div class="week-id"><div class="week-num">W18</div><div class="week-date-sub">Jun 15</div></div>
+  <div class="week-main">
+    <div class="week-topic">Digestive system</div>
+    <div class="week-note">Stomach, intestines, liver, gallbladder, pancreas. The Spleen-Stomach axis is central to TCM — know the anatomy first.</div>
+  </div>
+  <div class="week-tcm">Spleen-Stomach axis in TCM</div>
+  <div class="week-check">○</div>
+</div>
+
+<!-- ═══════════════════════════════════════ PHASE 3 -->
+<div class="phase-label">Phase 3 · Depth · Weeks 19–24 · Jun–Jul 2026</div>
+<div class="phase-desc">Closer to school. Prioritize reproductive and urinary — that is your clinical focus.</div>
+
+<div class="week-row" onclick="toggleDone(this)">
+  <div class="week-id"><div class="week-num">W19</div><div class="week-date-sub">Jun 22</div></div>
+  <div class="week-main">
+    <div class="week-topic">Urinary system</div>
+    <div class="week-note">Kidneys, filtration, fluid balance. In TCM the Kidney stores Jing — the foundational organ. This one matters a lot.</div>
+  </div>
+  <div class="week-tcm">Kidney Jing — foundational organ</div>
+  <div class="week-check">○</div>
+</div>
+
+<div class="week-row" onclick="toggleDone(this)">
+  <div class="week-id"><div class="week-num">W20</div><div class="week-date-sub">Jun 29</div></div>
+  <div class="week-main">
+    <div class="week-topic">Reproductive system — female anatomy</div>
+    <div class="week-note">Ovaries, uterus, fallopian tubes. Your future women's health patients. Know this deeply. Pull out your women's body books alongside this week.</div>
+  </div>
+  <div class="week-tcm">Women's body + reproductive anatomy</div>
+  <div class="week-check">○</div>
+</div>
+
+<div class="week-row" onclick="toggleDone(this)">
+  <div class="week-id"><div class="week-num">W21</div><div class="week-date-sub">Jul 06</div></div>
+  <div class="week-main">
+    <div class="week-topic">Reproductive system — hormonal cycle in depth</div>
+    <div class="week-note">Follicular, ovulation, luteal phase. FSH, LH, estrogen, progesterone. The biology behind the women's health books you already have — they will land differently now.</div>
+  </div>
+  <div class="week-tcm">Menstrual cycle · Blood/Yin/Yang phases</div>
+  <div class="week-check">○</div>
+</div>
+
+<div class="week-row" onclick="toggleDone(this)">
+  <div class="week-id"><div class="week-num">W22</div><div class="week-date-sub">Jul 13</div></div>
+  <div class="week-main">
+    <div class="week-topic">Endocrine homeostasis & stress</div>
+    <div class="week-note">Cortisol, adrenal response, HPA axis. The biology of chronic stress. This connects your therapy work directly to TCM theory.</div>
+  </div>
+  <div class="week-tcm">Stress + Kidney Yang depletion</div>
+  <div class="week-check">○</div>
+</div>
+
+<div class="week-row" onclick="toggleDone(this)">
+  <div class="week-id"><div class="week-num">W23</div><div class="week-date-sub">Jul 20</div></div>
+  <div class="week-main">
+    <div class="week-topic">Integration of systems — review</div>
+    <div class="week-note">How everything talks to everything else. The big picture. Draw it out if that helps.
+
+    </div>
+  </div>
+  <div class="week-tcm">Five element correspondences</div>
+  <div class="week-check">○</div>
+</div>
+
+<div class="supp-row" onclick="toggleSupp(this)">
+  <div class="supp-marker">✦ memorize</div>
+  <div class="supp-topic">Shu points — final recall: all 12 locations and organ correspondences from memory</div>
+  <div class="supp-check">○</div>
+</div>
+
+<div class="week-row" onclick="toggleDone(this)">
+  <div class="week-id"><div class="week-num">W24</div><div class="week-date-sub">Jul 27</div></div>
+  <div class="week-main">
+    <div class="week-topic">Pathology basics — when systems fail</div>
+    <div class="week-note">How does disease begin when homeostasis breaks down? This is where anatomy becomes clinical.</div>
+  </div>
+  <div class="week-tcm">Pattern differentiation in TCM</div>
+  <div class="week-check">○</div>
+</div>
+
+<!-- ═══════════════════════════════════════ PHASE 4 -->
+<div class="phase-label">Phase 4 · Buffer & Review · Weeks 25–26 · Aug 2026</div>
+<div class="phase-desc">Two weeks before school. No new material. Consolidate, revisit weak spots, rest.</div>
+
+<div class="week-row" onclick="toggleDone(this)">
+  <div class="week-id"><div class="week-num">W25</div><div class="week-date-sub">Aug 03</div></div>
+  <div class="week-main">
+    <div class="week-topic">Personal review — weakest areas only</div>
+    <div class="week-note">Look back at your notes. What didn't stick? Go back to those modules only. Don't re-read everything.</div>
+  </div>
+  <div class="week-tcm">—</div>
+  <div class="week-check">○</div>
+</div>
+
+<div class="week-row" onclick="toggleDone(this)">
+  <div class="week-id"><div class="week-num">W26</div><div class="week-date-sub">Aug 10</div></div>
+  <div class="week-main">
+    <div class="week-topic">Rest + arrive ready</div>
+    <div class="week-note">School starts Sep 8. This week: close the books. You have done the work. Let it settle.</div>
+  </div>
+  <div class="week-tcm">—</div>
+  <div class="week-check">○</div>
+</div>
+
+<footer>
+  <span>CMU OLI · oli.cmu.edu · free & self-paced</span>
+  <span>Click any row to mark complete</span>
+  <span>School starts Sep 8 2026</span>
+</footer>
+
+</div>
+
+<script>
+function toggleSupp(row) {
+  row.classList.toggle('done');
+  row.querySelector('.supp-check').textContent = row.classList.contains('done') ? '✓' : '○';
+  saveState();
+}
+
+function toggleDone(row) {
+  row.classList.toggle('done');
+  row.querySelector('.week-check').textContent = row.classList.contains('done') ? '✓' : '○';
+  // remove current styling when marked done
+  if (row.classList.contains('done')) row.classList.remove('current');
+  updateProgress();
+  saveState();
+}
+
+function updateProgress() {
+  const rows = document.querySelectorAll('.week-row');
+  const done = document.querySelectorAll('.week-row.done').length;
+  const pct = Math.round(done / rows.length * 100);
+  document.getElementById('prog-fill').style.width = pct + '%';
+  document.getElementById('prog-count').textContent = done + ' of ' + rows.length + ' complete';
+}
+
+function saveState() {
+  const state = { weeks: {}, supps: {} };
+  document.querySelectorAll('.week-row').forEach((row, i) => { state.weeks[i] = row.classList.contains('done'); });
+  document.querySelectorAll('.supp-row').forEach((row, i) => { state.supps[i] = row.classList.contains('done'); });
+  try { localStorage.setItem('anatomy-prep', JSON.stringify(state)); } catch(e) {}
+}
+
+function loadState() {
+  try {
+    const saved = JSON.parse(localStorage.getItem('anatomy-prep') || '{}');
+    if (saved.weeks) {
+      document.querySelectorAll('.week-row').forEach((row, i) => {
+        if (saved.weeks[i]) { row.classList.add('done'); row.classList.remove('current'); row.querySelector('.week-check').textContent = '✓'; }
+      });
+    }
+    if (saved.supps) {
+      document.querySelectorAll('.supp-row').forEach((row, i) => {
+        if (saved.supps[i]) { row.classList.add('done'); row.querySelector('.supp-check').textContent = '✓'; }
+      });
+    }
+  } catch(e) {}
+}
+
+loadState();
+updateProgress();
+</script>
+
+
+
+<script src="listening-season.js"></script>
+</body>
+</html>

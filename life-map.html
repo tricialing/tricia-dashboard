@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tricia · Life Map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="listening-season.css">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: transparent; font-family: 'Caveat', cursive; overflow: hidden; height: 100vh; width: 100vw; cursor: grab; }
+body.dragging { cursor: grabbing; }
+
+#toolbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: .5rem 1.2rem;
+  background: rgba(245,240,234,.92); border-bottom: 1px solid #e4dfd6;
+  backdrop-filter: blur(6px);
+}
+.tb-title { font-size: 1.05rem; font-weight: 700; color: #2a2520; letter-spacing: .02em; }
+.tb-hint  { font-size: .7rem; color: #b0aaa3; font-style: italic; letter-spacing: .04em; }
+.tb-btn { background: #2a2520; color: #f5f2ee; border: none; border-radius: 3px; font-family: 'Caveat', cursive; font-size: .8rem; padding: .2rem .7rem; cursor: pointer; }
+.tb-btn:hover { background: #4a4540; }
+
+#canvas-wrap { position: fixed; inset: 0; top: 36px; overflow: hidden; }
+#canvas { position: absolute; transform-origin: 0 0; }
+svg#lines { position: absolute; top: 0; left: 0; pointer-events: none; overflow: visible; }
+
+.node { position: absolute; transform: translate(-50%,-50%); cursor: pointer; user-select: none; z-index: 5; }
+.node-box { border: 2px solid #2a2520; background: transparent; padding: 4px 10px; text-align: center; line-height: 1.2; transition: transform .12s; white-space: nowrap; }
+.node:hover .node-box { transform: scale(1.06); }
+.node-label { font-family: 'Caveat', cursive; color: #2a2520; pointer-events: none; }
+
+.n-centre .node-box  { padding: 10px 22px; border-width: 3px; background: #2a2520; }
+.n-centre .node-label { font-size: 1.25rem; font-weight: 700; color: #f5f2ee; }
+.n-cluster .node-box  { padding: 5px 13px; border-width: 2.5px; }
+.n-cluster .node-label { font-size: .95rem; font-weight: 700; }
+.n-leaf .node-box  { padding: 3px 8px; border-width: 1.5px; }
+.n-leaf .node-label { font-size: .78rem; }
+.n-thread .node-box  { padding: 3px 8px; border-width: 1.5px; border-style: dashed; }
+.n-thread .node-label { font-size: .75rem; }
+
+.c-body     .node-box { border-color:#5a7a5a; background:#eef3ee; } .c-body     .node-label { color:#3a5a3a; }
+.c-mother   .node-box { border-color:#a06060; background:#f5eeee; } .c-mother   .node-label { color:#7a4040; }
+.c-create   .node-box { border-color:#6860a0; background:#f0eef8; } .c-create   .node-label { color:#4a4080; }
+.c-learn    .node-box { border-color:#a08040; background:#f8f4ea; } .c-learn    .node-label { color:#7a6020; }
+.c-home     .node-box { border-color:#4a7a88; background:#eef4f6; } .c-home     .node-label { color:#2a5a68; }
+.c-people   .node-box { border-color:#8a7060; background:#f5f0ec; } .c-people   .node-label { color:#6a5040; }
+.c-values   .node-box { border-color:#c8a040; background:#fdf8ec; } .c-values   .node-label { color:#8a6820; }
+.c-deeper   .node-box { border-color:#888;    background:#f0f0f0; } .c-deeper   .node-label { color:#444; }
+
+.t-listen   .node-box { border-color:#c8a040; border-style:dashed; background:#fdf8ec; } .t-listen   .node-label { color:#8a6820; }
+.t-struct   .node-box { border-color:#9a60a0; border-style:dashed; background:#f8eef8; } .t-struct   .node-label { color:#6a3880; }
+.t-bodyknow .node-box { border-color:#5a8a5a; border-style:dashed; background:#eef5ee; } .t-bodyknow .node-label { color:#3a6a3a; }
+
+#panel {
+  position: fixed; bottom: 1rem; left: 50%; transform: translateX(-50%);
+  background: rgba(255,255,255,.97); border: 1px solid #e4dfd6; box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+  padding: .85rem 1.2rem; max-width: 340px; width: 90%; z-index: 200;
+  display: none; backdrop-filter: blur(8px);
+}
+#panel-title { font-size: 1.05rem; font-weight: 700; color: #2a2520; margin-bottom: .2rem; font-family: "Caveat", cursive; }
+#panel-body  { font-size: .8rem; color: #6b6560; line-height: 1.7; font-style: italic; font-family: "Caveat", cursive; }
+#panel-close { position: absolute; top:.4rem; right:.6rem; background:none; border:none; font-size:1rem; color:#b0aaa3; cursor:pointer; font-family:'Caveat',cursive; }
+
+#legend { position: fixed; bottom:1rem; right:1rem; z-index:100; display:flex; flex-direction:column; gap:.3rem; }
+.leg { display:flex; align-items:center; gap:.4rem; font-size:.62rem; color:#8a8480; font-style:italic; }
+.leg-dash { width:18px; border-top:2px dashed; }
+.ld-l { border-color:#c8a040; } .ld-s { border-color:#9a60a0; } .ld-b { border-color:#5a8a5a; }
+</style>
+</head>
+<body>
+<div id="toolbar">
+  <div class="tb-title">Tricia · Life Map · 驚蟄 2026</div>
+  <div class="tb-hint">drag · scroll to zoom · tap to read</div>
+  <button class="tb-btn" onclick="resetView()">Reset</button>
+</div>
+
+<div id="canvas-wrap">
+  <div id="canvas">
+    <svg id="lines"></svg>
+  </div>
+</div>
+
+<div id="panel">
+  <button id="panel-close">×</button>
+  <div id="panel-title"></div>
+  <div id="panel-body"></div>
+</div>
+
+<div id="legend">
+  <div class="leg"><div class="leg-dash ld-l"></div>Listening</div>
+  <div class="leg"><div class="leg-dash ld-s"></div>Structure → freedom</div>
+  <div class="leg"><div class="leg-dash ld-b"></div>Body knowledge</div>
+</div>
+
+<script>
+const CLUSTERS = [
+  { id:'body', label:'Body & Health', color:'c-body', angle:255, dist:240,
+    note:'Learning to listen to my body before it has to shout.',
+    leaves:[
+      {id:'swim',     label:'Swimming',       note:'Just me and my breath. No phone, no music. Peace and joy. The one place with no distraction.'},
+      {id:'yoga',     label:'Yoga',           note:'When I have a chance. Movement that asks something of me.'},
+      {id:'reiki',    label:'Reiki',          note:'Got attuned because I wanted listening hands. My acupuncturist said it helps feel qi before school.'},
+      {id:'chiro',    label:'Tonal Chiro',    note:'My favourite bodywork. She helps with just her listening hands. That is the skill I want.'},
+      {id:'therapy',  label:'Therapy',        note:'Started to catch my stress signals before I hurt myself. Learned the stress cycle. It helped.'},
+      {id:'adhd',     label:'ADHD Dx',        note:'March 2026. Most useful thing for understanding my needs, chronic pain, energy dips. It explains so much.'},
+      {id:'overwork', label:'Overworking',    note:'Carpal tunnel. Repetitive stress. TMJD. I hurt myself from overdoing. Still learning the signals.'},
+    ]},
+  { id:'mother', label:'Motherhood', color:'c-mother', angle:315, dist:240,
+    note:'More patience than I knew I had. More grace than I thought possible.',
+    leaves:[
+      {id:'june',     label:'June',           note:'Born July 25 2023. She is a fitting baby for our family. We are one.'},
+      {id:'cosleep',  label:'Co-sleeping',    note:'Still at 2.5. Contact naps until daycare. Still breastfeeding. It works for us.'},
+      {id:'watching', label:'Watching her learn', note:'From rolling over to learning to read. The most fascinating thing I have ever watched.'},
+      {id:'reggio',   label:'Reggio Daycare', note:'Nature 3 hours a day. She is so happy there. A good trade off.'},
+      {id:'patience', label:'Patience',       note:'I have almost never gotten mad at her. I am capable of more grace than I knew possible.'},
+    ]},
+  { id:'create', label:'Creative Work', color:'c-create', angle:30, dist:240,
+    note:'I found freedom inside structure — not despite it.',
+    leaves:[
+      {id:'bread',    label:'Sourdough',      note:'1.5 years in. I can read the dough now. No timer. Just touch. The structure is weighing — everything else is feel.'},
+      {id:'knit',     label:'Knitting',       note:'Second nature. I have knitted June things she wears and knows I made. That feels good.'},
+      {id:'cook',     label:'Cooking',        note:'I am in flow when I cook. I make a mess (ADHD) but I enjoy it. I read cookbooks like novels.'},
+      {id:'ls',       label:'Listening Season', note:'The brand, the newsletter, the future clinic. One arc. Curiosity as the thread.'},
+      {id:'jn',       label:'Just Noodling',  note:'The personal newsletter. Long form. I want to explore and reach conclusions I didn\'t know were inside me.'},
+    ]},
+  { id:'learn', label:'Learning & School', color:'c-learn', angle:105, dist:240,
+    note:'Lists. Structure. The syllabus tells me exactly what to do. This time I have a grander purpose.',
+    leaves:[
+      {id:'tcm',      label:'TCM School',     note:'Starts Sep 8 2026. 10 semesters. R.Ac Oct 2028. Dr.TCM 2030. The biggest thing I have committed to.'},
+      {id:'journal',  label:'Journaling',     note:'When I write I reach conclusions I did not know were inside me. That is why I wanted long form.'},
+      {id:'reading',  label:'Reading',        note:'Goal: 36 books this year. Read: 1. I go in waves. Still counts.'},
+      {id:'notes',    label:'Note systems',   note:'I want to be someone with piles of notebooks. I have never had a stable system. Working on it.'},
+      {id:'hkschool', label:'HK schooling',   note:'Where the love of structure came from. Rigid. I have not fully broken out — but I am working with it.'},
+    ]},
+  { id:'home', label:'Home & Space', color:'c-home', angle:195, dist:240,
+    note:'Never imagined owning a home in HK. Here it feels possible. I want to finally feel set up.',
+    leaves:[
+      {id:'moves',    label:'3 Moves',        note:'Parents\' spare room → 36wks pregnant → 6mo postpartum → current townhouse. Still in piles. Might move again.'},
+      {id:'myroom',   label:'My Own Room',    note:'I want a study/craft room that is just mine. My stuff. My system. A home within the home.'},
+      {id:'kitchen',  label:'The Kitchen',    note:'Functional. Large. Non-negotiable. I cook, I bake, I need space.'},
+      {id:'buying',   label:'Buying',         note:'Exploratory. My parents can help. We can talk about money in a way we never could in HK.'},
+      {id:'hkdream',  label:'HK → Canada',   note:'In HK owning felt unreachable. Here the family dynamic shifted. So did what feels possible.'},
+    ]},
+  { id:'people', label:'People', color:'c-people', angle:150, dist:240,
+    note:'My world is small right now. But the people in it teach me everything.',
+    leaves:[
+      {id:'t',        label:'T',              note:'Partner. Architect. Building Ground Floor newsletter. We are making a life in Delta together.'},
+      {id:'june-p',   label:'June',           note:'She teaches me to keep trying. I repeat it to her all day. She gives it back.'},
+      {id:'practit',  label:'Practitioners',  note:'My tonal chiro, acupuncturist, therapist. I learn about my body through the people who work with it.'},
+      {id:'doula-p',  label:'My Doula',       note:'Taught me the most about birth, body, and what I was capable of. The pivot point.'},
+      {id:'parents',  label:'Parents',        note:'Now in Canada. The family dynamic shifted. We can talk about money. That is new and good.'},
+    ]},
+  { id:'values', label:'Values', color:'c-values', angle:240, dist:240,
+    note:'Not the aspirational ones. The ones that show up in how I actually make decisions.',
+    leaves:[
+      {id:'honest',     label:'Honesty',        note:'Being a good honest person. It is the baseline. Everything else is built on this.'},
+      {id:'curiosityv', label:'Curiosity',      note:'The thread. It is how I learn, how I parent, how I chose TCM. Curiosity before optimization.'},
+      {id:'care',       label:'Care for others',note:'I want to be useful to my family and hopefully to the world. That is the grander purpose.'},
+    ]},
+  { id:'deeper', label:'Go Deeper', color:'c-deeper', angle:70, dist:240,
+    note:'The back burner. Things I have been circling around but haven\'t landed on yet.',
+    leaves:[
+      {id:'notesys',  label:'Note system',     note:'The one I keep meaning to build. The stable one. The piles of notebooks version of me.'},
+      {id:'artjune',  label:'Art with June',   note:'Create art with my child. No agenda. Just making together.'},
+      {id:'mealprep', label:'Meal prep',       note:'I cook well. I want to make it more intentional and sustainable across the week.'},
+      {id:'finance',  label:'Finance',         note:'Understanding money properly. Not just managing it — actually understanding it.'},
+      {id:'artfree',  label:'Art (no rules)',  note:'The painting I keep not starting. Too cheap, too scared. But it is still on the list.'},
+      {id:'junlearn', label:'How June learns', note:'Reggio. Play and nature. I want to understand the theory behind it.'},
+      {id:'wombody',  label:'Women\'s body',   note:'I want to go deeper on this. Connects to TCM, postpartum, my own body story.'},
+      {id:'qigong',   label:'Qigong',          note:'On the list. Body + breath + qi. It fits everywhere.'},
+      {id:'food',     label:'Growing food',    note:'I want to grow my own food. Not just cooking it — growing it.'},
+      {id:'sew',      label:'Sewing',          note:'The setup overwhelms me. But I still want to. Someday.'},
+      {id:'writing',  label:'Writing',         note:'The newsletter is writing. But there is more I want to do. Still figuring out what.'},
+      {id:'anatomy',  label:'Anatomy (prep)',  note:'Must do before TCM school starts Sep 8. Non-negotiable prep.'},
+      {id:'bizsetup',  label:'Business setup',  note:'How to set up a sole proprietorship properly. Legal structure, registration, HST, bookkeeping, insurance. The infrastructure behind the clinic.'},
+      {id:'bizfin',    label:'Clinic finances', note:'How to set up finances for a practice. Separate accounts, invoicing, tax planning, paying yourself. Getting the system right before money starts moving.'},
+      {id:'bizmarket', label:'Marketing',       note:'How to build a patient base. Not just social media — the whole picture. Referrals, website, trust-building over time.'},
+    ]},
+];
+
+const THREADS = [
+  { id:'tl', label:'Listening', color:'t-listen', stroke:'#c8a040', mark:'ml', angle:10, dist:430,
+    note:'Swimming. Tonal chiro. Bread dough. Watching June. Journaling. TCM. The brand name. Not a theme — how you actually live.',
+    connects:['swim','chiro','bread','journal','tcm','ls','reiki','watching'] },
+  { id:'ts', label:'Structure → freedom', color:'t-struct', stroke:'#9a60a0', mark:'ms', angle:85, dist:430,
+    note:'HK schooling gave you rules. Sourdough, knitting, TCM — all structured containers that give you somewhere to find flow.',
+    connects:['hkschool','bread','knit','tcm','notes','notesys'] },
+  { id:'tb', label:'Body knowledge', color:'t-bodyknow', stroke:'#5a8a5a', mark:'mb', angle:168, dist:430,
+    note:'Reiki. Tonal chiro. ADHD diagnosis. Therapy. TCM. Swimming. Your body is your primary instrument and you are learning to read it.',
+    connects:['reiki','chiro','adhd','therapy','tcm','swim','wombody'] },
+];
+
+const W=2000, H=1600, CX=W/2, CY=H/2;
+
+function polar(cx,cy,deg,d){ const r=(deg-90)*Math.PI/180; return {x:cx+d*Math.cos(r),y:cy+d*Math.sin(r)}; }
+
+function leafPositions(cp,angle,n){
+  const spread=Math.min(58,n*13);
+  return Array.from({length:n},(_,i)=>polar(cp.x,cp.y,angle-spread/2+(n>1?spread/(n-1)*i:0),148));
+}
+
+const canvas=document.getElementById('canvas');
+const svg=document.getElementById('lines');
+svg.setAttribute('width',W); svg.setAttribute('height',H);
+canvas.style.width=W+'px'; canvas.style.height=H+'px';
+
+// markers
+const defs=document.createElementNS('http://www.w3.org/2000/svg','defs');
+[['main','#2a2520'],['leaf','#2a2520'],['ml','#c8a040'],['ms','#9a60a0'],['mb','#5a8a5a']].forEach(([id,col])=>{
+  const m=document.createElementNS('http://www.w3.org/2000/svg','marker');
+  m.setAttribute('id',id); m.setAttribute('markerWidth','7'); m.setAttribute('markerHeight','6');
+  m.setAttribute('refX','6'); m.setAttribute('refY','3'); m.setAttribute('orient','auto');
+  const p=document.createElementNS('http://www.w3.org/2000/svg','polygon');
+  p.setAttribute('points','0 0,7 3,0 6'); p.setAttribute('fill',col); p.setAttribute('opacity','0.7');
+  m.appendChild(p); defs.appendChild(m);
+});
+svg.appendChild(defs);
+
+const nodePos={};
+
+function addLine(x1,y1,x2,y2,stroke,width,dash,marker,opacity=0.45){
+  const l=document.createElementNS('http://www.w3.org/2000/svg','line');
+  l.setAttribute('x1',x1);l.setAttribute('y1',y1);l.setAttribute('x2',x2);l.setAttribute('y2',y2);
+  l.setAttribute('stroke',stroke);l.setAttribute('stroke-width',width);l.setAttribute('opacity',opacity);
+  l.setAttribute('stroke-linecap','round');
+  if(dash)l.setAttribute('stroke-dasharray',dash);
+  if(marker)l.setAttribute('marker-end','url(#'+marker+')');
+  svg.appendChild(l);
+}
+
+function shorten(x1,y1,x2,y2,px){
+  const dx=x2-x1,dy=y2-y1,len=Math.sqrt(dx*dx+dy*dy),t=(len-px)/len;
+  return {x:x1+dx*t,y:y1+dy*t};
+}
+
+let activeNode=null;
+
+function makeNode(id,label,x,y,type,color,note){
+  nodePos[id]={x,y};
+  const el=document.createElement('div');
+  el.className=`node n-${type} ${color}`;
+  el.style.left=x+'px'; el.style.top=y+'px';
+  const box=document.createElement('div'); box.className='node-box';
+  const lbl=document.createElement('div'); lbl.className='node-label'; lbl.textContent=label;
+  box.appendChild(lbl); el.appendChild(box);
+  el.addEventListener('click',e=>{
+    e.stopPropagation();
+    if(activeNode===id){closePanel();return;}
+    openPanel(label,note); activeNode=id;
+  });
+  canvas.appendChild(el);
+}
+
+// centre
+makeNode('centre','Tricia',CX,CY,'centre','','Everything connects here. Mar 2026 · 驚蟄. One life in motion.');
+
+CLUSTERS.forEach(cl=>{
+  const cp=polar(CX,CY,cl.angle,cl.dist);
+  makeNode(cl.id,cl.label,cp.x,cp.y,'cluster',cl.color,cl.note);
+  const e1=shorten(CX,CY,cp.x,cp.y,52);
+  addLine(CX,CY,e1.x,e1.y,'#2a2520',1.8,null,'main');
+  const lps=leafPositions(cp,cl.angle,cl.leaves.length);
+  cl.leaves.forEach((lf,i)=>{
+    const lp=lps[i];
+    makeNode(lf.id,lf.label,lp.x,lp.y,'leaf',cl.color,lf.note);
+    const e2=shorten(cp.x,cp.y,lp.x,lp.y,40);
+    addLine(cp.x,cp.y,e2.x,e2.y,'#2a2520',1,null,'leaf',0.35);
+  });
+});
+
+THREADS.forEach(th=>{
+  const tp=polar(CX,CY,th.angle,th.dist);
+  makeNode(th.id,th.label,tp.x,tp.y,'thread',th.color,th.note);
+  th.connects.forEach(tid=>{
+    const tp2=nodePos[tid]; if(!tp2)return;
+    const e=shorten(tp.x,tp.y,tp2.x,tp2.y,40);
+    addLine(tp.x,tp.y,e.x,e.y,th.stroke,1.2,'5 4',th.mark,0.45);
+  });
+});
+
+// pan + zoom
+const wrap=document.getElementById('canvas-wrap');
+let scale=0.48,tx=-80,ty=-60;
+function applyT(){canvas.style.transform=`translate(${tx}px,${ty}px) scale(${scale})`;}
+applyT();
+function resetView(){scale=0.48;tx=-80;ty=-60;applyT();}
+
+let dragging=false,sx,sy,stx,sty;
+wrap.addEventListener('mousedown',e=>{dragging=true;sx=e.clientX;sy=e.clientY;stx=tx;sty=ty;document.body.classList.add('dragging');});
+window.addEventListener('mousemove',e=>{if(!dragging)return;tx=stx+(e.clientX-sx);ty=sty+(e.clientY-sy);applyT();});
+window.addEventListener('mouseup',()=>{dragging=false;document.body.classList.remove('dragging');});
+wrap.addEventListener('wheel',e=>{
+  e.preventDefault();
+  const f=e.deltaY<0?1.08:0.93;
+  const rect=wrap.getBoundingClientRect();
+  const mx=e.clientX-rect.left,my=e.clientY-rect.top;
+  tx=mx-(mx-tx)*f; ty=my-(my-ty)*f; scale=Math.min(2,Math.max(0.2,scale*f)); applyT();
+},{passive:false});
+
+let t0={};
+wrap.addEventListener('touchstart',e=>{[...e.touches].forEach(t=>t0[t.identifier]={x:t.clientX,y:t.clientY});if(e.touches.length===1){sx=e.touches[0].clientX;sy=e.touches[0].clientY;stx=tx;sty=ty;}});
+wrap.addEventListener('touchmove',e=>{e.preventDefault();if(e.touches.length===1){tx=stx+(e.touches[0].clientX-sx);ty=sty+(e.touches[0].clientY-sy);applyT();}},{passive:false});
+
+function openPanel(title,body){document.getElementById('panel-title').textContent=title;document.getElementById('panel-body').textContent=body;document.getElementById('panel').style.display='block';}
+function closePanel(){document.getElementById('panel').style.display='none';activeNode=null;}
+document.getElementById('panel-close').addEventListener('click',closePanel);
+document.addEventListener('click',closePanel);
+</script>
+
+// ── SOLAR TERMS ──
+const TERMS=[
+  {zh:'小寒',en:'Minor Cold',start:[1,5],end:[1,19],color:'#C8CED8'},
+  {zh:'大寒',en:'Major Cold',start:[1,20],end:[2,3],color:'#BCC4D0'},
+  {zh:'立春',en:'Start of Spring',start:[2,4],end:[2,18],color:'#EED8D4'},
+  {zh:'雨水',en:'Rain Water',start:[2,19],end:[3,4],color:'#E8CEC8'},
+  {zh:'驚蟄',en:'Awakening of Insects',start:[3,5],end:[3,19],color:'#E0C0B4'},
+  {zh:'春分',en:'Spring Equinox',start:[3,20],end:[4,3],color:'#D8B8AC'},
+  {zh:'清明',en:'Clear and Bright',start:[4,4],end:[4,19],color:'#D0B0A4'},
+  {zh:'穀雨',en:'Grain Rain',start:[4,20],end:[5,4],color:'#C8A89C'},
+  {zh:'立夏',en:'Start of Summer',start:[5,5],end:[5,20],color:'#E8D4A8'},
+  {zh:'小滿',en:'Grain Buds',start:[5,21],end:[6,5],color:'#E0C890'},
+  {zh:'芒種',en:'Grain in Ear',start:[6,6],end:[6,20],color:'#D8BC78'},
+  {zh:'夏至',en:'Summer Solstice',start:[6,21],end:[7,6],color:'#D0B060'},
+  {zh:'小暑',en:'Minor Heat',start:[7,7],end:[7,22],color:'#C8A848'},
+  {zh:'大暑',en:'Major Heat',start:[7,23],end:[8,6],color:'#C0A040'},
+  {zh:'立秋',en:'Start of Autumn',start:[8,7],end:[8,22],color:'#C8D8B8'},
+  {zh:'處暑',en:'End of Heat',start:[8,23],end:[9,7],color:'#B8CCA8'},
+  {zh:'白露',en:'White Dew',start:[9,8],end:[9,22],color:'#A8C098'},
+  {zh:'秋分',en:'Autumn Equinox',start:[9,23],end:[10,7],color:'#98B488'},
+  {zh:'寒露',en:'Cold Dew',start:[10,8],end:[10,22],color:'#88A878'},
+  {zh:'霜降',en:"Frost's Descent",start:[10,23],end:[11,6],color:'#A8B4A0'},
+  {zh:'立冬',en:'Start of Winter',start:[11,7],end:[11,21],color:'#A0ACB0'},
+  {zh:'小雪',en:'Minor Snow',start:[11,22],end:[12,6],color:'#A8B4BC'},
+  {zh:'大雪',en:'Major Snow',start:[12,7],end:[12,21],color:'#B0BCC8'},
+  {zh:'冬至',en:'Winter Solstice',start:[12,22],end:[1,4],color:'#98A8B8'},
+];
+const now=new Date();
+function getCurrentIdx(){
+  const m=now.getMonth()+1,d=now.getDate();
+  for(let i=0;i<TERMS.length;i++){
+    const t=TERMS[i],[sm,sd]=t.start,[em,ed]=t.end;
+    if(sm>em){if((m===sm&&d>=sd)||(m===em&&d<=ed))return i;}
+    else{if((m===sm&&d>=sd)||(m>sm&&m<em)||(m===em&&d<=ed))return i;}
+  }
+  return 4;
+}
+const _bg=TERMS[getCurrentIdx()].color;
+document.body.style.background=_bg;
+document.body.style.transition='background 1.5s ease';
+
+<script src="listening-season.js"></script>
+</body>
+</html>
