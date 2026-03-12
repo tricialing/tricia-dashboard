@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resources · Listening Season</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Noto+Serif+SC:wght@300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="listening-season.css">
+<style>
+.group { margin-bottom: 2.4rem; }
+
+.group-title {
+  font-size: .52rem;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: .8rem;
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+}
+.group-title::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
+
+.resource {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: .3rem 1.5rem;
+  padding: .7rem 0;
+  border-bottom: 1px solid var(--rule);
+  align-items: baseline;
+}
+.resource:last-child { border-bottom: none; }
+
+.resource-name {
+  font-size: .92rem;
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 1px;
+  align-self: flex-start;
+  transition: color .15s, border-color .15s;
+}
+.resource-name:hover { color: var(--accent); border-color: var(--accent); }
+
+.resource-note {
+  font-size: .75rem;
+  font-style: italic;
+  color: var(--mid);
+  line-height: 1.6;
+  grid-column: 1;
+}
+
+.resource-tag {
+  font-size: .46rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  padding: .18rem .5rem;
+  border-radius: 20px;
+  white-space: nowrap;
+  align-self: flex-start;
+}
+.tag-free     { background: #f0f4ef; color: #6a9a6a; }
+.tag-paid     { background: #fdf5e8; color: #a08040; }
+.tag-canadian { background: #eef0f8; color: #6a7a9a; }
+.tag-course   { background: #f5f0e8; color: #9a7a50; }
+
+@media (max-width: 640px) {
+  .resource { grid-template-columns: 1fr; }
+  .resource-tag { justify-self: flex-start; margin-top: .2rem; }
+}
+</style>
+</head>
+<body>
+<div class="box">
+
+  <div class="nav"><a href="index.html">← Dashboard</a></div>
+
+  <div class="page-title">Resources</div>
+  <div class="page-sub">Links worth keeping. Add as you find them.</div>
+  <div class="page-note">Not a reading list — a shelf. Things you'll actually go back to.</div>
+
+  <!-- ═══════════ BODY & PRACTICE ═══════════ -->
+  <div class="group">
+    <div class="group-title">Body · Somatic · Practice</div>
+
+    <div class="resource">
+      <a class="resource-name" href="https://www.tmswiki.org/forum/painrecovery/" target="_blank">Pain Recovery Program</a>
+      <span class="resource-tag tag-free">Free</span>
+      <div class="resource-note">Alan Gordon's 21-day program for reducing or eliminating physical symptoms. Recommended by somatic counselor Mar 2026. Covers somatic tracking, pain reprocessing, emotional repression, conditioned responses. Relevant to jaw tension, TMJD, wrist pain.</div>
+    </div>
+
+  </div>
+
+  <!-- ═══════════ PERSONAL FINANCE ═══════════ -->
+  <div class="group">
+    <div class="group-title">Personal Finance</div>
+
+    <div class="resource">
+      <a class="resource-name" href="https://themeasureofaplan.com" target="_blank">The Measure of a Plan</a>
+      <span class="resource-tag tag-free">Free</span>
+      <div class="resource-note">Canadian personal finance tools and resources. Calculators, guides, spreadsheets. Visited by hundreds of thousands — unusually practical for a free resource.</div>
+    </div>
+
+  </div>
+
+  <!-- ═══════════ BUSINESS & CLINIC ═══════════ -->
+  <div class="group">
+    <div class="group-title">Business · Clinic Setup</div>
+
+    <div class="resource">
+      <a class="resource-name" href="https://we-bc.ca" target="_blank">WE BC</a>
+      <span class="resource-tag tag-canadian">BC</span>
+      <div class="resource-note">BC-based business loans and classes for women entrepreneurs. Relevant for clinic setup (2030 horizon) and early business structure decisions.</div>
+    </div>
+
+  </div>
+
+  <!-- ═══════════ TCM & SCHOOL ═══════════ -->
+  <div class="group">
+    <div class="group-title">TCM · School · Practice</div>
+
+    <div class="resource">
+      <div class="resource-name">The Web That Has No Weaver</div>
+      <span class="resource-tag tag-paid">Book</span>
+      <div class="resource-note">Ted Kaptchuk. The foundational text for understanding Chinese medicine theory. Starting W04 of anatomy prep alongside CMU modules.</div>
+    </div>
+
+    <div class="resource">
+      <div class="resource-name">Between Heaven and Earth</div>
+      <span class="resource-tag tag-paid">Book</span>
+      <div class="resource-note">Harriet Beinfield & Efrem Korngold. Five Element theory and constitutional types. Starting W10 of anatomy prep.</div>
+    </div>
+
+  </div>
+
+  <!-- ═══════════ WEB DEV ═══════════ -->
+  <div class="group">
+    <div class="group-title">Web Dev · Learning</div>
+    <div class="resource">
+      <div class="resource-name" style="color: var(--muted); border-bottom-color: var(--rule); cursor: default;">Add as you find them</div>
+      <span class="resource-tag tag-free" style="opacity:.4">—</span>
+      <div class="resource-note">Tutorials, references, tools that connect to the webdev-learning curriculum.</div>
+    </div>
+  </div>
+
+  <!-- ═══════════ BRAND & CONTENT ═══════════ -->
+  <div class="group">
+    <div class="group-title">Brand · Content · Writing</div>
+    <div class="resource">
+      <div class="resource-name" style="color: var(--muted); border-bottom-color: var(--rule); cursor: default;">Add as you find them</div>
+      <span class="resource-tag tag-free" style="opacity:.4">—</span>
+      <div class="resource-note">Writing references, content strategy, TCM communication, newsletter craft.</div>
+    </div>
+  </div>
+
+  <!-- ═══════════ THINGS THAT MAKE ME HAPPY ═══════════ -->
+  <div class="group">
+    <div class="group-title">Things That Make Me Happy</div>
+
+    <div class="resource">
+      <div class="resource-name" style="cursor:default;border-bottom-color:var(--rule);">Swimming alone at the pool</div>
+      <span class="resource-tag tag-free">Always</span>
+      <div class="resource-note">No music, no podcast, no phone. Just breath. June at daycare. The closest thing to a no-distraction state.</div>
+    </div>
+
+    <div class="resource">
+      <div class="resource-name" style="cursor:default;border-bottom-color:var(--rule);">Sourdough when it clicks</div>
+      <span class="resource-tag tag-free">Always</span>
+      <div class="resource-note">Reading the dough without a timer. Knowing by feel. Freedom inside structure — the same thing that makes knitting and TCM work.</div>
+    </div>
+
+    <div class="resource">
+      <div class="resource-name" style="cursor:default;border-bottom-color:var(--rule);">June wearing something I knitted</div>
+      <span class="resource-tag tag-free">Always</span>
+      <div class="resource-note">She knows I made it. That's enough.</div>
+    </div>
+
+    <div class="resource">
+      <div class="resource-name" style="cursor:default;border-bottom-color:var(--rule);">Tonal chiropractic</div>
+      <span class="resource-tag tag-free">Always</span>
+      <div class="resource-note">Listening hands. The practitioner who can help with just presence and touch. The ability you are training toward.</div>
+    </div>
+
+    <div class="resource">
+      <div class="resource-name" style="cursor:default;border-bottom-color:var(--rule);">Watching June figure things out</div>
+      <span class="resource-tag tag-free">Always</span>
+      <div class="resource-note">From rolling over to learning to read. The most fascinating thing you have ever watched.</div>
+    </div>
+
+  </div>
+
+  <footer>
+    <span>Last updated: Mar 10 2026 · 驚蟄</span>
+    <span>tricialing/tricia-dashboard</span>
+  </footer>
+
+</div>
+<script src="listening-season.js"></script>
+</body>
+</html>

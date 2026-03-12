@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Content Calendar · Listening Season</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Noto+Serif+SC:wght@300&display=swap" rel="stylesheet">
+<style>
+/* ── TOKENS ── */
+:root {
+  --ink:    #2a2520;
+  --mid:    #8b8580;
+  --muted:  #b0aaa3;
+  --faint:  #f7f4ef;
+  --rule:   #f0ece4;
+  --paper:  #ffffff;
+  --accent: #6b6560;
+  --green:  #5a7a5a;
+  --done:   #f4f6f2;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  min-height: 100vh;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+  padding: 2.5rem;
+  background: #E0C0B4;
+  transition: background 1.5s ease;
+}
+
+.box {
+  max-width: 780px;
+  margin: 0 auto;
+  background: var(--paper);
+  border-radius: 3px;
+  box-shadow: 0 2px 40px rgba(0,0,0,.06);
+  padding: 2.5rem 3rem 3rem;
+  color: var(--ink);
+}
+
+.nav {
+  font-size: .58rem;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 1.8rem;
+}
+.nav a { color: var(--muted); text-decoration: none; transition: color .15s; }
+.nav a:hover { color: var(--ink); }
+
+.page-title { font-size: 1.6rem; font-weight: 300; color: var(--ink); margin-bottom: .25rem; }
+.page-sub { font-size: .82rem; font-style: italic; color: var(--mid); margin-bottom: .4rem; }
+.page-note {
+  font-size: .68rem;
+  color: var(--muted);
+  margin-bottom: 2rem;
+  padding-bottom: 1.4rem;
+  border-bottom: 1px solid var(--rule);
+  line-height: 1.7;
+}
+
+hr { border: none; border-top: 1px solid var(--rule); margin: 2rem 0; }
+
+footer {
+  margin-top: 2rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--rule);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: .5rem;
+  font-size: .58rem;
+  color: var(--muted);
+  letter-spacing: .08em;
+  font-style: italic;
+}
+
+@media (max-width: 640px) {
+  body { padding: 1rem; }
+  .box { padding: 1.2rem; }
+}
+
+/* ─────────────────────────────────────────
+   PAGE-SPECIFIC STYLES BELOW THIS LINE
+   Remove everything above when doing
+   the production pass — swap in:
+   <link rel="stylesheet" href="listening-season.css">
+   and keep only what's below.
+───────────────────────────────────────── */
+
+.section-head {
+  font-size: .52rem;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 2.4rem 0 .8rem;
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+}
+.section-head::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
+
+.phil {
+  padding: 1.2rem 1.4rem;
+  border-left: 2px solid var(--rule);
+  background: var(--faint);
+  margin-bottom: 1.6rem;
+}
+.phil p { font-size: .85rem; font-style: italic; color: var(--mid); line-height: 1.85; }
+.phil p + p { margin-top: .5rem; }
+
+/* ── PULSE TABLE ── */
+.pulse-table { width: 100%; border-collapse: collapse; margin-bottom: 1.6rem; border: 1px solid var(--rule); }
+.pulse-table th {
+  font-size: .48rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: .5rem .8rem;
+  background: var(--faint);
+  border-bottom: 1px solid var(--rule);
+  text-align: left;
+  font-weight: 300;
+}
+.pulse-table th:not(:last-child) { border-right: 1px solid var(--rule); }
+.pulse-table td {
+  padding: .7rem .8rem;
+  font-size: .82rem;
+  color: var(--ink);
+  line-height: 1.65;
+  vertical-align: top;
+  border-bottom: 1px solid var(--rule);
+}
+.pulse-table td:not(:last-child) { border-right: 1px solid var(--rule); }
+.pulse-table tr:last-child td { border-bottom: none; }
+.pulse-table .phase-cell { font-size: .68rem; color: var(--accent); font-style: italic; white-space: nowrap; }
+.pulse-table .energy-cell { font-size: .78rem; color: var(--mid); font-style: italic; }
+
+/* ── STREAMS ── */
+.streams {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: .8rem;
+  margin-bottom: 1.6rem;
+}
+.stream {
+  padding: .9rem 1rem;
+  border: 1px solid var(--rule);
+  background: var(--faint);
+}
+.stream.active { border-color: var(--ink); background: #f8f5f0; }
+.stream-name { font-size: .52rem; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); margin-bottom: .35rem; }
+.stream.active .stream-name { color: var(--ink); }
+.stream-note { font-size: .78rem; font-style: italic; color: var(--mid); line-height: 1.65; }
+.stream.active .stream-note { color: var(--ink); }
+
+@media (max-width: 640px) {
+  .streams { grid-template-columns: 1fr 1fr; }
+  .pulse-table th:last-child, .pulse-table td:last-child { display: none; }
+}
+
+/* ── PLATFORMS ── */
+.platform-row {
+  display: grid;
+  grid-template-columns: 130px 1fr;
+  gap: .5rem 1.2rem;
+  align-items: baseline;
+  padding: .7rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+.platform-row:first-of-type { border-top: 1px solid var(--rule); }
+.platform-name { font-size: .58rem; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); line-height: 1.6; }
+.platform-desc { font-size: .84rem; font-style: italic; color: var(--mid); line-height: 1.7; }
+
+@media (max-width: 640px) {
+  .platform-row { grid-template-columns: 1fr; gap: .2rem; }
+}
+
+/* ── TERM BLOCKS ── */
+.term-block { margin-bottom: 1.2rem; border: 1px solid var(--rule); }
+.term-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: .8rem 1rem;
+  background: var(--faint);
+  border-bottom: 1px solid var(--rule);
+  flex-wrap: wrap;
+}
+.term-zh { font-family: 'Noto Serif SC', serif; font-size: 1.1rem; color: var(--ink); margin-right: .4rem; }
+.term-en { font-size: .82rem; font-style: italic; color: var(--mid); }
+.term-dates { font-size: .62rem; color: var(--muted); letter-spacing: .06em; white-space: nowrap; }
+
+.post-row {
+  display: grid;
+  grid-template-columns: 80px 70px 1fr;
+  gap: 0 1rem;
+  align-items: baseline;
+  padding: .6rem 1rem;
+  border-bottom: 1px solid var(--rule);
+}
+.post-row:last-child { border-bottom: none; }
+.post-day { font-size: .6rem; color: var(--muted); font-style: italic; line-height: 1.5; }
+.post-stream { font-size: .5rem; letter-spacing: .12em; text-transform: uppercase; color: var(--green); padding-top: .1rem; }
+.post-idea { font-size: .82rem; color: var(--ink); line-height: 1.65; font-style: italic; }
+
+@media (max-width: 640px) {
+  .post-row { grid-template-columns: 70px 1fr; }
+  .post-stream { display: none; }
+}
+
+/* ── NEWSLETTER BLOCKS ── */
+.nl-block { border: 1px solid var(--rule); margin-bottom: .8rem; }
+.nl-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: .7rem 1rem;
+  background: var(--faint);
+  border-bottom: 1px solid var(--rule);
+  flex-wrap: wrap;
+}
+.nl-title { font-size: .88rem; color: var(--ink); }
+.nl-meta { font-size: .6rem; color: var(--muted); font-style: italic; white-space: nowrap; }
+.nl-body { padding: .7rem 1rem; }
+.nl-body p { font-size: .8rem; font-style: italic; color: var(--mid); line-height: 1.75; }
+
+/* ── RULES ── */
+.rule-item {
+  display: grid;
+  grid-template-columns: 24px 1fr;
+  gap: .4rem 1rem;
+  padding: .55rem 0;
+  border-bottom: 1px solid var(--rule);
+  align-items: baseline;
+}
+.rule-item:first-child { border-top: 1px solid var(--rule); }
+.rule-n { font-size: .6rem; color: var(--accent); font-style: italic; }
+.rule-text { font-size: .82rem; color: var(--ink); line-height: 1.65; }
+.rule-text em { color: var(--mid); font-style: italic; }
+</style>
+</head>
+<body>
+<div class="box">
+
+<div class="nav"><a href="index.html">← Dashboard</a></div>
+
+<div class="page-title">Content Calendar</div>
+<div class="page-sub">Listening Season · @listening.season</div>
+<div class="page-note">Not a production schedule. A rhythm. Return to this when you've lost the thread.</div>
+
+<div class="phil">
+  <p>The 15-day pulse is the container. You are not trying to be consistent. You are trying to return — to the term, to the reader, to the voice. Returning is the practice.</p>
+  <p>Three posts per solar term. One newsletter per month. That's it. Everything else is extra.</p>
+</div>
+
+<!-- ── PULSE ── -->
+<div class="section-head">The 15-Day Pulse</div>
+<table class="pulse-table">
+  <thead>
+    <tr>
+      <th>Phase</th>
+      <th>Instagram</th>
+      <th>Energy</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="phase-cell">Day 1<br>Threshold</td>
+      <td>Announce the term. Name its energy. One image, one observation. Set the tone for the next two weeks.</td>
+      <td class="energy-cell">Orienting. Opening. The reader arrives with you.</td>
+    </tr>
+    <tr>
+      <td class="phase-cell">Days 2–10<br>Immersion</td>
+      <td>Two more posts from anywhere in the 6 streams. Mix of format — photo, carousel, text — whatever fits. No formula.</td>
+      <td class="energy-cell">Deepening. Living inside the term. Noticing out loud.</td>
+    </tr>
+    <tr>
+      <td class="phase-cell">Days 11–15<br>Foreshadow</td>
+      <td>No obligation. If something pulls, post it. Notice the bleed into the next term.</td>
+      <td class="energy-cell">Releasing. Letting the transition be visible.</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- ── STREAMS ── -->
+<div class="section-head">The 6 Content Streams</div>
+<div class="page-note" style="margin-bottom:.9rem;padding-bottom:0;border-bottom:none">Rotate through these across posts. You don't need all 6 every term. Story is your primary stream right now.</div>
+<div class="streams">
+  <div class="stream active">
+    <div class="stream-name">Story ✦ Primary</div>
+    <div class="stream-note">The pivot. June. The arc from postpartum doula to TCM school. The woman becoming. This is your entry point right now.</div>
+  </div>
+  <div class="stream">
+    <div class="stream-name">Nature</div>
+    <div class="stream-note">What you notice outside. The coast, the weather, the shift in light. Specific, without naming the neighbourhood.</div>
+  </div>
+  <div class="stream">
+    <div class="stream-name">Body</div>
+    <div class="stream-note">Swimming. Sourdough reading the dough. TMJD as craft material. The physical experience of the season.</div>
+  </div>
+  <div class="stream">
+    <div class="stream-name">Mind</div>
+    <div class="stream-note">ADHD and integration. Learning out loud. The thing you looked up last week and are still turning over.</div>
+  </div>
+  <div class="stream">
+    <div class="stream-name">Food</div>
+    <div class="stream-note">What you're eating with the season. Not recipes — the relationship with food and what it signals in the body.</div>
+  </div>
+  <div class="stream">
+    <div class="stream-name">Care</div>
+    <div class="stream-note">Reiki, tonal chiro, somatic work. The bodywork you receive and what you're learning to give.</div>
+  </div>
+</div>
+
+<!-- ── PLATFORMS ── -->
+<div class="section-head">Platforms · Cadence</div>
+<div class="platform-row">
+  <div class="platform-name">Instagram</div>
+  <div class="platform-desc">3 posts per solar term. Mix of format. Primary platform. @listening.season. Short, one idea, often ends on a question.</div>
+</div>
+<div class="platform-row">
+  <div class="platform-name">Just Noodling</div>
+  <div class="platform-desc">Once a month. Personal, weirder, less resolved. The interior arc alongside the public one. First issue: May 2026 — the pivot announcement.</div>
+</div>
+<div class="platform-row">
+  <div class="platform-name">Listening Season<br>newsletter</div>
+  <div class="platform-desc">Not yet. Build the Instagram habit first. Comes when there's something to say that needs more space than a caption. Probably late 2026.</div>
+</div>
+
+<!-- ── UPCOMING TERMS ── -->
+<div class="section-head">Upcoming Terms · Post Ideas</div>
+<div class="page-note" style="margin-bottom:1rem;padding-bottom:0;border-bottom:none">Rough ideas only. Let the actual term surprise you. These are prompts, not assignments. The arc across spring builds toward the May pivot announcement.</div>
+
+<div class="term-block">
+  <div class="term-header">
+    <div><span class="term-zh">驚蟄</span><span class="term-en">Awakening of Insects · current</span></div>
+    <div class="term-dates">Mar 5 – Mar 19</div>
+  </div>
+  <div class="post-row">
+    <div class="post-day">Day 1 · done</div>
+    <div class="post-stream">Threshold</div>
+    <div class="post-idea">Already published. Thunder wakes what has been sleeping.</div>
+  </div>
+  <div class="post-row">
+    <div class="post-day">Days 2–10</div>
+    <div class="post-stream">Story</div>
+    <div class="post-idea">The restlessness of spring — and what you've been quietly waking up to. The thing you didn't name until now.</div>
+  </div>
+  <div class="post-row">
+    <div class="post-day">Days 2–10</div>
+    <div class="post-stream">Body</div>
+    <div class="post-idea">Swimming alone. The pool as the only no-distraction space. What the body does when the brain finally quiets.</div>
+  </div>
+</div>
+
+<div class="term-block">
+  <div class="term-header">
+    <div><span class="term-zh">春分</span><span class="term-en">Spring Equinox</span></div>
+    <div class="term-dates">Mar 20 – Apr 3</div>
+  </div>
+  <div class="post-row">
+    <div class="post-day">Day 1</div>
+    <div class="post-stream">Threshold</div>
+    <div class="post-idea">Equal light, equal dark. The body in balance — or trying to be. What equilibrium actually feels like vs. what we think it looks like.</div>
+  </div>
+  <div class="post-row">
+    <div class="post-day">Days 2–10</div>
+    <div class="post-stream">Story</div>
+    <div class="post-idea">Something is shifting. You can feel it before you can name it. Start seeding — a big announcement is coming.</div>
+  </div>
+  <div class="post-row">
+    <div class="post-day">Days 2–10</div>
+    <div class="post-stream">Nature</div>
+    <div class="post-idea">One specific thing you notice outside right now. Not a metaphor — just the thing itself.</div>
+  </div>
+</div>
+
+<div class="term-block">
+  <div class="term-header">
+    <div><span class="term-zh">清明</span><span class="term-en">Clear and Bright</span></div>
+    <div class="term-dates">Apr 4 – Apr 18</div>
+  </div>
+  <div class="post-row">
+    <div class="post-day">Day 1</div>
+    <div class="post-stream">Threshold</div>
+    <div class="post-idea">清明 — clear and bright. The air actually changes. What clarity feels like in the body, not just the mind.</div>
+  </div>
+  <div class="post-row">
+    <div class="post-day">Days 2–10</div>
+    <div class="post-stream">Story</div>
+    <div class="post-idea">Noodling on a decision. The postpartum doula door that closed. How you knew. Without naming the pivot yet.</div>
+  </div>
+  <div class="post-row">
+    <div class="post-day">Days 2–10</div>
+    <div class="post-stream">Mind</div>
+    <div class="post-idea">The ADHD-inattentive brain in spring. What 驚蟄 woke up in you that you didn't expect.</div>
+  </div>
+</div>
+
+<div class="term-block">
+  <div class="term-header">
+    <div><span class="term-zh">穀雨</span><span class="term-en">Grain Rain</span></div>
+    <div class="term-dates">Apr 19 – May 4</div>
+  </div>
+  <div class="post-row">
+    <div class="post-day">Day 1</div>
+    <div class="post-stream">Threshold</div>
+    <div class="post-idea">The last term of spring. Things that have been growing underground are about to break surface.</div>
+  </div>
+  <div class="post-row">
+    <div class="post-day">Days 2–10</div>
+    <div class="post-stream">Story</div>
+    <div class="post-idea">Something has been growing quietly. Start the tease properly. Something is coming in May.</div>
+  </div>
+  <div class="post-row">
+    <div class="post-day">Days 2–10</div>
+    <div class="post-stream">Care</div>
+    <div class="post-idea">Somatic work and what it's teaching you. The body as information, not obstacle.</div>
+  </div>
+</div>
+
+<div class="term-block">
+  <div class="term-header">
+    <div><span class="term-zh">立夏</span><span class="term-en">Start of Summer</span></div>
+    <div class="term-dates">May 5 – May 19</div>
+  </div>
+  <div class="post-row">
+    <div class="post-day">Day 1</div>
+    <div class="post-stream">Threshold</div>
+    <div class="post-idea">Summer begins. And so does something else. The pivot announcement lands here or in the Just Noodling newsletter this month.</div>
+  </div>
+  <div class="post-row">
+    <div class="post-day">Days 2–10</div>
+    <div class="post-stream">Story</div>
+    <div class="post-idea">The full arc. Starting TCM school in September. What two years of noodling actually led to. The real version, not the polished one.</div>
+  </div>
+  <div class="post-row">
+    <div class="post-day">Days 2–10</div>
+    <div class="post-stream">Body</div>
+    <div class="post-idea">The Heart season in TCM. The organ that governs the Shen. What you want your patients to feel when they leave your clinic someday.</div>
+  </div>
+</div>
+
+<!-- ── JUST NOODLING ── -->
+<div class="section-head">Just Noodling · Newsletter Plan</div>
+<div class="page-note" style="margin-bottom:1rem;padding-bottom:0;border-bottom:none">Once a month. Personal, weirder, less resolved. Written for one person.</div>
+
+<div class="nl-block">
+  <div class="nl-header">
+    <div class="nl-title">Issue 1 · The Pivot</div>
+    <div class="nl-meta">Target: May 2026</div>
+  </div>
+  <div class="nl-body">
+    <p>What kind of noodling is one doing if not sharing what one has actually been noodling about for months. The postpartum doula door. The twist and turns. TCM, which was always there. Starting school in September. Opening line and postpartum doula answer already captured in raw-words.html. Don't over-explain it.</p>
+  </div>
+</div>
+
+<div class="nl-block">
+  <div class="nl-header">
+    <div class="nl-title">Issue 2 · The ADHD story</div>
+    <div class="nl-meta">When it's ready · not before</div>
+  </div>
+  <div class="nl-body">
+    <p>The diagnosis arrived March 2026. Too fresh to write about publicly yet. When it's settled, it becomes Just Noodling material — curious, not confessional. Craft material, not brand origin. No rush.</p>
+  </div>
+</div>
+
+<div class="nl-block">
+  <div class="nl-header">
+    <div class="nl-title">Issue 3 · What school prep actually looks like</div>
+    <div class="nl-meta">Aug or Sep 2026</div>
+  </div>
+  <div class="nl-body">
+    <p>The anatomy coloring book. CMU OLI modules on daycare days. June at 3, starting school herself. Two students in the house. The honest version of preparation, not the aesthetic one.</p>
+  </div>
+</div>
+
+<!-- ── RULES ── -->
+<div class="section-head">The Rules · For When You're Tired</div>
+
+<div class="rule-item">
+  <div class="rule-n">01</div>
+  <div class="rule-text">Say the specific thing, not the general thing. <em>Not "honour your body." The jaw click in the morning. The specific detail is the portal.</em></div>
+</div>
+<div class="rule-item">
+  <div class="rule-n">02</div>
+  <div class="rule-text">One idea per post. <em>One door, opened fully, is more useful than five doors ajar.</em></div>
+</div>
+<div class="rule-item">
+  <div class="rule-n">03</div>
+  <div class="rule-text">Don't explain what the reader can feel. <em>Trust them to arrive there.</em></div>
+</div>
+<div class="rule-item">
+  <div class="rule-n">04</div>
+  <div class="rule-text">No Delta BC. No specific neighbourhood. <em>Vancouver, the coast, outside — that's enough.</em></div>
+</div>
+<div class="rule-item">
+  <div class="rule-n">05</div>
+  <div class="rule-text">Don't perform wellness. <em>The moment the writing sounds like it has everything figured out — stop. Go back to what's actually true right now.</em></div>
+</div>
+<div class="rule-item">
+  <div class="rule-n">06</div>
+  <div class="rule-text">Returning is the practice, not consistency. <em>Miss a term. Come back. That's the whole philosophy applied to itself.</em></div>
+</div>
+<div class="rule-item">
+  <div class="rule-n">07</div>
+  <div class="rule-text">Write to her. <em>She's in a season where the body is asking more of her than it used to. She's not looking for someone who has it figured out. She wants someone honest about being in the middle of it. You are that person.</em></div>
+</div>
+
+<footer>
+  <span>Listening Season · @listening.season</span>
+  <span>3 posts per term · 1 newsletter per month</span>
+  <span>Updated Mar 11 2026 · 驚蟄</span>
+</footer>
+
+</div>
+<!-- PRODUCTION: remove all inline styles above, swap in:
+<link rel="stylesheet" href="listening-season.css">
+<script src="listening-season.js"></script> -->
+</body>
+</html>
