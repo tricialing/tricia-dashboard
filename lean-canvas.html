@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lean Canvas · Listening Season</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Noto+Serif+SC:wght@300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="listening-season.css">
+<style>
+/* ── CANVAS BLOCKS ── */
+.canvas-block {
+  border: 1px solid var(--rule);
+  margin-bottom: 1.2rem;
+}
+
+.canvas-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: .65rem 1rem;
+  background: var(--faint);
+  border-bottom: 1px solid var(--rule);
+}
+
+.canvas-label {
+  font-size: .5rem;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.canvas-sub {
+  font-size: .6rem;
+  font-style: italic;
+  color: var(--muted);
+}
+
+.canvas-body {
+  padding: 1rem 1.1rem;
+}
+
+.canvas-body p {
+  font-size: .86rem;
+  color: var(--ink);
+  line-height: 1.85;
+  margin-bottom: .6rem;
+}
+.canvas-body p:last-child { margin-bottom: 0; }
+
+.canvas-body .note {
+  font-size: .75rem;
+  font-style: italic;
+  color: var(--mid);
+  line-height: 1.7;
+  margin-top: .5rem;
+  padding-top: .5rem;
+  border-top: 1px solid var(--rule);
+}
+
+/* ── SECTION HEADS ── */
+.section-head {
+  font-size: .52rem;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 2rem 0 .8rem;
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+}
+.section-head::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
+
+/* ── TWO COL ── */
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.2rem;
+  margin-bottom: 1.2rem;
+}
+@media (max-width: 580px) {
+  .two-col { grid-template-columns: 1fr; }
+}
+
+/* ── RISK BLOCK ── */
+.risk-item {
+  display: grid;
+  grid-template-columns: 24px 1fr;
+  gap: .4rem 1rem;
+  padding: .6rem 0;
+  border-bottom: 1px solid var(--rule);
+  align-items: baseline;
+}
+.risk-item:first-child { border-top: 1px solid var(--rule); }
+.risk-n { font-size: .6rem; color: var(--warm); font-style: italic; }
+.risk-text { font-size: .83rem; color: var(--ink); line-height: 1.7; }
+.risk-text em { color: var(--mid); font-style: italic; }
+
+/* ── UVP HIGHLIGHT ── */
+.uvp-block {
+  padding: 1.2rem 1.4rem;
+  border-left: 2px solid var(--ink);
+  background: var(--faint);
+  margin-bottom: 1.2rem;
+}
+.uvp-block p { font-size: .9rem; font-style: italic; color: var(--ink); line-height: 1.85; }
+</style>
+</head>
+<body>
+<div class="box">
+
+<div class="nav"><a href="index.html">← Dashboard</a></div>
+
+<div class="page-title">Lean Canvas · v1</div>
+<div class="page-sub">Listening Season · 聆聽季節</div>
+<div class="page-note">A living document. Return to this when the project drifts or the purpose needs re-grounding. Not a business plan — a clarity tool. Updated as the project evolves.</div>
+
+<!-- ── UVP ── -->
+<div class="section-head">Unique Value Proposition</div>
+<div class="uvp-block">
+  <p>A living notebook of seasonal attention, built by someone becoming a TCM practitioner in real time. The same 24 solar terms revisited every year — the depth grows with the writer. You're not reading from the other side of the learning. You're inside it with her.</p>
+</div>
+
+<!-- ── PROBLEM + CUSTOMER ── -->
+<div class="section-head">Problem · Customer</div>
+<div class="two-col">
+  <div class="canvas-block">
+    <div class="canvas-header">
+      <div class="canvas-label">Problem</div>
+    </div>
+    <div class="canvas-body">
+      <p>Most people feel disconnected from natural rhythms and their own bodies but don't have a framework for paying attention.</p>
+      <p>Wellness content either oversimplifies — candle-quote culture — or overwhelms with clinical theory. There is no middle voice. Someone doing the actual work, in public, without having it figured out.</p>
+    </div>
+  </div>
+
+  <div class="canvas-block">
+    <div class="canvas-header">
+      <div class="canvas-label">Customer Segments</div>
+    </div>
+    <div class="canvas-body">
+      <p>Women 30–45 drawn to Chinese medicine and seasonal living but not finding themselves in existing wellness content. Curious before credulous. Not looking to be fixed.</p>
+      <p class="note">Early adopters: bicultural or diaspora background — they feel seen immediately. Broader audience arrives as the content deepens. Don't chase it — it follows naturally from school starting in September.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ── SOLUTION + CHANNELS ── -->
+<div class="section-head">Solution · Channels</div>
+<div class="two-col">
+  <div class="canvas-block">
+    <div class="canvas-header">
+      <div class="canvas-label">Solution</div>
+    </div>
+    <div class="canvas-body">
+      <p>Instagram as the 15-day pulse. 3 posts per solar term, mix of format, 6 content streams rotating across Nature, Body, Mind, Food, Care, Story.</p>
+      <p>Just Noodling newsletter for the interior arc — monthly, personal, less resolved.</p>
+      <p class="note">Eventually: zines, planner, paid newsletter tier, workshops. The brand becomes the clinic's warm referral network by 2030.</p>
+    </div>
+  </div>
+
+  <div class="canvas-block">
+    <div class="canvas-header">
+      <div class="canvas-label">Channels</div>
+    </div>
+    <div class="canvas-body">
+      <p>Instagram @listening.season — primary. Just Noodling on Substack — monthly.</p>
+      <p>Word of mouth. The audience following the whole arc becomes the referral base. No ad spend.</p>
+      <p class="note">Listening Season newsletter — not yet. Build Instagram habit first. Probably late 2026.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ── REVENUE + COST ── -->
+<div class="section-head">Revenue · Cost</div>
+<div class="two-col">
+  <div class="canvas-block">
+    <div class="canvas-header">
+      <div class="canvas-label">Revenue Streams</div>
+      <div class="canvas-sub">one full year cycle before monetizing</div>
+    </div>
+    <div class="canvas-body">
+      <p>2026 — none. Building audience and showing up for one full annual cycle first.</p>
+      <p>2027 — Solar Terms Planner (paid digital/print). Seasonal zines.</p>
+      <p>2028 — Paid newsletter tier. Workshop.</p>
+      <p>2030 — Clinic. The brand audience is the patient pipeline.</p>
+      <p class="note">No pressure to monetize early. Listening Season is a long game. Monetizing before the first full cycle would damage it.</p>
+    </div>
+  </div>
+
+  <div class="canvas-block">
+    <div class="canvas-header">
+      <div class="canvas-label">Cost Structure</div>
+    </div>
+    <div class="canvas-body">
+      <p>Time is the primary cost. No ad spend planned.</p>
+      <p>Tools: Canva, Substack free tier, Instagram free, Capacities for notes.</p>
+      <p class="note">Future costs: print runs for zines, Substack paid tier revenue share, potential photography equipment.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ── METRICS + ADVANTAGE ── -->
+<div class="section-head">Metrics · Unfair Advantage</div>
+<div class="two-col">
+  <div class="canvas-block">
+    <div class="canvas-header">
+      <div class="canvas-label">Key Metrics</div>
+    </div>
+    <div class="canvas-body">
+      <p>Instagram saves (matter more than likes). Follower growth across a full annual cycle. Newsletter open rate.</p>
+      <p>Zine pre-orders when that time comes.</p>
+      <p>Ultimately: warm referrals to the clinic in 2030.</p>
+    </div>
+  </div>
+
+  <div class="canvas-block">
+    <div class="canvas-header">
+      <div class="canvas-label">Unfair Advantage</div>
+    </div>
+    <div class="canvas-body">
+      <p>The arc itself. A designer with an ADHD brain and a bicultural perspective, becoming a TCM doctor as a stay-at-home mother. That combination cannot be copied.</p>
+      <p>The audience following from the beginning has skin in the story. The depth compounds every year — same 24 terms, richer each cycle.</p>
+      <p class="note">This advantage is real but fragile. It compounds over time. Right now it is mostly potential.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ── FAILURE ── -->
+<div class="section-head">Risk · What Failure Looks Like</div>
+<div class="canvas-block" style="margin-bottom:1.2rem">
+  <div class="canvas-header">
+    <div class="canvas-label">Failure Modes</div>
+    <div class="canvas-sub">named here so they lose some of their power</div>
+  </div>
+  <div class="canvas-body">
+
+    <div class="risk-item">
+      <div class="risk-n">01</div>
+      <div class="risk-text">Lost interest as the project becomes irrelevant to your own life. <em>Protection: TCM school doesn't compete with Listening Season — it's the next chapter. The solar terms are the framework TCM uses to understand the body. You will not run out of material.</em></div>
+    </div>
+
+    <div class="risk-item">
+      <div class="risk-n">02</div>
+      <div class="risk-text">School intensity in S2 or S3 causes posting to drop, guilt about dropping creates distance, project goes quiet. <em>Protection: returning is the practice, not consistency. This applies to you too. Miss a term. Come back. That's the philosophy applied to itself.</em></div>
+    </div>
+
+    <div class="risk-item">
+      <div class="risk-n">03</div>
+      <div class="risk-text">Pressure to monetize early damages the voice. Listening Season starts to sound like it's selling something. <em>Protection: one full year cycle before any monetization. This is decided. Written here so future-you doesn't panic in late 2026.</em></div>
+    </div>
+
+    <div class="risk-item">
+      <div class="risk-n">04</div>
+      <div class="risk-text">The voice drifts toward performance — writing for the algorithm rather than for her. <em>Protection: the content rules in content-cal.html. Re-read them when it starts to feel like work instead of noticing.</em></div>
+    </div>
+
+    <div class="risk-item">
+      <div class="risk-n">05</div>
+      <div class="risk-text">Boom-bust cycle hits the brand — overproducing in a good stretch, then nothing. <em>Protection: 3 posts per term is the minimum viable move. The architecture was designed for your nervous system before you had language for why it works.</em></div>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <span>Listening Season · v1 · Mar 2026</span>
+  <span>Lean Canvas — Ash Maurya</span>
+  <span>A living document · update as the project evolves</span>
+</footer>
+
+</div>
+<script src="listening-season.js"></script>
+</body>
+</html>
