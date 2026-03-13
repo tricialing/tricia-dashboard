@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard Series · Working Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Noto+Serif+SC:wght@300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="listening-season.css">
+<style>
+/* page-specific styles */
+.section { margin-bottom: 2.5rem; padding-bottom: 2.5rem; border-bottom: 1px solid var(--rule); }
+.section:last-child { border-bottom: none; }
+
+.section-title {
+  font-size: .55rem; letter-spacing: .22em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 1rem; display: flex; align-items: center; gap: .8rem;
+}
+.section-title::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
+
+.body-text { font-size: .88rem; color: var(--ink); line-height: 1.85; margin-bottom: 1.2rem; }
+.body-text em { font-style: italic; color: var(--mid); }
+
+.note-block {
+  background: #faf8f5; border-left: 2px solid var(--rule);
+  padding: .9rem 1.1rem; margin: 1.2rem 0;
+  font-size: .82rem; color: var(--mid); line-height: 1.8; font-style: italic;
+}
+
+.issue-row {
+  display: grid; grid-template-columns: 72px 1fr;
+  gap: .6rem 1rem; margin-bottom: 1.4rem; padding-bottom: 1.4rem;
+  border-bottom: 1px solid var(--rule); align-items: start;
+}
+.issue-row:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+.issue-num { font-size: .52rem; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); padding-top: .2rem; }
+.issue-title { font-size: .92rem; color: var(--ink); line-height: 1.5; margin-bottom: .4rem; font-style: italic; }
+.issue-notes { font-size: .78rem; color: var(--mid); line-height: 1.75; }
+
+.tag-row { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .8rem; }
+.tag { font-size: .46rem; letter-spacing: .12em; text-transform: uppercase; padding: .18rem .5rem; border-radius: 20px; }
+.tag-open    { background: #faeaea; color: #9a5a5a; }
+.tag-note    { background: #f0f0f8; color: #7070a0; }
+.tag-decided { background: #eef0f8; color: #6a7a9a; }
+
+.two-col { display: grid; grid-template-columns: 100px 1fr; gap: .4rem 1rem; margin-bottom: .8rem; align-items: baseline; }
+.two-col-label { font-size: .52rem; letter-spacing: .14em; text-transform: uppercase; color: var(--mid); }
+.two-col-body { font-size: .82rem; color: var(--ink); line-height: 1.75; }
+
+.bullet { font-size: .83rem; color: var(--ink); line-height: 1.8; padding-left: 1rem; position: relative; margin-bottom: .4rem; }
+.bullet::before { content: '·'; position: absolute; left: 0; color: var(--accent); }
+
+.timeline { margin: 1rem 0; }
+.tl-row { display: grid; grid-template-columns: 120px 1fr; gap: .4rem 1rem; margin-bottom: 1rem; align-items: start; }
+.tl-era { font-size: .52rem; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); padding-top: .15rem; line-height: 1.5; }
+.tl-body { font-size: .82rem; color: var(--ink); line-height: 1.75; }
+.tl-body em { font-style: italic; color: var(--mid); }
+
+.checklist { margin: .8rem 0; }
+.check-item { display: flex; align-items: flex-start; gap: .7rem; margin-bottom: .55rem; cursor: pointer; }
+.check-box { width: 13px; height: 13px; border: 1px solid var(--muted); border-radius: 2px; flex-shrink: 0; margin-top: .2rem; display: flex; align-items: center; justify-content: center; transition: all .15s; }
+.check-item.done .check-box { background: var(--accent); border-color: var(--accent); }
+.check-item.done .check-box::after { content: '✓'; font-size: .55rem; color: #fff; }
+.check-item.done .check-label { color: var(--muted); text-decoration: line-through; }
+.check-label { font-size: .83rem; color: var(--ink); line-height: 1.7; }
+.check-group-label { font-size: .46rem; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); margin: 1.2rem 0 .5rem; }
+.check-group-label:first-child { margin-top: 0; }
+
+@media (max-width: 640px) {
+  .issue-row { grid-template-columns: 1fr; }
+  .two-col { grid-template-columns: 1fr; gap: .2rem; }
+  .tl-row { grid-template-columns: 1fr; gap: .2rem; }
+}
+</style>
+</head>
+<body>
+<div class="box">
+
+  <div class="nav"><a href="index.html">← Dashboard</a></div>
+
+  <div class="page-title">Help Needed.</div>
+  <div class="page-sub">The Dashboard Series · Working Notes</div>
+  <div class="page-note">A mini-series in progress · Just Noodling · Started Mar 2026 · This is the thinking space. Do not publish from this page.</div>
+
+  <!-- ── TO DO ── -->
+  <div class="section">
+    <div class="section-title">To Do · The Process</div>
+
+    <div class="checklist" id="checklist">
+
+      <div class="check-group-label">Prep</div>
+      <div class="check-item done" onclick="toggleCheck(this)"><div class="check-box"></div><span class="check-label">Arc locked</span></div>
+      <div class="check-item done" onclick="toggleCheck(this)"><div class="check-box"></div><span class="check-label">Naming locked — Help Needed.</span></div>
+      <div class="check-item done" onclick="toggleCheck(this)"><div class="check-box"></div><span class="check-label">dashboard-series.html created</span></div>
+      <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span class="check-label">Add to index.html under Brand</span></div>
+
+      <div class="check-group-label">Capture · ongoing</div>
+      <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span class="check-label">Keep adding to raw-words as things land -- lines, moments, half-formed thoughts</span></div>
+      <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span class="check-label">Save good lines and questions here in Raw Notes as they come up</span></div>
+
+      <div class="check-group-label">Review · build this habit</div>
+      <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span class="check-label">Sit with raw-words at next solar term (春分 Mar 20) -- flag what's ready to connect</span></div>
+      <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span class="check-label">Find the threads -- what wants to go together, what's missing</span></div>
+
+      <div class="check-group-label">Connect</div>
+      <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span class="check-label">Map captured material to the arc -- which notes belong where</span></div>
+      <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span class="check-label">Identify gaps -- what hasn't been captured yet that the story needs</span></div>
+
+      <div class="check-group-label">Assemble · write the whole thing first</div>
+      <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span class="check-label">Build the full draft from connected notes -- no issue breaks yet, no blank page</span></div>
+
+      <div class="check-group-label">Shape</div>
+      <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span class="check-label">Read it back -- find the natural split points</span></div>
+      <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span class="check-label">Decide issue structure from the draft, not before it</span></div>
+      <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span class="check-label">Edit and tighten each piece</span></div>
+
+      <div class="check-group-label">Ship</div>
+      <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span class="check-label">Decide publishing home for each piece</span></div>
+      <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span class="check-label">Publish -- release before it feels complete</span></div>
+
+      <div class="check-group-label">After</div>
+      <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span class="check-label">Assess audience response -- what are people asking for</span></div>
+      <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span class="check-label">Decide on course / guide / support direction from response</span></div>
+
+    </div>
+  </div>
+
+  <!-- ── THE ARC ── -->
+  <div class="section">
+    <div class="section-title">The Arc · Full Story Before Issues</div>
+
+    <div class="body-text">Before any of this, there were years of research. Morning Pages. GTD. Bullet Journal. Building a Second Brain. Zettelkasten. How to Take Smart Notes. Each one studied, partially absorbed, applied to a life that kept not quite fitting the system. Not because the systems were wrong. Because the missing piece was never the knowledge -- it was the implementation support. There was no one to do it with.</div>
+
+    <div class="body-text">You are in a pre-school prep period. Everything matters. You cannot afford to drop anything -- anatomy, parenting, housing, the business you are building toward, the philosophy you are living out loud. You needed a container that could hold all of it.</div>
+
+    <div class="body-text">You saw people building things with Claude. You thought: what could I do. You made one small page about solar terms. Not because you had a plan. Because you just wanted to try. This was 驚蟄 -- Awakening of Insects. Thunder wakes what has been sleeping.</div>
+
+    <div class="body-text">And then it pulled you forward. Each page a response to a real fear, a real gap, a real need. Anatomy prep because school is coming and you cannot drop that ball. Life map because you needed to see the whole picture at once. Content calendar because the cadence needed a home. The seasonal aesthetic because if it did not feel like you, you would not use it.</div>
+
+    <div class="body-text">One day you looked up and realized you had built exactly what you needed. And you had not known what you were building when you started.</div>
+
+    <div class="body-text">This is not a story about building a dashboard. It is a story about someone quietly terrified of dropping the ball, who built a safety net, and discovered in the process that the safety net had a philosophy. That the tool and the practice were the same thing.</div>
+
+    <div class="note-block">The Bullet Journal parallel: Ryder Carroll built something for his own ADHD brain because nothing else worked. He shared it because it felt wrong not to. It spread because it was honest -- from real need, not from someone optimizing for virality. The difference here: what you have built is not a system you implement yourself. It is a system you build with an AI collaborator. That is newer territory. There is no canonical version of that yet.</div>
+
+    <div class="body-text">Listening Season is not the backdrop to this story. It is woven into it. The seasonal structure of Listening Season and the seasonal structure of TCM are not parallel things -- they are the same thing. The dashboard is where they converge. A noting system for school. A philosophy container for how you move through the world. You did not realize those were the same need until you started building.</div>
+  </div>
+
+  <!-- ── TIMELINE ── -->
+  <div class="section">
+    <div class="section-title">Timeline · The Eras</div>
+
+    <div class="timeline">
+      <div class="tl-row">
+        <div class="tl-era">The research years</div>
+        <div class="tl-body">Morning Pages. GTD. Bullet Journal. Building a Second Brain. Zettelkasten. Each one taught something real. None fully stuck. The knowledge accumulated. The implementation gap remained.</div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-era">The gap</div>
+        <div class="tl-body">Knowing exactly what was needed -- an external brain, a system to trust -- but unable to maintain it alone. The loop: the system required the same executive function it was supposed to support. No exit.</div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-era">驚蟄 · Mar 2026</div>
+        <div class="tl-body">Saw people building with Claude. One solar terms page. Just wanted to try. Things escalated. The dashboard is now an operating system for a whole life in transition -- built page by page, fear by fear.</div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-era">Now · still building</div>
+        <div class="tl-body">TCM school starts Sep 2026. The dashboard will change as the life changes. The series is the proof of concept made public. Not finished. That is the point.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── TITLE & NAMING ── -->
+  <div class="section">
+    <div class="section-title">Title · Naming</div>
+
+    <div class="two-col">
+      <div class="two-col-label">Series title</div>
+      <div class="two-col-body"><strong style="font-weight:400">Help Needed.</strong> — period intentional. Not a question. Not a plea. A statement with a wink. Works on multiple levels: needed help with the system, got an assistant, sharing what happened.</div>
+    </div>
+    <div class="two-col">
+      <div class="two-col-label">First line</div>
+      <div class="two-col-body"><em>I just wanted to try.</em></div>
+    </div>
+    <div class="two-col">
+      <div class="two-col-label">The turn</div>
+      <div class="two-col-body"><em>I need help. I got an assistant.</em> — could open issue one or be the structural beat between the problem and the solution.</div>
+    </div>
+    <div class="two-col">
+      <div class="two-col-label">Save for later</div>
+      <div class="two-col-body">Just Some More Noodling -- good for an issue subtitle, not the series title.</div>
+    </div>
+    <div class="two-col">
+      <div class="two-col-label">Home</div>
+      <div class="two-col-body">Just Noodling first. May cross to Listening Season later. Series is also the Listening Season launch -- not announcing it, demonstrating it.</div>
+    </div>
+  </div>
+
+  <!-- ── ISSUE OUTLINES ── -->
+  <div class="section">
+    <div class="section-title">Issues · Working Outlines · Write the whole thing first, split later</div>
+
+    <div class="note-block">Do not lock into issue breaks before writing. Write the full story, find the natural split points after. These are touch points, not a rigid structure.</div>
+
+    <div class="issue-row">
+      <div class="issue-num">Touch 00</div>
+      <div class="issue-content">
+        <div class="issue-title">Who is building this.</div>
+        <div class="issue-notes">BFA but always thought in words. Photography first -- learning to frame, to decide what's in and what's out. Then interior design -- space tells a story. Both live in the dashboard. The aesthetic is trained. The primary medium has always been the sentence. Important to say early: Claude helps sort through words and edit. Graphic generation and images are mine. Not outsourcing the creative work -- outsourcing the part that was breaking me.</div>
+        <div class="tag-row"><span class="tag tag-open">Raw material in raw-words</span></div>
+      </div>
+    </div>
+
+    <div class="issue-row">
+      <div class="issue-num">Touch 01</div>
+      <div class="issue-content">
+        <div class="issue-title">The research years.</div>
+        <div class="issue-notes">Morning Pages as the foundation -- where the writing voice came from, permission to let things out unfinished. Then GTD, Bullet Journal, BASB, Zettelkasten. Each one absorbed, partially applied. The pattern: capture without release. Ideas loop in the head without developing further. The knowledge is there. The implementation support is not.</div>
+        <div class="tag-row"><span class="tag tag-open">Raw material in raw-words</span></div>
+      </div>
+    </div>
+
+    <div class="issue-row">
+      <div class="issue-num">Touch 02</div>
+      <div class="issue-content">
+        <div class="issue-title">The gap. I need help.</div>
+        <div class="issue-notes">Pre-school prep period. The fear of dropping the ball. Knowing exactly what was needed -- an external brain -- and being unable to maintain it alone. The loop with no exit. ADHD not as a new revelation but as a name for something already known. The diagnosis didn't change the need. It named it.</div>
+        <div class="tag-row"><span class="tag tag-open">Raw material in raw-words</span></div>
+      </div>
+    </div>
+
+    <div class="issue-row">
+      <div class="issue-num">Touch 03</div>
+      <div class="issue-content">
+        <div class="issue-title">I just wanted to try.</div>
+        <div class="issue-notes">Saw people building with Claude. One solar terms page. 驚蟄 -- awakening of insects. No plan. Just curiosity. And then it pulled forward. Each page a fear answered. This is where Listening Season and TCM converge -- not two parallel things, the same thing. The dashboard is where they meet.</div>
+        <div class="tag-row"><span class="tag tag-open">Raw material in raw-words</span></div>
+      </div>
+    </div>
+
+    <div class="issue-row">
+      <div class="issue-num">Touch 04</div>
+      <div class="issue-content">
+        <div class="issue-title">I got an assistant.</div>
+        <div class="issue-notes">The real revelation. It is not the dashboard that changed things. It is Claude. Not a tool you use -- a collaborator you build with. Hard to admit needing help. Worth saying anyway. The bridge between idea and output that was always missing. Claude broke the loop.</div>
+        <div class="tag-row"><span class="tag tag-open">Raw material in raw-words</span></div>
+      </div>
+    </div>
+
+    <div class="issue-row">
+      <div class="issue-num">Touch 05+</div>
+      <div class="issue-content">
+        <div class="issue-title">What it's becoming. Open.</div>
+        <div class="issue-notes">The story is not finished. TCM school has not started. The dashboard will change as the life changes. Could be: how to build your own. Or: what I would do differently. Let the audience response shape this.</div>
+        <div class="tag-row"><span class="tag tag-note">Shape after audience response</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── AUDIENCE ── -->
+  <div class="section">
+    <div class="section-title">Audience · Who Stops Scrolling</div>
+
+    <div class="bullet">Anyone standing at the edge of a big life change, holding too many things, trying not to lose any of them.</div>
+    <div class="bullet">People whose brains do not fit existing systems -- not just ADHD, anyone who has tried every planner and abandoned every app.</div>
+    <div class="bullet">People curious about AI tools from a "what could this actually do for my life" angle, not a tech angle.</div>
+    <div class="bullet">People adjacent to TCM, slow living, seasonal thinking -- the Listening Season audience.</div>
+    <div class="bullet">Designers and creatives who care about aesthetics and hate ugly productivity tools.</div>
+
+    <div class="note-block">The specificity is the point. The more personal the details, the wider the resonance. Do not sand the edges down to reach more people.</div>
+  </div>
+
+  <!-- ── FORMAT ── -->
+  <div class="section">
+    <div class="section-title">Format · Platform · Cadence</div>
+
+    <div class="two-col">
+      <div class="two-col-label">Primary</div>
+      <div class="two-col-body">Just Noodling newsletter. Long enough to think out loud properly. One issue per release, not rushed.</div>
+    </div>
+    <div class="two-col">
+      <div class="two-col-label">Secondary</div>
+      <div class="two-col-body">Listening Season carousels or threads to seed each issue. Test the hook publicly, go deep in the newsletter with people who lean in.</div>
+    </div>
+    <div class="two-col">
+      <div class="two-col-label">Cadence</div>
+      <div class="two-col-body">Not decided. Do not rush it. Issue one needs to be good enough that people wait for two.</div>
+    </div>
+    <div class="two-col">
+      <div class="two-col-label">Target</div>
+      <div class="two-col-body">Issue one by May 2026. Aligns with Just Noodling pivot announcement.</div>
+    </div>
+  </div>
+
+  <!-- ── WHERE IT COULD GO ── -->
+  <div class="section">
+    <div class="section-title">Where It Could Go · Do Not Decide Now</div>
+
+    <div class="bullet">Buy Me a Coffee or paid Substack tier -- for people who just want to support.</div>
+    <div class="bullet">Workshop or guide -- if people keep asking "how do I think about this."</div>
+    <div class="bullet">Course or masterclass -- if people keep asking "how do I build this." Step-by-step, with Claude as the tool.</div>
+    <div class="bullet">The audience response tells you which one. Series comes first. Everything else follows.</div>
+
+    <div class="note-block">Documentation happens as a byproduct, not a project. You do not sit down to document -- you narrate as you go. The raw material already exists in these chat sessions. The changelog is basically a production diary.</div>
+  </div>
+
+  <!-- ── RAW NOTES ── -->
+  <div class="section">
+    <div class="section-title">Raw Notes · Add As Things Land</div>
+
+    <div class="body-text" style="color:var(--mid);font-style:italic;">Drop anything here that does not fit elsewhere yet. Lines, ideas, things to come back to.</div>
+
+    <div class="bullet">"The dashboard allows me to play and explore and try out ideas while working closely with someone who won't judge me no matter what I say." -- possible closing line.</div>
+    <div class="bullet">"I don't even think it is the dashboard that has helped me. It is Claude that is the game changer." -- thesis of the whole series.</div>
+    <div class="bullet">"Executive function isn't a character trait. It's infrastructure." -- worth keeping.</div>
+    <div class="bullet">The series is the Listening Season launch. Not announcing it. Demonstrating it.</div>
+    <div class="bullet">All of this surfaced during 驚蟄 -- Awakening of Insects. Thunder wakes what has been sleeping. Not a footnote. Part of the story.</div>
+    <div class="bullet">The capture habit has always been there. The missing habits are review and release -- letting something out before it feels complete. The thought develops further in public, not in the head.</div>
+    <div class="bullet">BFA but always thought in words and wrote more than drew. The aesthetic shapes how the words are arranged -- the pacing, the white space, the thing left unsaid. The primary medium is the sentence, not the image.</div>
+    <div class="bullet">Photography first, then interior design. Learning to frame and decide what's in and out. Learning that space tells a story. Both live in the dashboard -- good bones, breathes well, knows what to leave out.</div>
+    <div class="bullet">AI boundary -- clear and important to say early: Claude helps sort through words and thoughts, helps edit. Graphic generation and images are mine to do. Not outsourcing the creative work. Outsourcing the part that was breaking me.</div>
+  </div>
+
+  <footer>
+    <span>Last updated: Mar 12 2026 · Last push: —</span>
+    <span>tricialing/tricia-dashboard</span>
+  </footer>
+
+</div>
+
+<script>
+function toggleCheck(el) {
+  el.classList.toggle('done');
+  saveState();
+}
+
+function saveState() {
+  const items = document.querySelectorAll('.check-item');
+  const state = Array.from(items).map(i => i.classList.contains('done'));
+  localStorage.setItem('dashboard-series-checklist', JSON.stringify(state));
+}
+
+function loadState() {
+  const saved = localStorage.getItem('dashboard-series-checklist');
+  if (!saved) return;
+  const state = JSON.parse(saved);
+  const items = document.querySelectorAll('.check-item');
+  items.forEach((item, i) => {
+    if (state[i]) item.classList.add('done');
+    else item.classList.remove('done');
+  });
+}
+
+loadState();
+</script>
+
+<script src="listening-season.js"></script>
+</body>
+</html>

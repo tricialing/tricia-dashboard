@@ -91,179 +91,26 @@ h3 { font-size: .75rem; font-weight: 400; color: var(--ink); margin: 1rem 0 .4re
 
   <div class="page-title">Project Handoff</div>
   <div class="page-sub">Full context summary for continuing in a new chat.</div>
-  <div class="page-note">Updated Mar 10 2026 · 驚蟄 · Say "check the handoff.html" to resume in any new chat.</div>
+  <div class="page-note">Updated Mar 13 2026 · 驚蟄 · Say "check the handoff.html" to resume in any new chat.</div>
 
   <div class="intro">
     This is Tricia Ling (@listening.season). Born Nov 1987. Designer background. ADHD-inattentive (dx Mar 2026). Partner T (Trushit, architect). Daughter June (born Jul 25 2023). In Delta BC. Starting TCM/acupuncture school Sep 8 2026. Word of year: Integration. Dashboard live at tricia-dashboard.netlify.app · GitHub: tricialing/tricia-dashboard.
   </div>
 
-  <!-- ═══════════ SESSION MANAGEMENT ═══════════ -->
+  <!-- ═══════════ IDENTITY RULES ═══════════ -->
   <div class="section">
-    <div class="section-title">Session Management</div>
-    <div class="row">
-      <span class="tag tag-decided">Rule</span>
-      <span class="row-text">New pages are always built self-contained first — all tokens and base styles inline, background hardcoded to #E0C0B4 fallback — so they are viewable on mobile without pushing. Production pass (strip inline styles, swap in listening-season.css + .js links) only happens when Tricia says the page is ready. Never skip the self-contained step.</span>
-    </div>
-    <div class="row">
-      <span class="tag tag-decided">Trigger</span>
-      <span class="row-text">"wrap up" triggers: (1) update handoff.html, (2) update changelog.html, (3) Capacities next actions list per track, (4) files to push, (5) git commit message.</span>
-    </div>
-    <div class="row">
-      <span class="tag tag-decided">Trigger</span>
-      <span class="row-text">"Sunday prep" (Sunday 10pm, 15 min): (1) check anatomy-prep progress vs current date, (2) review handoff for stale items, (3) write "this week" lines for each track, (4) Capacities dump for the week ahead.</span>
-    </div>
-    <div class="row">
-      <span class="tag tag-decided">Ritual</span>
-      <span class="row-text">Raw-words review: at the start of each new solar term, Tricia and Claude scan raw-words.html together for ideas ready to pull forward into a post or Just Noodling thread. Claude flags threads, names the stream, suggests timing. Nothing gets deleted — just moved to content-cal or Monday.com when ready.</span>
-    </div>
-    <div class="row">
-      <span class="tag tag-decided">Workflow</span>
-      <span class="row-text">New pages are built self-contained with inline styles for mobile preview in Claude app. Production pass when ready to ship: strip redundant inline styles, swap in listening-season.css link. Base template to be built next.</span>
-    </div>
-    <div class="row">
-      <span class="tag tag-decided">Tasks</span>
-      <span class="row-text">Capacities is the single source of truth for to-do. Claude provides a ready-to-paste next actions list at every wrap up. Monday.com integration not yet available in Claude.</span>
-    </div>
-  </div>
-
-  <!-- ═══════════ IDENTITY & AESTHETICS ═══════════ -->
-  <div class="section">
-    <div class="section-title">Identity · Never Mix These Up</div>
-
+    <div class="section-title">Identity Rules · Never Mix These Up</div>
     <div class="row">
       <span class="tag tag-decided">Tricia</span>
-      <span class="row-text">Cormorant Garamond, weight 300. White box on seasonal background. Warm paper tones. Soft, structural, organic. Colours shift with the 24 solar terms via <code>listening-season.js</code>. All pages reference <code>listening-season.css</code> and <code>listening-season.js</code>.</span>
+      <span class="row-text">Cormorant Garamond weight 300, white box on seasonal background, warm paper tones. All pages reference <code>listening-season.css</code> and <code>listening-season.js</code>.</span>
     </div>
     <div class="row">
-      <span class="tag tag-decided">T</span>
-      <span class="row-text">DM Sans. Dark ink background <code>#0e0d0b</code>. Amber accent <code>#c8a46e</code>. Courier Prime mono. No italics. No Playfair. Completely separate aesthetic. File: <code>t-dashboard.html</code>. Do NOT apply Tricia's styles to T's file.</span>
+      <span class="tag tag-decided">T's file</span>
+      <span class="row-text"><code>t-dashboard.html</code>: DM Sans, dark ink background #0e0d0b, amber accent #c8a46e, Courier Prime mono. No italics. Completely separate aesthetic. Never apply Tricia's styles to T's file.</span>
     </div>
     <div class="row">
-      <span class="tag tag-note">Voice</span>
-      <span class="row-text">No em dashes ever. No pull quotes — bold paragraphs instead. Curiosity is the thread, not crisis. Audience is curiosity-led, not crisis-led. TMJD and ADHD are craft material, not brand origin. Listening Season and the future clinic are the same project.</span>
-    </div>
-  </div>
-
-  <!-- ═══════════ FILE INVENTORY ═══════════ -->
-  <div class="section">
-    <div class="section-title">File Inventory · All in Same Directory</div>
-
-    <h3>Shared (new — must be in repo root alongside HTML)</h3>
-    <div class="file-grid">
-      <span class="file-pill shared">listening-season.css</span>
-      <span class="file-pill shared">listening-season.js</span>
-    </div>
-
-    <h3>Tricia's pages</h3>
-    <div class="file-grid">
-      <span class="file-pill new">index.html</span>
-      <span class="file-pill new">anatomy-prep.html</span>
-      <span class="file-pill new">life-map.html</span>
-      <span class="file-pill new">raw-words.html</span>
-      <span class="file-pill">changelog.html</span>
-      <span class="file-pill">decisions.html</span>
-      <span class="file-pill">brand-voice.html</span>
-      <span class="file-pill">philosophy.html</span>
-      <span class="file-pill">ux-tcm-journey.html</span>
-      <span class="file-pill">timeline.html</span>
-      <span class="file-pill">content-map.html</span>
-      <span class="file-pill">solar-terms.html</span>
-      <span class="file-pill">projection.html</span>
-      <span class="file-pill">home-buying.html</span>
-      <span class="file-pill">school-prep.html</span>
-      <span class="file-pill">capture.html</span>
-      <span class="file-pill">observation-log-jingzhe.html</span>
-      <span class="file-pill">mindmap.html</span>
-    </div>
-
-    <h3>T's file (separate aesthetic)</h3>
-    <div class="file-grid">
-      <span class="file-pill">t-dashboard.html</span>
-    </div>
-
-    <h3>Not yet created (pending)</h3>
-    <div class="file-grid">
-      <span class="file-pill new">webdev-learning.html</span>
-    </div>
-  </div>
-
-  <!-- ═══════════ CSS/JS REFACTOR STATUS ═══════════ -->
-  <div class="section">
-    <div class="section-title">CSS/JS Refactor · Done This Session</div>
-
-    <div class="row">
-      <span class="tag tag-done">Done</span>
-      <span class="row-text">Extracted shared styles into <code>listening-season.css</code>: reset, CSS tokens, body, .box, .nav, .page-title/.sub/.note, .lbl, hr, .page-link, footer, responsive breakpoint.</span>
-    </div>
-    <div class="row">
-      <span class="tag tag-done">Done</span>
-      <span class="row-text">Extracted 24 solar terms seasonal background logic into <code>listening-season.js</code>. All pages now reference both shared files. Background shifts automatically with each solar term — no hardcoded colours.</span>
-    </div>
-    <div class="row">
-      <span class="tag tag-pending">Partial</span>
-      <span class="row-text">Some pages still have redundant inline CSS that wasn't fully stripped: <code>anatomy-prep.html</code> (.box), <code>brand-voice.html</code> (.box), <code>philosophy.html</code> (.box), <code>raw-words.html</code> (body font), <code>life-map.html</code> (reset). Clean these up at start of next session before adding new pages.</span>
-    </div>
-    <div class="row">
-      <span class="tag tag-pending">Pending</span>
-      <span class="row-text">index.html links section needs updating: add <code>anatomy-prep.html</code>, <code>life-map.html</code>, <code>raw-words.html</code>, <code>changelog.html</code>, <code>decisions.html</code>. Also needs column grouping — flat list is getting too long. Groups: Brand, Learning, Life, Housing, Reference, Internal.</span>
-    </div>
-  </div>
-
-  <!-- ═══════════ SCHOOL & ANATOMY ═══════════ -->
-  <div class="section">
-    <div class="section-title">TCM School · Anatomy Prep</div>
-
-    <div class="row">
-      <span class="tag tag-decided">Timeline</span>
-      <span class="row-text">Sep 8 2026: school starts. 10 semesters, 3/year. S1–S6 = acupuncture. Oct 2028: R.Ac board exam → R.Ac designation → income starts → two-income household. S7–S10 = herbology. Early 2030: Dr.TCM + clinic opens.</span>
-    </div>
-    <div class="row">
-      <span class="tag tag-note">Curriculum</span>
-      <span class="row-text"><code>anatomy-prep.html</code> — 26 weeks, CMU OLI A&P (free, self-paced). W01 = Feb 16, W04 = Mar 9 (this week). W01–03 done. W04–05 current. Web That Has No Weaver starts W04. Between Heaven and Earth starts W10. 12 Back-Shu points woven W04–W23. Checkboxes persist via localStorage. Each week shows week number + date stacked.</span>
-    </div>
-    <div class="row">
-      <span class="tag tag-pending">Tomorrow</span>
-      <span class="row-text">Tricia starts W04 (tissues) and begins Web That Has No Weaver Ch. 1–2. First somatic counselling session also tomorrow.</span>
-    </div>
-  </div>
-
-  <!-- ═══════════ LIFE MAP ═══════════ -->
-  <div class="section">
-    <div class="section-title">Life Map · Personal Document</div>
-
-    <div class="row">
-      <span class="tag tag-decided">Insight</span>
-      <span class="row-text">"Listening Season isn't just a brand name. It's actually how you live." Thread runs through: swimming, tonal chiro, sourdough, watching June learn, journaling, TCM, reiki.</span>
-    </div>
-    <div class="row">
-      <span class="tag tag-note">Structure</span>
-      <span class="row-text">8 clusters: Body & Health, Motherhood, Creative Work, Learning & School, Home & Space, People, Values, Go Deeper. 3 threads (dashed): Listening (amber), Structure→freedom (purple), Body knowledge (green). Interactive: pannable, zoomable, tappable nodes.</span>
-    </div>
-    <div class="row">
-      <span class="tag tag-note">Go Deeper</span>
-      <span class="row-text">Note system, art with June, meal prep, finance, anatomy (prep), business setup, clinic finances, marketing, qigong, growing food, sewing, writing, women's body. Hard deadlines: anatomy (Sep 8), finance (home buying timeline). Everything else finds its season.</span>
-    </div>
-  </div>
-
-  <!-- ═══════════ WEB DEV LEARNING ═══════════ -->
-  <div class="section">
-    <div class="section-title">Web Dev Learning · New Project Thread</div>
-
-    <div class="row">
-      <span class="tag tag-note">Context</span>
-      <span class="row-text">Tricia has been thinking through the dashboard build process all weekend alongside Claude doing the coding. She understands enough to have opinions on structure and approach. She wants to treat the dashboard as a learning project with proper web dev structure.</span>
-    </div>
-    <div class="row">
-      <span class="tag tag-next">Build</span>
-      <span class="row-text">Create <code>webdev-learning.html</code> — same curriculum format as anatomy-prep.html. 5 phases: (1) HTML/CSS fundamentals, (2) Separation of concerns / DRY — we just lived this, (3) JavaScript basics, (4) Git + deployment, (5) Beyond static HTML. Use the dashboard itself as the project/vehicle throughout.</span>
-    </div>
-    <div class="row">
-      <span class="tag tag-decided">Dev/prod</span>
-      <span class="row-text">New pages built self-contained with inline styles (mobile preview works). Production pass before pushing: swap in listening-season.css, strip redundant styles. Base template to standardise this.</span>
-    </div>
-    <div class="row">
-      <span class="tag tag-next">Next</span>
-      <span class="row-text">Build base template for new pages. Build <code>webdev-learning.html</code>. Update <code>index.html</code> links with column grouping (Brand, Learning, Life, Housing, Reference, Internal).</span>
+      <span class="tag tag-decided">Voice</span>
+      <span class="row-text">No em dashes ever. No pull quotes — bold paragraphs instead. Curiosity is the thread, not crisis. TMJD and ADHD are craft material, not brand origin.</span>
     </div>
   </div>
 
@@ -273,15 +120,45 @@ h3 { font-size: .75rem; font-weight: 400; color: var(--ink); margin: 1rem 0 .4re
 
     <div class="row">
       <span class="tag tag-pending">Rewrite</span>
-      <span class="row-text"><code>brand-voice.html</code> — Part Two not yet rewritten. Still reads like someone else. Do this next session with the raw-words.html source doc open.</span>
+      <span class="row-text"><code>brand-voice.html</code> — Part Two not yet rewritten. Still reads like someone else. Do this with the raw-words.html source doc open.</span>
     </div>
     <div class="row">
       <span class="tag tag-pending">Rewrite</span>
-      <span class="row-text"><code>ux-tcm-journey.html</code> — Tricia will read the existing version first, then come to next session with fresh eyes. V2 to be written in next session using raw-words.html as source. Do NOT overwrite existing file — create ux-tcm-journey-v2.html.</span>
+      <span class="row-text"><code>ux-tcm-journey.html</code> — V2 to be written using raw-words.html as source. Do NOT overwrite existing file — create <code>ux-tcm-journey-v2.html</code>.</span>
+    </div>
+    <div class="row">
+      <span class="tag tag-pending">Production pass</span>
+      <span class="row-text"><code>content-cal.html</code>, <code>lean-canvas.html</code>, <code>anatomy-prep.html</code> — all still self-contained with inline styles. Production pass pending.</span>
+    </div>
+    <div class="row">
+      <span class="tag tag-note">Mini Series</span>
+      <span class="row-text">"Help Needed." · The Dashboard Series. Conceived Mar 12 2026. Home: Just Noodling first. Arc locked. <code>dashboard-series.html</code> built and production-passed. Linked in index.html under Brand as "Mini Series". Target: Issue one by May 2026, aligned with Just Noodling pivot announcement.</span>
+    </div>
+    <div class="row">
+      <span class="tag tag-note">Just Noodling</span>
+      <span class="row-text">Pivot announcement targeting May 2026. Opening line captured in raw-words.html. The mini-series IS the pivot — not announcing it, demonstrating it.</span>
     </div>
     <div class="row">
       <span class="tag tag-note">Substacks</span>
       <span class="row-text">Listening Season (main brand, TCM/solar terms). Just Noodling (personal, open.substack.com/pub/justnoodling). Both exist, neither publishing regularly yet.</span>
+    </div>
+    <div class="row">
+      <span class="tag tag-note">Raw words ritual</span>
+      <span class="row-text">Review raw-words.html at start of each solar term. Claude flags threads, names stream, suggests timing. Next review: 春分 Mar 20.</span>
+    </div>
+  </div>
+
+  <!-- ═══════════ SCHOOL & ANATOMY ═══════════ -->
+  <div class="section">
+    <div class="section-title">TCM School · Anatomy Prep</div>
+
+    <div class="row">
+      <span class="tag tag-decided">Timeline</span>
+      <span class="row-text">Sep 8 2026: school starts. Oct 2028: R.Ac designation, income starts, two-income household. Early 2030: Dr.TCM + clinic opens.</span>
+    </div>
+    <div class="row">
+      <span class="tag tag-note">Anatomy</span>
+      <span class="row-text"><code>anatomy-prep.html</code> — CMU OLI A&P, 15 units, 57 modules. Units 1–4 complete. Currently on Unit 5 (Skeletal). One unit per week, targeting completion by late May. Supplementary: Web That Has No Weaver (started Unit 5), Between Heaven and Earth (starts Unit 9).</span>
     </div>
   </div>
 
@@ -290,8 +167,8 @@ h3 { font-size: .75rem; font-weight: 400; color: var(--ink); margin: 1rem 0 .4re
     <div class="section-title">Housing · Exploratory</div>
 
     <div class="row">
-      <span class="tag tag-next">Next</span>
-      <span class="row-text">Fill out mortgage broker form — Mar 12 2026.</span>
+      <span class="tag tag-next">Pending</span>
+      <span class="row-text">Mortgage broker form — was Mar 12 next action. Still outstanding.</span>
     </div>
     <div class="row">
       <span class="tag tag-next">Pending</span>
@@ -331,7 +208,7 @@ h3 { font-size: .75rem; font-weight: 400; color: var(--ink); margin: 1rem 0 .4re
 
     <div class="row">
       <span class="tag tag-pending">Push</span>
-      <span class="row-text">All files from this session need pushing when back on laptop: <code>listening-season.css</code>, <code>listening-season.js</code>, <code>anatomy-prep.html</code>, <code>life-map.html</code>, <code>raw-words.html</code>, <code>changelog.html</code>, <code>decisions.html</code>, <code>t-dashboard.html</code>, <code>handoff.html</code>, plus all updated HTML files.</span>
+      <span class="row-text">Files from Mar 13 session: <code>index.html</code>, <code>dashboard-series.html</code>, <code>raw-words.html</code>, <code>handoff.html</code>, <code>changelog.html</code>.</span>
     </div>
     <div class="row">
       <span class="tag tag-pending">Netlify</span>
@@ -339,103 +216,39 @@ h3 { font-size: .75rem; font-weight: 400; color: var(--ink); margin: 1rem 0 .4re
     </div>
     <div class="row">
       <span class="tag tag-note">Stack</span>
-      <span class="row-text">GitHub repo: tricialing/tricia-dashboard. Netlify free tier, auto-deploys on push to main. VS Code on laptop. Static HTML/CSS/JS — no build step yet.</span>
+      <span class="row-text">GitHub repo: tricialing/tricia-dashboard. Netlify free tier, auto-deploys on push to main. VS Code on laptop. Static HTML/CSS/JS — no build step.</span>
     </div>
   </div>
 
   <!-- ═══════════ NEXT UP ═══════════ -->
   <div class="section">
     <div class="section-title">Next Up</div>
+
     <div class="row">
-      <span class="tag tag-done">Done</span>
-      <span class="row-text"><code>base-template.html</code> built. Self-contained, inline styles, mobile-preview-ready. Clear cut line for production pass.</span>
-    </div>
-    <div class="row">
-      <span class="tag tag-done">Done</span>
-      <span class="row-text"><code>webdev-learning.html</code> built. 6 phases, 24 lessons, dashboard as vehicle. Phase 6 = backend/sync/APIs.</span>
-    </div>
-    <div class="row">
-      <span class="tag tag-done">Done</span>
-      <span class="row-text"><code>index.html</code> updated with column grouping: Brand, Learning, Life, Housing, Reference, Internal. All missing links added.</span>
-    </div>
-    <div class="row">
-      <span class="tag tag-done">Done</span>
-      <span class="row-text">Font size bumped across all pages via <code>html { font-size: 18px }</code> in listening-season.css. Scales all rem values proportionally.</span>
-    </div>
-    <div class="row">
-      <span class="tag tag-done">Done</span>
-      <span class="row-text">anatomy-prep.html rebuilt — 15 units, 57 modules, individual module checkboxes, coloring book rows. U1–U4 pre-checked, U5 current.</span>
-    </div>
-    <div class="row">
-      <span class="tag tag-done">Done</span>
-      <span class="row-text">content-cal.html rebuilt from base template — self-contained, mobile-ready.</span>
-    </div>
-    <div class="row">
-      <span class="tag tag-done">Done</span>
-      <span class="row-text">lean-canvas.html built — Lean Canvas v1 for Listening Season. 9 boxes + failure/risk section.</span>
-    </div>
-    <div class="row">
-      <span class="tag tag-done">Done</span>
-      <span class="row-text">raw-words.html — Ideas section added at top. Sourdough/seasons idea captured as first entry.</span>
-    </div>
-    <div class="row">
-      <span class="tag tag-done">Done</span>
-      <span class="row-text">index.html — T's link corrected to https://t-dash.netlify.app. lean-canvas.html added to Brand group.</span>
-    </div>
-    <div class="row">
-      <span class="tag tag-decided">Decided</span>
-      <span class="row-text">GitHub repo tricialing/tricia-dashboard made public. Connected to Claude Project via GitHub sync. Push to GitHub, hit Sync in Project — new chat always has current files. Old manually uploaded files deleted.</span>
-    </div>
-    <div class="row">
-      <span class="tag tag-decided">Decided</span>
-      <span class="row-text">projection.html unlinked from index.html — file stays in repo, not reachable from dashboard. Contains financial details. Revisit later.</span>
-    </div>
-    <div class="row">
-      <span class="tag tag-done">Done</span>
-      <span class="row-text">GitHub repo made public. Connected to Claude Project via GitHub sync. Single source of truth going forward — push to GitHub, hit Sync in Project, new chat has current files.</span>
-    </div>
-    <div class="row">
-      <span class="tag tag-done">Done</span>
-      <span class="row-text">projection.html unlinked from index.html — contains financial details. File stays in repo, just not reachable from dashboard.</span>
-    </div>
-    <div class="row">
-      <span class="tag tag-next">Push</span>
-      <span class="row-text">anatomy-prep.html, index.html, content-cal.html, lean-canvas.html, raw-words.html, resources.html, school-prep.html, handoff.html, changelog.html</span>
+      <span class="tag tag-next">Next</span>
+      <span class="row-text">Push Mar 13 files. Mortgage broker form. Raw-words review at 春分 Mar 20.</span>
     </div>
     <div class="row">
       <span class="tag tag-next">Next</span>
-      <span class="row-text">Build Monday.com content board manually — columns and 15 rows spec in Mar 12 session transcript.</span>
+      <span class="row-text">Write the full "Help Needed." arc as one long piece. Find natural split points after. Do not lock into issue structure before writing.</span>
     </div>
     <div class="row">
       <span class="tag tag-next">Next</span>
-      <span class="row-text">Raw-words review at 春分 Mar 20 — scan together for ideas ready to pull forward.</span>
+      <span class="row-text">Production passes pending: <code>content-cal.html</code>, <code>lean-canvas.html</code>, <code>anatomy-prep.html</code>.</span>
     </div>
     <div class="row">
       <span class="tag tag-next">Next</span>
-      <span class="row-text">Production passes when ready: content-cal.html, lean-canvas.html, anatomy-prep.html.</span>
+      <span class="row-text">Monday.com content board — manual build. Spec written out in previous session.</span>
     </div>
     <div class="row">
-      <span class="tag tag-next">Brand</span>
-      <span class="row-text">brand-voice.html Part Two rewrite. ux-tcm-journey-v2.html — re-read existing first, do NOT overwrite original.</span>
+      <span class="tag tag-note">New page rule</span>
+      <span class="row-text">Always build new pages self-contained with inline styles first. Production pass only when Tricia says ready. Always update <code>index.html</code> when creating a new page.</span>
     </div>
     <div class="row">
-      <span class="tag tag-next">Newsletter</span>
-      <span class="row-text">Just Noodling Issue 1 — pivot announcement. Target May 2026. Opening line and postpartum doula answer in raw-words.html. Don't over-explain it.</span>
-    </div>
-    <div class="row">
-      <span class="tag tag-next">T</span>
-      <span class="row-text">Send T the updated t-dashboard.html. Get feedback + Ground Floor "About" blurb.</span>
-    </div>
-    <div class="row">
-      <span class="tag tag-next">Infra</span>
-      <span class="row-text">Password protect Netlify: Site Settings → Site Protection.</span>
+      <span class="tag tag-note">Sunday prep</span>
+      <span class="row-text">Sundays 10pm, ~15 min. Anatomy progress check, stale handoff review, "this week" lines per track, Capacities markdown dump.</span>
     </div>
   </div>
-
-  <footer>
-    <span>Last updated: Mar 12 2026 · 驚蟄 · Last push: Mar 11 2026</span>
-    <span>tricialing/tricia-dashboard</span>
-  </footer>
 
 </div>
 <script src="listening-season.js"></script>
